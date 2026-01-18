@@ -1,0 +1,464 @@
+/**
+ * 视频处理工具
+ * 使用 ffmpeg.wasm 进行视频格式转换和压缩
+ * 注意：此文件仅在客户端使用
+ */
+
+"use client";
+
+// 动态导入，避免 Next.js 在构建时分析
+import { fetchFile, toBlobURL } from "@ffmpeg/util";
+import type { VideoFormat, CompressionMode } from "@/types";
+
+// FFmpeg 类型（用于类型提示）
+type FFmpegType = typeof import("@ffmpeg/ffmpeg").FFmpeg;
+
+// FFmpeg 实例（单例模式）
+let ffmpegInstance: any = null;
+let isFFmpegLoaded = false;
+let FFmpegClass: any = null;
+
+/**
+ * 获取 FFmpeg 实例
+ * 使用动态导入避免 Next.js 在构建时分析模块
+ */
+async function getFFmpegInstance(): Promise<any> {
+  console.log("[FFmpeg] 时间戳:", new Date().toISOString());
+  
+  // 确保在浏览器环境中运行
+  if (typeof window === "undefined") {
+    throw new Error("FFmpeg 只能在客户端浏览器环境中使用");
+  }
+  if (ffmpegInstance && isFFmpegLoaded) {
+    return ffmpegInstance;
+  }
+  try {
+    // 动态导入 FFmpeg，避免 Webpack 在构建时分析
+    if (!FFmpegClass) {
+      const importStartTime = Date.now();
+      const ffmpegModule = await import("@ffmpeg/ffmpeg");
+      const importEndTime = Date.now();
+      console.log("[FFmpeg]   模块内容:", Object.keys(ffmpegModule));
+      FFmpegClass = ffmpegModule.FFmpeg;
+    } else {
+    }
+
+    // 创建新的 FFmpeg 实例
+    const instanceStartTime = Date.now();
+    const ffmpeg = new FFmpegClass();
+    const instanceEndTime = Date.now();
+    console.log("[FFmpeg]   实例方法:", Object.keys(ffmpeg).filter(key => typeof ffmpeg[key] === 'function').slice(0, 10));
+    ffmpegInstance = ffmpeg;
+
+    // 加载 FFmpeg
+    if (!isFFmpegLoaded) {
+      // 直接使用 HTTP URL，不转换为 Blob URL
+      // 原因：ffmpeg.load() 内部在加载 Blob URL 时会触发 Next.js 的模块解析系统
+      // 解决方案：直接使用 HTTP/HTTPS URL，FFmpeg.wasm 原生支持
+
+      // 优先使用环境变量，如果没有则使用本地文件路径
+      // 注意：需要转换为完整的绝对 URL（包含协议和域名），避免 Next.js 模块解析
+      let coreSourceURL: string;
+      let wasmSourceURL: string;
+      
+      if (process.env.NEXT_PUBLIC_FFMPEG_CORE_URL && process.env.NEXT_PUBLIC_FFMPEG_WASM_URL) {
+        // 使用环境变量（可以是 CDN URL 或本地路径）
+        coreSourceURL = process.env.NEXT_PUBLIC_FFMPEG_CORE_URL;
+        wasmSourceURL = process.env.NEXT_PUBLIC_FFMPEG_WASM_URL;
+      } else {
+        // 使用本地文件路径，但需要转换为完整的绝对 URL
+        // 这样可以避免 Next.js 将其解析为模块路径
+        const baseURL = typeof window !== "undefined" ? window.location.origin : "";
+        coreSourceURL = `${baseURL}/ffmpeg/ffmpeg-core.js`;
+        wasmSourceURL = `${baseURL}/ffmpeg/ffmpeg-core.wasm`;
+      }
+      // 使用本地文件路径（相对路径），避免 Next.js 模块解析问题
+      // 原因：ffmpeg.load() 内部在加载 HTTP URL 时也会触发 Next.js 的模块解析系统
+      // 解决方案：使用本地文件相对路径（如 /ffmpeg/ffmpeg-core.js），Next.js 将其作为静态资源处理
+      const verifyStartTime = Date.now();
+      
+      // 验证文件路径是否可访问
+      try {
+        const coreHeadResponse = await fetch(coreSourceURL, { method: "HEAD" });
+        console.log("[FFmpeg]       Content-Type:", coreHeadResponse.headers.get("content-type"));
+        console.log("[FFmpeg]       Content-Length:", coreHeadResponse.headers.get("content-length"), "bytes");
+        if (!coreHeadResponse.ok) {
+          throw new Error(`无法访问 FFmpeg 核心文件: ${coreHeadResponse.status} ${coreHeadResponse.statusText}`);
+        }
+      } catch (error) {
+        throw error;
+      }
+
+      try {
+        const wasmHeadResponse = await fetch(wasmSourceURL, { method: "HEAD" });
+        console.log("[FFmpeg]       Content-Type:", wasmHeadResponse.headers.get("content-type"));
+        console.log("[FFmpeg]       Content-Length:", wasmHeadResponse.headers.get("content-length"), "bytes");
+        if (!wasmHeadResponse.ok) {
+          throw new Error(`无法访问 FFmpeg WASM 文件: ${wasmHeadResponse.status} ${wasmHeadResponse.statusText}`);
+        }
+      } catch (error) {
+        throw error;
+      }
+
+      const verifyEndTime = Date.now();
+      // 解决方案：使用 toBlobURL 将文件转换为 Blob URL
+      // 原因：ffmpeg.load() 内部在加载 URL 时会触发 Next.js 的模块解析系统
+      // toBlobURL 会先加载文件内容，然后创建 Blob URL，这样可以绕过模块解析
+      console.log("[FFmpeg]     原因: ffmpeg.load() 内部会尝试将 URL 解析为模块，toBlobURL 可以绕过这个问题");
+      const blobURLStartTime = Date.now();
+      let coreBlobURL: string;
+      let wasmBlobURL: string;
+      
+      try {
+        coreBlobURL = await toBlobURL(coreSourceURL, "text/javascript");
+        console.log("[FFmpeg]       coreBlobURL 是否以 'blob:' 开头:", coreBlobURL.startsWith("blob:"));
+      } catch (error) {
+        throw error;
+      }
+
+      try {
+        wasmBlobURL = await toBlobURL(wasmSourceURL, "application/wasm");
+        console.log("[FFmpeg]       wasmBlobURL 是否以 'blob:' 开头:", wasmBlobURL.startsWith("blob:"));
+      } catch (error) {
+        throw error;
+      }
+
+      const blobURLEndTime = Date.now();
+      // 使用 Blob URL 加载 FFmpeg
+      console.log("[FFmpeg]     准备传递给 ffmpeg.load() 的参数:");
+      const loadStartTime = Date.now();
+      try {
+        console.log("[FFmpeg]     尝试调用 ffmpeg.load()...");
+        // 构建 load 参数对象（不包含 workerURL，因为它可能导致模块解析错误）
+        const loadParams = {
+          coreURL: coreBlobURL,
+          wasmURL: wasmBlobURL,
+        };
+        
+        console.log("[FFmpeg]     调用参数:", JSON.stringify(loadParams, null, 2));
+        
+        // 直接调用 ffmpeg.load()
+        await ffmpeg.load(loadParams);
+        
+        const loadEndTime = Date.now();
+        console.log("[FFmpeg]     ✅ ffmpeg.load() 执行成功，耗时:", loadEndTime - loadStartTime, "ms");
+      } catch (loadError) {
+        const loadEndTime = Date.now();
+        console.error("[FFmpeg]     ❌ ffmpeg.load() 执行失败，耗时:", loadEndTime - loadStartTime, "ms");
+        console.error("[FFmpeg]     错误消息:", loadError instanceof Error ? loadError.message : String(loadError));
+        if (loadError instanceof Error) {
+          console.error("[FFmpeg]     错误属性:", Object.getOwnPropertyNames(loadError));
+          console.error("[FFmpeg]     完整错误信息:", JSON.stringify(loadError, Object.getOwnPropertyNames(loadError), 2));
+        }
+        throw loadError;
+      }
+
+      // 注意: 不再使用 Blob URL，因此不需要清理
+
+      isFFmpegLoaded = true;
+    } else {
+    }
+    return ffmpeg;
+  } catch (error) {
+    console.error("[FFmpeg] 错误消息:", error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) {
+      console.error("[FFmpeg] 错误属性:", Object.getOwnPropertyNames(error));
+      console.error("[FFmpeg] 完整错误信息:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
+    }
+    throw new Error(`FFmpeg 加载失败: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+/**
+ * 根据格式获取 FFmpeg 输出格式参数
+ */
+function getFFmpegFormat(format: VideoFormat | string): string {
+  const formatMap: Record<string, string> = {
+    mp4: "mp4",
+    mov: "mov",
+    avi: "avi",
+    webm: "webm",
+    mkv: "matroska",
+    wmv: "asf",
+    flv: "flv",
+  };
+  return formatMap[format] || "mp4";
+}
+
+/**
+ * 获取格式对应的文件扩展名
+ */
+function getFormatExtension(format: VideoFormat): string {
+  return format;
+}
+
+/**
+ * 转换视频格式
+ */
+export async function convertVideoFormat(
+  file: File,
+  targetFormat: VideoFormat,
+  onProgress?: (progress: number) => void
+): Promise<Blob> {
+  console.log("[视频转换] 时间戳:", new Date().toISOString());
+  console.log("[视频转换]   文件大小:", file.size, "bytes (", (file.size / 1024 / 1024).toFixed(2), "MB)");
+  console.log("[视频转换]   最后修改时间:", new Date(file.lastModified).toISOString());
+  try {
+    const instanceStartTime = Date.now();
+    const ffmpeg = await getFFmpegInstance();
+    const instanceEndTime = Date.now();
+    const inputFileName = "input." + file.name.split(".").pop();
+    const outputFileName = `output.${getFormatExtension(targetFormat)}`;
+    const outputFormat = getFFmpegFormat(targetFormat);
+    // 监听进度
+    let progressHandler: (({ progress }: { progress: number }) => void) | undefined;
+    if (onProgress) {
+      progressHandler = ({ progress }: { progress: number }) => {
+        const progressPercent = progress * 100;
+        console.log("[视频转换]   进度更新:", progressPercent.toFixed(2), "%");
+        onProgress(progressPercent);
+      };
+      ffmpeg.on("progress", progressHandler);
+    } else {
+    }
+
+    // 写入输入文件
+    const writeStartTime = Date.now();
+    try {
+      const fileData = await fetchFile(file);
+      const dataLength = (fileData as any)?.length || (fileData as any)?.byteLength || "未知";
+      await ffmpeg.writeFile(inputFileName, fileData);
+      const writeEndTime = Date.now();
+    } catch (writeError) {
+      const writeEndTime = Date.now();
+      throw writeError;
+    }
+
+    // 执行转换
+    const ffmpegCommand = [
+      "-i",
+      inputFileName,
+      "-c:v",
+      "libx264", // 视频编码器
+      "-c:a",
+      "aac", // 音频编码器
+      "-preset",
+      "medium", // 编码速度预设
+      "-crf",
+      "23", // 质量控制（18-28，值越小质量越高）
+      "-f",
+      outputFormat,
+      outputFileName,
+    ];
+    console.log("[视频转换]   FFmpeg 命令:", ffmpegCommand.join(" "));
+    const execStartTime = Date.now();
+    try {
+      await ffmpeg.exec(ffmpegCommand);
+      const execEndTime = Date.now();
+    } catch (execError) {
+      const execEndTime = Date.now();
+      console.error("[视频转换]   错误消息:", execError instanceof Error ? execError.message : String(execError));
+      throw execError;
+    }
+
+    // 读取输出文件
+    const readStartTime = Date.now();
+    let data: Uint8Array;
+    try {
+      data = await ffmpeg.readFile(outputFileName);
+      const readEndTime = Date.now();
+      console.log("[视频转换]   输出文件大小:", data.length, "bytes (", (data.length / 1024 / 1024).toFixed(2), "MB)");
+      console.log("[视频转换]   压缩率:", ((1 - data.length / file.size) * 100).toFixed(2), "%");
+    } catch (readError) {
+      const readEndTime = Date.now();
+      throw readError;
+    }
+
+    // 移除进度监听器
+    if (progressHandler) {
+      ffmpeg.off("progress", progressHandler);
+    }
+
+    // 清理文件
+    try {
+      await ffmpeg.deleteFile(inputFileName);
+      await ffmpeg.deleteFile(outputFileName);
+    } catch (cleanupError) {
+    }
+
+    // 返回 Blob（data 是 FileData 类型，转换为 Uint8Array）
+    const uint8Array = new Uint8Array(data as ArrayLike<number>);
+    const mimeType = `video/${targetFormat === "mov" ? "quicktime" : targetFormat}`;
+    const resultBlob = new Blob([uint8Array], { type: mimeType });
+    return resultBlob;
+  } catch (error) {
+    console.error("[视频转换] 错误消息:", error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) {
+      console.error("[视频转换] 错误属性:", Object.getOwnPropertyNames(error));
+      console.error("[视频转换] 完整错误信息:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
+    }
+    throw new Error(`视频格式转换失败: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+/**
+ * 压缩视频
+ */
+export async function compressVideo(
+  file: File,
+  mode: CompressionMode,
+  onProgress?: (progress: number) => void
+): Promise<Blob> {
+  console.log("[视频压缩] 时间戳:", new Date().toISOString());
+  console.log("[视频压缩]   文件大小:", file.size, "bytes (", (file.size / 1024 / 1024).toFixed(2), "MB)");
+  console.log("[视频压缩]   最后修改时间:", new Date(file.lastModified).toISOString());
+  try {
+    const instanceStartTime = Date.now();
+    const ffmpeg = await getFFmpegInstance();
+    const instanceEndTime = Date.now();
+    const inputFileName = "input." + file.name.split(".").pop();
+    const originalFormat = (file.name.split(".").pop()?.toLowerCase() || "mp4") as VideoFormat;
+    const outputFormat = getFFmpegFormat(originalFormat);
+    const outputFileName = `output.${originalFormat}`;
+    // 监听进度
+    let progressHandler: (({ progress }: { progress: number }) => void) | undefined;
+    if (onProgress) {
+      progressHandler = ({ progress }: { progress: number }) => {
+        const progressPercent = progress * 100;
+        console.log("[视频压缩]   进度更新:", progressPercent.toFixed(2), "%");
+        onProgress(progressPercent);
+      };
+      ffmpeg.on("progress", progressHandler);
+    } else {
+    }
+
+    // 写入输入文件
+    const writeStartTime = Date.now();
+    try {
+      const fileData = await fetchFile(file);
+      const dataLength = (fileData as any)?.length || (fileData as any)?.byteLength || "未知";
+      await ffmpeg.writeFile(inputFileName, fileData);
+      const writeEndTime = Date.now();
+    } catch (writeError) {
+      const writeEndTime = Date.now();
+      throw writeError;
+    }
+
+    // 执行压缩
+    let ffmpegCommand: string[];
+    if (mode === "lossless") {
+      // 无损压缩：使用快速预设，保持质量
+      ffmpegCommand = [
+        "-i",
+        inputFileName,
+        "-c:v",
+        "libx264",
+        "-c:a",
+        "aac",
+        "-preset",
+        "fast", // 快速编码
+        "-crf",
+        "18", // 高质量（接近无损）
+        "-f",
+        outputFormat,
+        outputFileName,
+      ];
+      console.log("[视频压缩]   压缩参数: CRF=18, Preset=fast (高质量，快速编码)");
+    } else {
+      // 有损压缩：降低码率和质量
+      ffmpegCommand = [
+        "-i",
+        inputFileName,
+        "-c:v",
+        "libx264",
+        "-c:a",
+        "aac",
+        "-preset",
+        "medium",
+        "-crf",
+        "28", // 较低质量，更小的文件
+        "-b:v",
+        "1M", // 视频码率 1Mbps
+        "-b:a",
+        "128k", // 音频码率 128kbps
+        "-f",
+        outputFormat,
+        outputFileName,
+      ];
+    }
+    console.log("[视频压缩]   FFmpeg 命令:", ffmpegCommand.join(" "));
+    const execStartTime = Date.now();
+    try {
+      await ffmpeg.exec(ffmpegCommand);
+      const execEndTime = Date.now();
+    } catch (execError) {
+      const execEndTime = Date.now();
+      console.error("[视频压缩]   错误消息:", execError instanceof Error ? execError.message : String(execError));
+      throw execError;
+    }
+
+    // 读取输出文件
+    const readStartTime = Date.now();
+    let data: Uint8Array;
+    try {
+      data = await ffmpeg.readFile(outputFileName);
+      const readEndTime = Date.now();
+      console.log("[视频压缩]   输出文件大小:", data.length, "bytes (", (data.length / 1024 / 1024).toFixed(2), "MB)");
+      console.log("[视频压缩]   压缩率:", ((1 - data.length / file.size) * 100).toFixed(2), "%");
+      console.log("[视频压缩]   文件大小变化:", file.size > data.length ? "减小" : "增大", 
+        Math.abs(file.size - data.length), "bytes");
+    } catch (readError) {
+      const readEndTime = Date.now();
+      throw readError;
+    }
+
+    // 移除进度监听器
+    if (progressHandler) {
+      ffmpeg.off("progress", progressHandler);
+    }
+
+    // 清理文件
+    try {
+      await ffmpeg.deleteFile(inputFileName);
+      await ffmpeg.deleteFile(outputFileName);
+    } catch (cleanupError) {
+    }
+
+    // 返回 Blob（data 是 FileData 类型，转换为 Uint8Array）
+    const uint8Array = new Uint8Array(data as ArrayLike<number>);
+    const mimeType = originalFormat === "mov" ? "video/quicktime" : `video/${originalFormat}`;
+    const resultBlob = new Blob([uint8Array], { type: mimeType });
+    return resultBlob;
+  } catch (error) {
+    console.error("[视频压缩] 错误消息:", error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) {
+      console.error("[视频压缩] 错误属性:", Object.getOwnPropertyNames(error));
+      console.error("[视频压缩] 完整错误信息:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
+    }
+    throw new Error(`视频压缩失败: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+/**
+ * 生成处理后的视频文件名
+ */
+export function generateProcessedVideoFileName(
+  originalName: string,
+  targetFormat?: VideoFormat,
+  operationType: "convert" | "compress" = "convert"
+): string {
+  // 移除原始扩展名
+  const nameWithoutExt = originalName.replace(/\.[^/.]+$/, "");
+
+  if (operationType === "convert" && targetFormat) {
+    // 格式转换：原名称 + 新格式
+    return `${nameWithoutExt}.${targetFormat}`;
+  } else if (operationType === "compress") {
+    // 压缩：原名称 + compressed + 原格式
+    const originalExt = originalName.split(".").pop() || "mp4";
+    return `${nameWithoutExt}_compressed.${originalExt}`;
+  }
+
+  return originalName;
+}
+

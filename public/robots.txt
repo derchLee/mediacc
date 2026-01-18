@@ -1,0 +1,23 @@
+# robots.txt for MediaCC
+# https://yourdomain.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Disallow API routes and Next.js internal files
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow important static assets
+Allow: /ffmpeg/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Sitemap location (update with your actual domain)
+Sitemap: https://yourdomain.com/sitemap.xml

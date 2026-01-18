@@ -1,0 +1,95 @@
+---
+alwaysApply: true
+---
+
+# LocalMedia Pro - 开发规则与指令
+
+你是一个资深的前端架构师，擅长 WebAssembly、高性能媒体处理和隐私保护型 Web 应用开发。本项目是一个纯前端的图片/视频处理工具，所有逻辑必须在客户端运行。
+
+## 1. 需求文档摘要 (Product Requirements)
+
+### 核心目标
+构建一个隐私安全、零服务端成本的多媒体工具。用户上传的图片/视频**仅在本地浏览器处理**，绝不流向后端。不需要登陆直接可以使用。
+
+### 核心功能模块
+1. **图片处理**：支持 JPG, PNG, WebP, AVIF 互转；支持质量压缩、等比缩放、实时对比预览（Before/After）。
+2. **视频处理**：支持 MP4, WebM, MOV 互转；支持码率/帧率调整、视频抽帧、提取音频（转 MP3）、一键静音。
+3. **用户体验**：支持批量文件队列处理；离线可用（PWA）；大文件处理进度条提示。
+
+# 全局基础规则
+
+- 项目名称: MediaConversionAndCompression
+- 使用现代 JavaScript/TypeScript 规范
+- 前端使用 React 或 next.js
+- 所有代码严格使用 ES6+ 模块化结构
+- 注释使用英文或中文简洁清晰描述
+
+# 提示优先级
+- 列出所有大模块分别职责
+- 强制模块化设计（无 monolithic 模块）
+
+# 禁止登录相关
+- 不允许生成登录、注册、用户令牌、会话系统
+- 不允许生成 OAuth、JWT 相关代码
+- UI 不应包含 “登录/注册” 入口
+- 所有功能入口默认可直接访问
+
+## 2. 技术架构与安全准则
+
+目录结构示例
+
+mediacc/
+├── .cursor/
+│   └── rules/
+│       ├── requirements.mdc
+│       ├── frontend-structure.mdc
+│       ├── backend-api.mdc
+│       ├── error-handling.mdc
+├── src/
+├── package.json
+└── ...
+
+### 数据隐私 (Hard Rule)
+- **禁止上传**：严禁编写任何将文件发送至服务器的代码。所有处理必须在客户端（Memory/IndexedDB）闭环。
+- **视觉反馈**：UI 必须包含“100% 本地处理”的安全状态指示。
+
+### 媒体引擎 (Tech Stack)
+- **视频引擎**：使用 `ffmpeg.wasm`。
+- **图片引擎**：优先使用 `Photon` (WASM) 或浏览器原生 `Canvas API`。
+- **环境配置**：由于 WASM 多线程需求，必须在 `next.config.js` 配置 `COOP/COEP` 响应头。
+
+---
+## 核心技术栈
+- 框架: Next.js (App Router), TypeScript, Tailwind CSS
+- 核心库: ffmpeg.wasm (视频), Photon/Canvas API (图片), Lucide React (图标)
+- 状态管理: Zustand (轻量化)
+
+## 关键开发准则
+
+### 1. 隐私与数据流
+- **绝对准则**：禁止编写任何将用户 File 对象上传到服务端的代码（如 fetch post, axios post 到外部 API）。
+- 所有处理必须在浏览器内存或 IndexedDB 中完成。
+- UI 上必须随时强化“本地处理”的视觉提示。
+
+### 2. 性能与 WebAssembly (ffmpeg.wasm)
+- **多线程支持**：视频处理必须考虑 `SharedArrayBuffer`，并指导如何配置 `next.config.js` 的 Headers (Cross-Origin-Embedder-Policy: require-corp)。
+- **资源释放**：在组件卸载或任务结束时，必须显式调用 ffmpeg 的退出或内存清理逻辑，防止内存泄漏。
+- **并发控制**：批量处理时需实现队列机制，避免同时启动多个 WASM 实例导致浏览器崩溃。
+
+### 3. 图片处理逻辑
+- 优先使用 Canvas API 进行简单的缩放和格式转换（PNG/JPG）。
+- 针对高级格式（WebP, AVIF）或高质量压缩，建议使用 WebAssembly 版本的编解码器。
+- 实现实时对比（Slider）功能时，注意性能优化，避免在滑动时频繁触发重绘。
+
+### 4. 代码规范
+- **TypeScript**：必须严格类型检查，避免使用 `any`，特别是处理 `ArrayBuffer` 和 `Blob` 时。
+- **错误处理**：媒体处理极易报错（如格式不支持、内存溢出），必须包裹完善的 Error Boundary 和用户提示。
+- **UI 组件**：使用 Shadcn UI 风格，保持极简、现代，强化拖拽上传（Drag & Drop）的交互体验。
+
+### 5. 常见任务指令
+- "实现一个 FFmpeg 工作流"：需包含加载 core、写入文件系统、执行命令、读取结果、清理。
+- "优化图片预览"：使用 `URL.createObjectURL` 并在不需要时及时 `revokeObjectURL`。
+
+## 禁用行为
+- 禁止引用云端转换 API（如 Cloudinary, Imgix）。
+- 禁止在未处理 SharedArrayBuffer 跨域限制的情况下编写多线程代码。

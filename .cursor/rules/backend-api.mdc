@@ -1,0 +1,19 @@
+---
+alwaysApply: true
+---
+
+# Backend 接口约定
+
+## 接口前缀
+- /api/upload
+- /api/convert/image
+- /api/convert/video
+- /api/download
+
+## 限制
+- 不允许任何 “Authentication / Session / User management”
+- 所有结果基于本地处理，无外部服务依赖
+
+# API 响应规范
+- 成功: { success: true, data: {...} }
+- 错误:  { success: false, error: “message” }

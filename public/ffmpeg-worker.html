@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FFmpeg Worker</title>
+  <!-- 使用本地 UMD 版本，避免 CDN 的 CORS 和 Worker 加载问题 -->
+  <script src="/ffmpeg/ffmpeg.js"></script>
+</head>
+<body>
+  <script>
+    // UMD 版本会将 FFmpeg 暴露到全局作用域
+    // @ffmpeg/ffmpeg 导出为 window.FFmpegWASM，其中包含 FFmpeg 类
+    const { FFmpeg } = window.FFmpegWASM || {};
+
+    // 检查是否正确加载了库
+    if (!FFmpeg) {
+      console.error('FFmpegWASM 未正确加载，请检查脚本顺序');
+    }
+
+    // 自己实现 toBlobURL 函数，避免依赖 @ffmpeg/util（它的 UMD 版本使用了 require()）
+    async function toBlobURL(url, mimeType) {
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      const blob = new Blob([arrayBuffer], { type: mimeType });
+      return URL.createObjectURL(blob);
+    }
+
+    let ffmpegInstance = null;
+    let isLoaded = false;
+
+    // 获取 FFmpeg 实例
+    async function getFFmpegInstance() {
+      if (ffmpegInstance && isLoaded) {
+        return ffmpegInstance;
+      }
+
+      // 确保 FFmpeg 类已加载
+      if (!FFmpeg) {
+        throw new Error('FFmpeg 类未加载，请检查 /ffmpeg/ffmpeg.js 是否正确加载');
+      }
+
+      if (!ffmpegInstance) {
+        // 创建 FFmpeg 实例，禁用日志以减少输出
+        console.log('[FFmpeg Worker] 创建 FFmpeg 实例...');
+        try {
+          ffmpegInstance = new FFmpeg({ log: false });
+          console.log('[FFmpeg Worker] ✅ FFmpeg 实例创建成功');
+        } catch (createError) {
+          console.error('[FFmpeg Worker] ❌ FFmpeg 实例创建失败:', createError);
+          throw new Error(`FFmpeg 实例创建失败: ${createError.message}`);
+        }
+      }
+
+      if (!isLoaded) {
+        // 使用本地文件路径
+        const baseURL = window.location.origin;
+        const coreURL = `${baseURL}/ffmpeg/ffmpeg-core.js`;
+        const wasmURL = `${baseURL}/ffmpeg/ffmpeg-core.wasm`;
+        
+        console.log('[FFmpeg Worker] ========== 开始加载 FFmpeg ==========');
+        console.log('[FFmpeg Worker] baseURL:', baseURL);
+        console.log('[FFmpeg Worker] coreURL:', coreURL);
+        console.log('[FFmpeg Worker] wasmURL:', wasmURL);
+        
+        // 验证文件可访问性
+        try {
+          console.log('[FFmpeg Worker] 验证文件可访问性...');
+          const coreCheck = await fetch(coreURL, { method: 'HEAD' });
+          console.log('[FFmpeg Worker] ✅ core 文件可访问:', coreCheck.status);
+          
+          const wasmCheck = await fetch(wasmURL, { method: 'HEAD' });
+          console.log('[FFmpeg Worker] ✅ wasm 文件可访问:', wasmCheck.status);
+        } catch (checkError) {
+          console.error('[FFmpeg Worker] ❌ 文件可访问性检查失败:', checkError);
+          throw new Error(`无法访问 FFmpeg 核心文件: ${checkError.message}`);
+        }
+        
+        try {
+          // ========== 关键修复：使用 Blob URL 加载核心文件 ==========
+          // 从错误信息 "Cannot find module" 看，Worker 内部的 importScripts() 失败了
+          // Worker 尝试使用模块加载器也失败
+          // 解决方案：使用 Blob URL，这样可以绕过 Worker 内部加载的限制
+          // ======================================================
+          
+          const loadStartTime = Date.now();
+          
+          console.log('[FFmpeg Worker] ========== 方案2: 使用 Blob URL 加载核心文件 ==========');
+          console.log('[FFmpeg Worker] 原因：Worker 内部 importScripts() 失败，使用 Blob URL');
+          console.log('[FFmpeg Worker] 原始 coreURL:', coreURL);
+          console.log('[FFmpeg Worker] 原始 wasmURL:', wasmURL);
+          
+          // 将核心文件转换为 Blob URL
+          console.log('[FFmpeg Worker] 转换文件为 Blob URL...');
+          const coreBlobURL = await toBlobURL(coreURL, 'text/javascript');
+          const wasmBlobURL = await toBlobURL(wasmURL, 'application/wasm');
+          
+          console.log('[FFmpeg Worker] ✅ Blob URL 创建成功');
+          console.log('[FFmpeg Worker] coreBlobURL:', coreBlobURL.substring(0, 50) + '...');
+          console.log('[FFmpeg Worker] wasmBlobURL:', wasmBlobURL.substring(0, 50) + '...');
+          console.log('[FFmpeg Worker] Worker 文件：814.ffmpeg.js（UMD 版本默认）');
+          
+          // 使用 Blob URL 加载核心文件
+          // 不传递 workerURL，让 UMD 版本使用默认路径（814.ffmpeg.js）
+          const loadPromise = ffmpegInstance.load({
+            coreURL: coreBlobURL,      // Blob URL - Worker 内部可能能处理 Blob URL
+            wasmURL: wasmBlobURL,      // Blob URL - WASM 文件
+            // 不传递 workerURL，让 UMD 版本使用默认路径（814.ffmpeg.js）
+          });
+          
+          // 添加超时保护（60秒）
+          const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => {
+              reject(new Error('ffmpeg.load() 超时（60秒）- 可能原因：Worker 加载失败或 WASM 文件损坏'));
+            }, 60000);
+          });
+          
+          await Promise.race([loadPromise, timeoutPromise]);
+          const loadDuration = Date.now() - loadStartTime;
+          console.log(`[FFmpeg Worker] ✅ ffmpeg.load() 成功，耗时: ${loadDuration}ms`);
+          
+          const totalDuration = Date.now() - loadStartTime;
+          console.log(`[FFmpeg Worker] ========== FFmpeg 加载成功，总耗时: ${totalDuration}ms ==========`);
+
+          isLoaded = true;
+        } catch (loadError) {
+          console.error('[FFmpeg Worker] ========== FFmpeg 加载失败 ==========');
+          console.error('[FFmpeg Worker] ❌ 错误详情:', loadError);
+          throw loadError;
+        }
+      }
+
+      return ffmpegInstance;
+    }
+
+    // 监听来自父窗口的消息
+    window.addEventListener('message', async (event) => {
+      const { id, type, payload } = event.data;
+
+      // 添加调试日志
+      console.log('[FFmpeg Worker] 收到消息:', { id, type, hasPayload: !!payload });
+
+      try {
+        if (type === 'INIT') {
+          // 初始化 FFmpeg
+          await getFFmpegInstance();
+          window.parent.postMessage({ id, type: 'INIT_SUCCESS' }, '*');
+        } else if (type === 'CONVERT_FORMAT') {
+          console.log('[FFmpeg Worker] 开始转换视频格式:', { fileName: payload?.fileName, targetFormat: payload?.targetFormat });
+          // 转换视频格式
+          const { fileData, fileName, targetFormat } = payload;
+          const ffmpeg = await getFFmpegInstance();
+          console.log('[FFmpeg Worker] FFmpeg 实例获取成功');
+          
+          const inputFileName = 'input.' + fileName.split('.').pop();
+          const outputFileName = `output.${targetFormat}`;
+          
+          // 修复：在操作开始前清理可能存在的文件和进度监听器
+          try {
+            // 清理可能存在的文件
+            try {
+              await ffmpeg.deleteFile(inputFileName);
+            } catch (e) {
+              // 文件不存在，忽略错误
+            }
+            try {
+              await ffmpeg.deleteFile(outputFileName);
+            } catch (e) {
+              // 文件不存在，忽略错误
+            }
+            
+            // 移除所有现有的进度监听器（防止累积）
+            ffmpeg.off('progress');
+          } catch (cleanupError) {
+            // 清理失败不影响后续操作
+            console.warn('[FFmpeg Worker] 清理操作警告:', cleanupError);
+          }
+          
+          // 设置进度监听（在转换开始前）
+          const progressHandler = ({ progress }) => {
+            window.parent.postMessage({
+              id,
+              type: 'PROGRESS_UPDATE',
+              payload: { progress: progress * 100 },
+            }, '*');
+          };
+          ffmpeg.on('progress', progressHandler);
+          
+          try {
+            console.log('[FFmpeg Worker] 写入输入文件:', inputFileName, '大小:', fileData?.length);
+            // 写入输入文件
+            await ffmpeg.writeFile(inputFileName, new Uint8Array(fileData));
+            console.log('[FFmpeg Worker] 输入文件写入成功');
+            
+            console.log('[FFmpeg Worker] 开始执行转换命令...');
+            // 性能优化：根据文件大小选择不同的优化策略
+            const fileSizeMB = fileData.length / 1024 / 1024;
+            const isHugeFile = fileSizeMB > 80; // 大于80MB视为超大文件
+            const isLargeFile = fileSizeMB > 50; // 大于50MB视为大文件
+            
+            // 判断是否支持 movflags（仅 MP4/MOV 容器支持）
+            const supportsMovflags = targetFormat === 'mp4' || targetFormat === 'mov';
+            
+            // 构建基础命令
+            const baseArgs = ['-i', inputFileName, '-c:v', 'libx264', '-c:a', 'aac'];
+            
+            if (isHugeFile) {
+              // 超大文件优化策略：使用最快的预设 + 更低分辨率 + 更高CRF + 限制帧率
+              console.log(`[FFmpeg Worker] 检测到超大文件（${fileSizeMB.toFixed(2)}MB），应用激进性能优化策略`);
+              baseArgs.push(
+                '-preset', 'ultrafast',  // 使用 ultrafast 预设（最快的预设，牺牲质量换取速度）
+                '-crf', '28',  // 提高CRF值到28，加快编码速度（质量会有明显下降，但速度显著提升）
+                '-vf', 'scale=1280:-2:force_original_aspect_ratio=decrease',  // 限制宽度1280，保持宽高比
+                '-r', '30',  // 限制输出帧率为30fps（如果原视频帧率更高，会降低处理时间）
+                '-g', '30'  // GOP大小设置为30（关键帧间隔，影响编码速度）
+              );
+              
+              // 音频快速编码
+              baseArgs.push('-b:a', '128k');  // 音频码率128k（降低音频处理时间）
+              
+              // 仅在支持的格式中添加 movflags
+              if (supportsMovflags) {
+                baseArgs.push('-movflags', '+faststart');
+              }
+            } else if (isLargeFile) {
+              // 大文件优化策略：使用最快的预设 + 降低分辨率 + 提高CRF
+              console.log(`[FFmpeg Worker] 检测到大文件（${fileSizeMB.toFixed(2)}MB），应用性能优化策略`);
+              baseArgs.push(
+                '-preset', 'ultrafast',  // 使用 ultrafast 预设（最快的预设）
+                '-crf', '26',  // 提高CRF值（26），加快编码速度，质量略有下降
+                '-vf', 'scale=1280:-2:force_original_aspect_ratio=decrease'  // 限制宽度1280，保持宽高比
+              );
+              
+              // 仅在支持的格式中添加 movflags
+              if (supportsMovflags) {
+                baseArgs.push('-movflags', '+faststart');  // 快速启动（优化流媒体播放，仅 MP4/MOV 支持）
+              }
+            } else {
+              // 中小文件：平衡质量和速度
+              baseArgs.push(
+                '-preset', 'veryfast',  // 使用 veryfast 预设（比 faster 更快）
+                '-crf', '23'  // 标准质量
+              );
+              
+              // 仅在支持的格式中添加 movflags
+              if (supportsMovflags) {
+                baseArgs.push('-movflags', '+faststart');
+              }
+            }
+            
+            // 添加输出格式和文件名
+            // FFmpeg 格式名称映射：MKV 格式需要使用 'matroska' 作为格式名称，WMV 使用 'asf'
+            const formatMap = {
+              'mov': 'mov',
+              'mkv': 'matroska',  // MKV 容器格式在 FFmpeg 中称为 matroska
+              'wmv': 'asf'  // WMV 格式在 FFmpeg 中称为 asf
+            };
+            const ffmpegFormat = formatMap[targetFormat] || targetFormat;
+            baseArgs.push('-f', ffmpegFormat, outputFileName);
+            
+            console.log('[FFmpeg Worker] FFmpeg 命令:', baseArgs.join(' '));
+            await ffmpeg.exec(baseArgs);
+            console.log('[FFmpeg Worker] 转换命令执行成功');
+            
+            console.log('[FFmpeg Worker] 读取输出文件:', outputFileName);
+            // 读取输出文件
+            const data = await ffmpeg.readFile(outputFileName);
+            console.log('[FFmpeg Worker] 输出文件读取成功，大小:', data?.length);
+            
+            // 发送结果
+            console.log('[FFmpeg Worker] 发送转换成功消息，数据大小:', data?.length);
+            window.parent.postMessage({
+              id,
+              type: 'CONVERT_FORMAT_SUCCESS',
+              payload: Array.from(new Uint8Array(data)),
+            }, '*');
+            console.log('[FFmpeg Worker] 转换成功消息已发送');
+          } catch (conversionError) {
+            console.error('[FFmpeg Worker] 转换过程中出错:', conversionError);
+            throw conversionError;
+          } finally {
+            // 确保清理操作执行
+            try {
+              // 移除进度监听器
+              ffmpeg.off('progress', progressHandler);
+              // 如果上面的移除失败，移除所有 progress handler
+              ffmpeg.off('progress');
+            } catch (e) {
+              // 忽略移除错误
+            }
+            
+            try {
+              // 清理文件
+              await ffmpeg.deleteFile(inputFileName);
+            } catch (e) {
+              // 文件可能不存在，忽略错误
+            }
+            try {
+              await ffmpeg.deleteFile(outputFileName);
+            } catch (e) {
+              // 文件可能不存在，忽略错误
+            }
+          }
+        } else if (type === 'COMPRESS') {
+          // 压缩视频
+          const { fileData, fileName, mode } = payload;
+          const ffmpeg = await getFFmpegInstance();
+          
+          const inputFileName = 'input.' + fileName.split('.').pop();
+          const originalFormat = fileName.split('.').pop() || 'mp4';
+          const outputFileName = `output.${originalFormat}`;
+          
+          // 修复：在操作开始前清理可能存在的文件和进度监听器
+          try {
+            // 清理可能存在的文件
+            try {
+              await ffmpeg.deleteFile(inputFileName);
+            } catch (e) {
+              // 文件不存在，忽略错误
+            }
+            try {
+              await ffmpeg.deleteFile(outputFileName);
+            } catch (e) {
+              // 文件不存在，忽略错误
+            }
+            
+            // 移除所有现有的进度监听器（防止累积）
+            ffmpeg.off('progress');
+          } catch (cleanupError) {
+            // 清理失败不影响后续操作
+            console.warn('[FFmpeg Worker] 清理操作警告:', cleanupError);
+          }
+          
+          // 设置进度监听（在压缩开始前）
+          const progressHandler = ({ progress }) => {
+            window.parent.postMessage({
+              id,
+              type: 'PROGRESS_UPDATE',
+              payload: { progress: progress * 100 },
+            }, '*');
+          };
+          ffmpeg.on('progress', progressHandler);
+          
+          try {
+            // 写入输入文件
+            await ffmpeg.writeFile(inputFileName, new Uint8Array(fileData));
+            
+            // 性能优化：根据文件大小选择不同的优化策略
+            const fileSizeMB = fileData.length / 1024 / 1024;
+            const isHugeFile = fileSizeMB > 80; // 大于80MB视为超大文件
+            const isLargeFile = fileSizeMB > 50; // 大于50MB视为大文件
+            
+            // 判断是否支持 movflags（仅 MP4/MOV 容器支持）
+            const supportsMovflags = originalFormat === 'mp4' || originalFormat === 'mov';
+            
+            let command;
+            if (mode === 'lossless') {
+              // 无损压缩：使用快速预设保持质量
+              if (isHugeFile || isLargeFile) {
+                console.log(`[FFmpeg Worker] 无损压缩大文件（${fileSizeMB.toFixed(2)}MB），使用ultrafast预设加速`);
+                command = ['-i', inputFileName, '-c:v', 'libx264', '-c:a', 'aac', '-preset', 'ultrafast', '-crf', '18'];
+              } else {
+                command = ['-i', inputFileName, '-c:v', 'libx264', '-c:a', 'aac', '-preset', 'veryfast', '-crf', '18'];
+              }
+              if (supportsMovflags) {
+                command.push('-movflags', '+faststart');
+              }
+              command.push(outputFileName);
+            } else {
+              // 有损压缩：根据文件大小应用不同优化策略
+              if (isHugeFile) {
+                console.log(`[FFmpeg Worker] 检测到超大文件（${fileSizeMB.toFixed(2)}MB），应用激进压缩优化策略`);
+                command = [
+                  '-i', inputFileName,
+                  '-c:v', 'libx264',
+                  '-c:a', 'aac',
+                  '-preset', 'ultrafast',  // 使用最快的预设
+                  '-crf', '30',  // 更高的CRF值（30），更快的编码和更小的文件
+                  '-b:a', '128k',  // 降低音频码率
+                  '-vf', 'scale=1280:-2:force_original_aspect_ratio=decrease',  // 降低分辨率
+                  '-r', '30',  // 限制帧率30fps
+                  '-g', '30'  // GOP大小30
+                ];
+                if (supportsMovflags) {
+                  command.push('-movflags', '+faststart');
+                }
+                command.push(outputFileName);
+              } else if (isLargeFile) {
+                console.log(`[FFmpeg Worker] 检测到大文件（${fileSizeMB.toFixed(2)}MB），应用压缩性能优化策略`);
+                command = [
+                  '-i', inputFileName,
+                  '-c:v', 'libx264',
+                  '-c:a', 'aac',
+                  '-preset', 'ultrafast',  // 使用最快的预设
+                  '-crf', '28',  // 提高CRF值，加快编码速度
+                  '-b:a', '128k',
+                  '-vf', 'scale=1280:-2:force_original_aspect_ratio=decrease'  // 降低分辨率
+                ];
+                if (supportsMovflags) {
+                  command.push('-movflags', '+faststart');
+                }
+                command.push(outputFileName);
+              } else {
+                command = ['-i', inputFileName, '-c:v', 'libx264', '-c:a', 'aac', '-preset', 'veryfast', '-crf', '28', '-b:a', '128k'];
+                if (supportsMovflags) {
+                  command.push('-movflags', '+faststart');
+                }
+                command.push(outputFileName);
+              }
+            }
+            
+            console.log('[FFmpeg Worker] 压缩命令:', command.join(' '));
+            await ffmpeg.exec(command);
+            
+            // 读取输出文件
+            const data = await ffmpeg.readFile(outputFileName);
+            
+            // 发送结果
+            window.parent.postMessage({
+              id,
+              type: 'COMPRESS_SUCCESS',
+              payload: Array.from(new Uint8Array(data)),
+            }, '*');
+          } catch (compressionError) {
+            throw compressionError;
+          } finally {
+            // 确保清理操作执行
+            try {
+              // 移除进度监听器
+              ffmpeg.off('progress', progressHandler);
+              // 如果上面的移除失败，移除所有 progress handler
+              ffmpeg.off('progress');
+            } catch (e) {
+              // 忽略移除错误
+            }
+            
+            try {
+              // 清理文件
+              await ffmpeg.deleteFile(inputFileName);
+            } catch (e) {
+              // 文件可能不存在，忽略错误
+            }
+            try {
+              await ffmpeg.deleteFile(outputFileName);
+            } catch (e) {
+              // 文件可能不存在，忽略错误
+            }
+          }
+        }
+      } catch (error) {
+        console.error('[FFmpeg Worker] 处理消息时出错:', error);
+        window.parent.postMessage({
+          id,
+          type: 'ERROR',
+          payload: { message: error.message || String(error) },
+        }, '*');
+      }
+    });
+
+    // 等待脚本加载完成后通知父窗口已准备就绪
+    // 确保 FFmpeg 类已完全加载
+    let waitAttempts = 0;
+    const maxWaitAttempts = 100; // 最多等待 10 秒（100 * 100ms）
+    
+    function waitForFFmpeg() {
+      if (window.FFmpegWASM && window.FFmpegWASM.FFmpeg) {
+        console.log('[FFmpeg Worker] FFmpeg 类已加载，准备就绪');
+        window.parent.postMessage({ type: 'READY' }, '*');
+      } else {
+        waitAttempts++;
+        if (waitAttempts >= maxWaitAttempts) {
+          console.error('[FFmpeg Worker] ❌ FFmpeg 类加载超时，请检查 /ffmpeg/ffmpeg.js 是否正确加载');
+          window.parent.postMessage({ 
+            type: 'ERROR', 
+            payload: { message: 'FFmpeg 类加载超时' } 
+          }, '*');
+          return;
+        }
+        console.warn(`[FFmpeg Worker] 等待 FFmpeg 类加载... (${waitAttempts}/${maxWaitAttempts})`);
+        setTimeout(waitForFFmpeg, 100);
+      }
+    }
+    
+    // 如果脚本已经加载，立即检查；否则等待加载
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      // 延迟一小段时间，确保脚本完全执行
+      setTimeout(waitForFFmpeg, 50);
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(waitForFFmpeg, 50);
+      });
+    }
+  </script>
+</body>
+</html>
+

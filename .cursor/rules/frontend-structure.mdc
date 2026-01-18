@@ -1,0 +1,23 @@
+---
+alwaysApply: true
+---
+
+---
+# 前端 UI 结构
+
+## Pages
+- /UploadPage
+- /SettingsPage
+- /ProgressPage
+- /ResultPage
+
+## Components
+- FileUploader
+- FilePreviewList
+- ConversionSettings
+- DownloadCard
+
+# 约定
+- 使用 Function Component / Composition API
+- 每个组件必须有清晰 Props 类型定义
+- UI 必须响应式设计
