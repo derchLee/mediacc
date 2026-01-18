@@ -24,7 +24,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">1. Overview</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              MediaCC ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our web application.
+              MediaCC (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our web application.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
               <strong>Important:</strong> MediaCC processes all files locally in your browser. We do not upload, store, or transmit any of your files to our servers or any third-party servers.
@@ -100,7 +100,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">7. Children's Privacy</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">7. Children&apos;s Privacy</h2>
             <p className="text-gray-700 dark:text-gray-300">
               Our service is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13.
             </p>
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">8. Changes to This Policy</h2>
             <p className="text-gray-700 dark:text-gray-300">
-              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;Last updated&quot; date.
             </p>
           </section>
 

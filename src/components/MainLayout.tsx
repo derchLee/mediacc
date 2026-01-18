@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, useCallback, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Image, Video } from "lucide-react";
+import { Image as ImageIcon, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FileType } from "@/types";
 
@@ -20,12 +20,12 @@ export function MainLayout({ children }: MainLayoutProps) {
   const pathname = usePathname();
   
   // 根据路径确定当前活跃的 Tab
-  const getActiveTab = (): FileType => {
+  const getActiveTab = useCallback((): FileType => {
     if (pathname?.includes("/video")) {
       return "video";
     }
     return "image";
-  };
+  }, [pathname]);
 
   const [activeTab, setActiveTab] = useState<FileType>(getActiveTab());
 
@@ -33,7 +33,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   useEffect(() => {
     const newTab = getActiveTab();
     setActiveTab(newTab);
-  }, [pathname]);
+  }, [pathname, getActiveTab]);
 
   const handleTabChange = (tab: FileType) => {
     setActiveTab(tab);
@@ -74,7 +74,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                   : "text-gray-600 dark:text-gray-400"
               )}
             >
-              <Image className="w-5 h-5 mr-2" />
+              <ImageIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               Image Processing
             </button>
             <button
@@ -87,7 +87,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                   : "text-gray-600 dark:text-gray-400"
               )}
             >
-              <Video className="w-5 h-5 mr-2" />
+              <Video className="w-5 h-5 mr-2" aria-hidden="true" />
               Video Processing
             </button>
           </div>

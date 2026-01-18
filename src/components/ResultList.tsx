@@ -56,6 +56,7 @@ export function ResultList({
                     playsInline
                   />
                 ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={file.preview}
                     alt={file.name}

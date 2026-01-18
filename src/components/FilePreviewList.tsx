@@ -37,6 +37,7 @@ export function FilePreviewList({
             {/* 预览图/图标 */}
             <div className="flex-shrink-0">
               {file.preview ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={file.preview}
                   alt={file.name}

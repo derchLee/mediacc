@@ -119,7 +119,7 @@ export function CookieConsent() {
                   We Use Cookies
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept All", you consent to our use of cookies.{" "}
+                  We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking &quot;Accept All&quot;, you consent to our use of cookies.{" "}
                   <Link href="/cookies" className="text-blue-600 dark:text-blue-400 hover:underline">
                     Learn more
                   </Link>
