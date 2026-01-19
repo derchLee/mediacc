@@ -35,7 +35,20 @@ class FFmpegIframeManager {
 
     // 创建 iframe
     this.iframe = document.createElement("iframe");
-    this.iframe.src = "/ffmpeg-worker.html";
+    
+    // 支持从环境变量配置 CDN URL（用于 Cloudflare Pages 部署）
+    const coreCDN = process.env.NEXT_PUBLIC_FFMPEG_CORE_URL;
+    const wasmCDN = process.env.NEXT_PUBLIC_FFMPEG_WASM_URL;
+    
+    let iframeSrc = "/ffmpeg-worker.html";
+    if (coreCDN || wasmCDN) {
+      const params = new URLSearchParams();
+      if (coreCDN) params.set("coreCDN", coreCDN);
+      if (wasmCDN) params.set("wasmCDN", wasmCDN);
+      iframeSrc = `${iframeSrc}?${params.toString()}`;
+    }
+    
+    this.iframe.src = iframeSrc;
     this.iframe.style.display = "none";
     this.iframe.setAttribute("sandbox", "allow-scripts allow-same-origin"); // 添加安全限制
     document.body.appendChild(this.iframe);

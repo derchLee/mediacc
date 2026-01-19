@@ -154,9 +154,14 @@ async function getFFmpegInstance(): Promise<any> {
       console.log("[FFmpeg 加载] 📦 步骤 3/4: 准备核心文件 URL...");
       const urlStartTime = Date.now();
       
+      // 优先使用环境变量配置的 CDN URL（用于 Cloudflare Pages 部署）
+      // 如果未配置，则使用本地文件路径
       const baseURL = window.location.origin;
-      const coreURL = `${baseURL}/ffmpeg/ffmpeg-core.js`;
-      const wasmURL = `${baseURL}/ffmpeg/ffmpeg-core.wasm`;
+      const coreCDN = process.env.NEXT_PUBLIC_FFMPEG_CORE_URL;
+      const wasmCDN = process.env.NEXT_PUBLIC_FFMPEG_WASM_URL;
+      
+      const coreURL = coreCDN || `${baseURL}/ffmpeg/ffmpeg-core.js`;
+      const wasmURL = wasmCDN || `${baseURL}/ffmpeg/ffmpeg-core.wasm`;
       
       console.log(`[FFmpeg 加载]   核心文件 URL: ${coreURL}`);
       console.log(`[FFmpeg 加载]   WASM 文件 URL: ${wasmURL}`);

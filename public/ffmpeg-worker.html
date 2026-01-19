@@ -53,10 +53,15 @@
       }
 
       if (!isLoaded) {
-        // 使用本地文件路径
+        // 优先使用环境变量配置的 CDN URL（通过 URL 参数传递）
+        // 如果未配置，则使用本地文件路径
+        const urlParams = new URLSearchParams(window.location.search);
+        const coreCDN = urlParams.get('coreCDN');
+        const wasmCDN = urlParams.get('wasmCDN');
+        
         const baseURL = window.location.origin;
-        const coreURL = `${baseURL}/ffmpeg/ffmpeg-core.js`;
-        const wasmURL = `${baseURL}/ffmpeg/ffmpeg-core.wasm`;
+        const coreURL = coreCDN || `${baseURL}/ffmpeg/ffmpeg-core.js`;
+        const wasmURL = wasmCDN || `${baseURL}/ffmpeg/ffmpeg-core.wasm`;
         
         console.log('[FFmpeg Worker] ========== 开始加载 FFmpeg ==========');
         console.log('[FFmpeg Worker] baseURL:', baseURL);
