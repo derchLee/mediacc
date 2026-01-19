@@ -131,7 +131,9 @@ mediacc/
 │   │   └── DownloadCard.tsx
 │   ├── lib/              # 工具函数和核心逻辑
 │   │   ├── utils.ts      # 通用工具函数
-│   │   ├── ffmpeg.ts     # FFmpeg 封装
+│   │   ├── ffmpeg-direct.ts  # FFmpeg 直接加载器
+│   │   ├── ffmpeg-iframe-manager.ts  # FFmpeg iframe 管理器
+│   │   ├── video-processor.ts  # 视频处理
 │   │   └── image-processor.ts  # 图片处理
 │   └── store/            # Zustand 状态管理
 │       └── index.ts
