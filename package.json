@@ -7,7 +7,8 @@
     "build": "next build",
     "build:cf": "next build && npx @cloudflare/next-on-pages@1",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:pages": "npm run build:cf && wrangler pages dev .vercel/output/static --port 8788"
   },
   "dependencies": {
     "@ffmpeg/core": "^0.12.6",
