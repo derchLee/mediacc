@@ -1,192 +1,191 @@
-# MediaCC - 本地媒体转换与压缩工具
+# MediaCC - Local Media Conversion & Compression Tool
 
-一个隐私安全、零服务端成本的多媒体处理工具。所有处理逻辑在客户端浏览器中完成，确保用户数据完全本地化处理，绝不流向后端服务器。
+A privacy-secure, zero-server-cost multimedia processing tool. All processing logic is completed in the client browser, ensuring user data is processed entirely locally and never sent to backend servers.
 
-## 🎯 核心特性
+## 🎯 Core Features
 
-### 图片处理
-- **格式转换**: 支持 JPG, PNG, WebP, AVIF 互转
-- **质量压缩**: 可调节压缩质量
-- **等比缩放**: 保持原始比例进行缩放
-- **实时对比预览**: Before/After 对比功能
+### Image Processing
+- **Format Conversion**: Supports JPG, PNG, WebP, AVIF inter-conversion
+- **Quality Compression**: Adjustable compression quality
+- **Proportional Scaling**: Maintains original aspect ratio when scaling
+- **Real-time Comparison Preview**: Before/After comparison feature
 
-### 视频处理
-- **格式转换**: 支持 MP4, WebM, MOV 互转
-- **码率/帧率调整**: 自定义视频参数
-- **视频抽帧**: 从视频中提取静态图片
-- **音频提取**: 提取视频音频并转换为 MP3
-- **一键静音**: 快速移除视频音轨
+### Video Processing
+- **Format Conversion**: Supports MP4, WebM, MOV inter-conversion
+- **Bitrate/Frame Rate Adjustment**: Customizable video parameters
+- **Frame Extraction**: Extract static images from videos
+- **Audio Extraction**: Extract video audio and convert to MP3
+- **One-Click Mute**: Quickly remove video audio track
 
-### 用户体验
-- **批量处理**: 支持文件队列批量处理
-- **离线可用**: PWA 支持，离线也能使用
-- **进度提示**: 大文件处理时显示进度条
-- **100% 本地处理**: 所有数据仅在浏览器中处理，不上传服务器
+### User Experience
+- **Batch Processing**: Supports file queue batch processing
+- **Offline Available**: PWA support, works offline
+- **Progress Indication**: Shows progress bar when processing large files
+- **100% Local Processing**: All data is processed only in the browser, not uploaded to servers
 
-## 🛠️ 技术栈
+## 🛠️ Tech Stack
 
-- **框架**: Next.js 14 (App Router)
-- **语言**: TypeScript
-- **样式**: Tailwind CSS
-- **视频处理**: ffmpeg.wasm
-- **图片处理**: Canvas API / Photon (WASM)
-- **图标**: Lucide React
-- **状态管理**: Zustand
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Video Processing**: ffmpeg.wasm
+- **Image Processing**: Canvas API / Photon (WASM)
+- **Icons**: Lucide React
+- **State Management**: Zustand
 
-## 📦 安装与运行
+## 📦 Installation & Running
 
-### 环境要求
-- Node.js 18+ 
-- npm 或 yarn 或 pnpm
+### Requirements
+- Node.js 18+
+- npm or yarn or pnpm
 
-### 安装依赖
+### Install Dependencies
 ```bash
 npm install
-# 或
+# or
 yarn install
-# 或
+# or
 pnpm install
 ```
 
-### 开发模式
+### Development Mode
 ```bash
 npm run dev
-# 或
+# or
 yarn dev
-# 或
+# or
 pnpm dev
 ```
 
-访问 [http://localhost:3000](http://localhost:3000) 查看应用。
+Visit [https://mediacc.it.com/image](https://mediacc.it.com/image) to view the deployed application.
 
-### 构建生产版本
+### Build Production Version
 ```bash
 npm run build
 npm start
 ```
 
-## 🔧 WebAssembly 配置说明
+## 🔧 WebAssembly Configuration
 
-本项目使用 `ffmpeg.wasm` 进行视频处理，需要启用 `SharedArrayBuffer` 以支持多线程处理。配置已在 `next.config.js` 中完成：
+This project uses `ffmpeg.wasm` for video processing and requires `SharedArrayBuffer` to be enabled for multi-threading support. Configuration has been completed in `next.config.js`:
 
 - **Cross-Origin-Opener-Policy**: `same-origin`
 - **Cross-Origin-Embedder-Policy**: `require-corp`
 
-这些配置确保了 WebAssembly 多线程功能的正常运行。
+These configurations ensure the normal operation of WebAssembly multi-threading functionality.
 
-### FFmpeg 核心文件配置
+### FFmpeg Core Files Configuration
 
-**重要：** 代码默认使用本地文件路径（`/ffmpeg/ffmpeg-core.js`），需要先下载文件。
+**Important:** The code defaults to using local file paths (`/ffmpeg/ffmpeg-core.js`), so files need to be downloaded first.
 
-#### 下载 FFmpeg 核心文件
+#### Download FFmpeg Core Files
 
-**Windows（PowerShell）：**
+**Windows (PowerShell):**
 ```powershell
 .\download-ffmpeg.ps1
 ```
 
-**Linux/Mac（Bash）：**
+**Linux/Mac (Bash):**
 ```bash
 chmod +x download-ffmpeg.sh
 ./download-ffmpeg.sh
 ```
 
-**手动下载：**
-1. 创建目录：`mkdir -p public/ffmpeg`
-2. 下载文件到 `public/ffmpeg/` 目录：
+**Manual Download:**
+1. Create directory: `mkdir -p public/ffmpeg`
+2. Download files to `public/ffmpeg/` directory:
    - https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js
    - https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm
 
-#### 使用 CDN（可选）
+#### Using CDN (Optional)
 
-如果需要使用 CDN，创建 `.env.local` 文件：
+If you want to use CDN, create a `.env.local` file:
 ```
 NEXT_PUBLIC_FFMPEG_CORE_URL=https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js
 NEXT_PUBLIC_FFMPEG_WASM_URL=https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm
 ```
 
-**注意：** 推荐使用本地文件，更稳定可靠。
+**Note:** Using local files is recommended for better stability and reliability.
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 mediacc/
-├── .cursor/              # Cursor IDE 规则配置
+├── .cursor/              # Cursor IDE rule configuration
 │   └── rules/
 ├── src/
-│   ├── app/              # Next.js App Router 页面
-│   │   ├── layout.tsx    # 根布局
-│   │   ├── page.tsx      # 首页
-│   │   ├── upload/       # 上传页面
-│   │   ├── settings/     # 设置页面
-│   │   ├── progress/     # 进度页面
-│   │   ├── result/       # 结果页面
-│   │   ├── error.tsx     # 错误边界
-│   │   ├── not-found.tsx # 404 页面
-│   │   └── globals.css   # 全局样式
-│   ├── components/       # React 组件
+│   ├── app/              # Next.js App Router pages
+│   │   ├── layout.tsx    # Root layout
+│   │   ├── page.tsx      # Home page
+│   │   ├── upload/       # Upload page
+│   │   ├── settings/     # Settings page
+│   │   ├── progress/     # Progress page
+│   │   ├── result/       # Result page
+│   │   ├── error.tsx     # Error boundary
+│   │   ├── not-found.tsx # 404 page
+│   │   └── globals.css   # Global styles
+│   ├── components/       # React components
 │   │   ├── FileUploader.tsx
 │   │   ├── FilePreviewList.tsx
 │   │   ├── ConversionSettings.tsx
 │   │   └── DownloadCard.tsx
-│   ├── lib/              # 工具函数和核心逻辑
-│   │   ├── utils.ts      # 通用工具函数
-│   │   ├── ffmpeg-direct.ts  # FFmpeg 直接加载器
-│   │   ├── ffmpeg-iframe-manager.ts  # FFmpeg iframe 管理器
-│   │   ├── video-processor.ts  # 视频处理
-│   │   └── image-processor.ts  # 图片处理
-│   └── store/            # Zustand 状态管理
+│   ├── lib/              # Utility functions and core logic
+│   │   ├── utils.ts      # Common utility functions
+│   │   ├── ffmpeg-direct.ts  # FFmpeg direct loader
+│   │   ├── ffmpeg-iframe-manager.ts  # FFmpeg iframe manager
+│   │   ├── video-processor.ts  # Video processing
+│   │   └── image-processor.ts  # Image processing
+│   └── store/            # Zustand state management
 │       └── index.ts
-├── next.config.js        # Next.js 配置
-├── tailwind.config.ts    # Tailwind CSS 配置
-├── tsconfig.json         # TypeScript 配置
-└── package.json          # 项目依赖
+├── next.config.js        # Next.js configuration
+├── tailwind.config.ts    # Tailwind CSS configuration
+├── tsconfig.json         # TypeScript configuration
+└── package.json          # Project dependencies
 ```
 
-## 🔒 隐私与安全
+## 🔒 Privacy & Security
 
-- ✅ **完全本地处理**: 所有文件处理在浏览器中完成
-- ✅ **无数据上传**: 不会将任何文件上传到服务器
-- ✅ **无用户追踪**: 不需要登录，不收集用户信息
-- ✅ **开源透明**: 代码完全可见，可自行审查
+- ✅ **Fully Local Processing**: All file processing is completed in the browser
+- ✅ **No Data Upload**: No files are uploaded to servers
+- ✅ **No User Tracking**: No login required, no user information collected
+- ✅ **Open Source & Transparent**: Code is fully visible and can be reviewed independently
 
-## 📝 开发规范
+## 📝 Development Guidelines
 
-### 代码风格
-- 使用 TypeScript 严格模式
-- 所有组件必须定义清晰的 Props 类型
-- 使用 Function Component 编写组件
-- 注释使用中文或英文，保持简洁清晰
+### Code Style
+- Use TypeScript strict mode
+- All components must define clear Props types
+- Use Function Components for writing components
+- Comments should be in English or Chinese, keeping them concise and clear
 
-### 错误处理
-- 所有异常必须在 UI 上显示用户友好的提示
-- 使用 Error Boundary 捕获组件错误
-- 媒体处理错误需要详细的错误信息提示
+### Error Handling
+- All exceptions must display user-friendly prompts in the UI
+- Use Error Boundary to catch component errors
+- Media processing errors require detailed error message prompts
 
-### 性能优化
-- 及时释放 `URL.createObjectURL` 创建的对象
-- 批量处理时使用队列机制，避免同时启动多个 WASM 实例
-- 组件卸载时清理 FFmpeg 实例，防止内存泄漏
+### Performance Optimization
+- Release objects created by `URL.createObjectURL` in a timely manner
+- Use queue mechanism for batch processing to avoid starting multiple WASM instances simultaneously
+- Clean up FFmpeg instances when components unmount to prevent memory leaks
 
-## 🚀 功能开发路线
+## 🚀 Feature Development Roadmap
 
-- [x] 项目初始化和基础配置
-- [ ] 文件上传组件实现
-- [ ] 图片处理功能实现
-- [ ] 视频处理功能实现
-- [ ] 批量处理队列机制
-- [ ] PWA 离线支持
-- [ ] 用户界面优化
+- [x] Project initialization and basic configuration
+- [ ] File upload component implementation
+- [ ] Image processing functionality implementation
+- [ ] Video processing functionality implementation
+- [ ] Batch processing queue mechanism
+- [ ] PWA offline support
+- [ ] User interface optimization
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证。
+This project is licensed under the MIT License.
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and Pull Requests are welcome!
 
 ---
 
-**注意**: 本项目仍在开发中，部分功能尚未实现。当前版本仅包含基础项目结构和配置。
-
+**Note**: This project is still under development, and some features have not been implemented yet. The current version only includes basic project structure and configuration.
