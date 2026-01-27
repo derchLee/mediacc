@@ -150,6 +150,13 @@ export function MainLayout({ children }: MainLayoutProps) {
             >
               Cookie Policy
             </Link>
+            <span>•</span>
+            <Link
+              href="/disclaimer"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              Disclaimer
+            </Link>
           </div>
           <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-4">
             © {new Date().getFullYear()} MediaCC. All rights reserved.
