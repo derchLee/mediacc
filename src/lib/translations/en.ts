@@ -217,9 +217,9 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/image`;
   return {
-    title: "Free Online Image Converter & Compressor – 100% Local Processing",
+    title: "Free Online Image Converter & Compressor – 100% Local | MediaCC",
     description:
-      "Free online image converter and compressor. Convert JPG, PNG, WebP, AVIF and reduce image size directly in your browser. No upload, no server, 100% local processing.",
+      "Free online image converter and compressor. Convert JPG, PNG, WebP, AVIF and reduce image size in your browser. No upload, no server, 100% local processing.",
     keywords: [
       "free image converter",
       "online image compressor",
@@ -244,11 +244,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "@id": `${url}#software`,
       name: "MediaCC Image Converter",
       alternateName: "Online Image Converter & Compressor",
-      operatingSystem: "Web",
+      description: "Convert and compress images locally in your browser.",
+      softwareVersion: "1.0",
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: "Image Converter",
-      description:
-        "A free online image converter and compressor that processes files entirely in the browser without uploading them to a server. Convert between JPG, PNG, WebP, AVIF formats and reduce file size while maintaining quality.",
+      operatingSystem: "Web",
       url,
       downloadUrl: url,
       inLanguage: "en",
@@ -303,7 +303,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/video`;
   return {
-    title: "Free Online Video Converter & Compressor – 100% Local Processing",
+    title: "Free Online Video Converter & Compressor – 100% Local | MediaCC",
     description:
       "Free online video converter and compressor. Convert MP4, WebM, MOV, MKV, AVI and reduce video size in your browser. No upload, no server, 100% local processing.",
     keywords: [
@@ -331,11 +331,10 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "@id": `${url}#software`,
       name: "MediaCC Video Converter",
       alternateName: "Online Video Converter & Compressor",
-      operatingSystem: "Web",
+      description: "Convert and compress videos locally in your browser.",
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: "Video Converter",
-      description:
-        "A free online video converter and compressor powered by FFmpeg.wasm. Processes files entirely in the browser without uploading them to a server. Convert between MP4, WebM, MOV, MKV, AVI formats and reduce file size.",
+      operatingSystem: "Web",
       url,
       downloadUrl: url,
       inLanguage: "en",

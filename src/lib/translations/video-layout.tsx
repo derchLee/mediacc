@@ -13,6 +13,11 @@ function getVideoCanonical(locale: Locale): string {
   return locale === "en" ? `${baseUrl}/video` : `${baseUrl}/${locale}/video`;
 }
 
+/**
+ * Video page metadata per locale.
+ * Ensures each language has: independent <title> (with language keywords),
+ * <meta name="description"> (concise core functionality), <meta name="robots"> (allow index).
+ */
 export function getVideoLayoutMetadata(locale: Locale): Metadata {
   const meta = getVideoLayoutMeta(locale);
   const canonical = getVideoCanonical(locale);
@@ -24,7 +29,11 @@ export function getVideoLayoutMetadata(locale: Locale): Metadata {
     title: meta.title,
     description: meta.description,
     keywords: meta.keywords,
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
+    },
     openGraph: {
       type: "website",
       title: meta.openGraphTitle,

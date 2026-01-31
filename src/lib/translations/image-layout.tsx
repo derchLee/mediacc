@@ -14,6 +14,11 @@ function getImageCanonical(locale: Locale): string {
   return locale === "en" ? `${baseUrl}/image` : `${baseUrl}/${locale}/image`;
 }
 
+/**
+ * Image page metadata per locale.
+ * Ensures each language has: independent <title> (with language keywords),
+ * <meta name="description"> (concise core functionality), <meta name="robots"> (allow index).
+ */
 export function getImageLayoutMetadata(locale: Locale): Metadata {
   const meta = getImageLayoutMeta(locale);
   const canonical = getImageCanonical(locale);
@@ -25,7 +30,11 @@ export function getImageLayoutMetadata(locale: Locale): Metadata {
     title: meta.title,
     description: meta.description,
     keywords: meta.keywords,
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    },
     openGraph: {
       type: "website",
       title: meta.openGraphTitle,
