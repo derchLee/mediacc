@@ -4,26 +4,26 @@ import React from "react";
 import { ArrowRight, Minimize2, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { OperationType } from "@/types";
+import { getUiT, type Locale } from "@/lib/translations";
 
 interface OperationSelectorProps {
   operationType: OperationType | null;
   onOperationSelect: (type: OperationType | null) => void;
   fileType: "image" | "video";
+  locale?: Locale;
 }
 
-/**
- * 操作选择组件
- * 选择格式转换或大小压缩
- */
 export function OperationSelector({
   operationType,
   onOperationSelect,
   fileType,
+  locale = "en",
 }: OperationSelectorProps) {
+  const t = getUiT(locale);
   return (
     <div className="mt-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-        Select Operation
+        {t.selectOperation}
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* 格式转换 */}
@@ -52,10 +52,10 @@ export function OperationSelector({
             </div>
             <div className="text-left">
               <div className="font-medium text-gray-900 dark:text-gray-100">
-                Format Conversion
+                {t.formatConversion}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                Convert to other formats
+                {t.convertToOtherFormats}
               </div>
             </div>
           </div>
@@ -93,10 +93,10 @@ export function OperationSelector({
             </div>
             <div className="text-left">
               <div className="font-medium text-gray-900 dark:text-gray-100">
-                Compression
+                {t.compression}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                Reduce file size
+                {t.reduceFileSize}
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { getAcceptString } from "@/lib/file-formats";
 import { validateFiles } from "@/lib/file-utils";
 import type { FileType } from "@/types";
+import { getUiT, type Locale } from "@/lib/translations";
 
 interface FileUploaderProps {
   onFilesSelected?: (files: File[]) => void;
@@ -13,6 +14,7 @@ interface FileUploaderProps {
   multiple?: boolean;
   fileType: FileType;
   currentFiles?: { size: number }[];
+  locale?: Locale;
 }
 
 /**
@@ -25,7 +27,9 @@ export function FileUploader({
   multiple = true,
   fileType,
   currentFiles = [],
+  locale = "en",
 }: FileUploaderProps) {
+  const t = getUiT(locale);
   const [isDragging, setIsDragging] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -73,13 +77,13 @@ export function FileUploader({
             onFilesSelected(files);
           }
         } else {
-          setError(validation.error || "File validation failed");
+          setError(validation.error || t.fileValidationFailed);
         }
         
         e.dataTransfer.clearData();
       }
     },
-    [onFilesSelected, currentFiles, fileType]
+    [onFilesSelected, currentFiles, fileType, t]
   );
 
   const handleFileInput = useCallback(
@@ -94,14 +98,14 @@ export function FileUploader({
             onFilesSelected(files);
           }
         } else {
-          setError(validation.error || "File validation failed");
+          setError(validation.error || t.fileValidationFailed);
         }
         
         // 清空 input，允许重复选择同一文件
         e.target.value = "";
       }
     },
-    [onFilesSelected, currentFiles, fileType]
+    [onFilesSelected, currentFiles, fileType, t]
   );
 
   // 根据文件类型设置默认 accept
@@ -138,18 +142,20 @@ export function FileUploader({
         </div>
         <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
           {isDragging
-            ? "Release to upload files"
-            : `Drag and drop ${fileType === "image" ? "image" : "video"} files here`}
+            ? t.releaseToUpload
+            : fileType === "image"
+              ? t.dragDropImages
+              : t.dragDropVideos}
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-          Or click the button below to select files
+          {t.orClickToSelect}
         </p>
         <label
           htmlFor={`file-upload-${fileType}`}
           className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
         >
           <Upload className="w-4 h-4 mr-2" />
-          Select Files
+          {t.selectFiles}
         </label>
         <input
           id={`file-upload-${fileType}`}
@@ -160,7 +166,7 @@ export function FileUploader({
           onChange={handleFileInput}
         />
         <p className="mt-4 text-xs text-gray-400 dark:text-gray-500">
-          100% local processing, files are not uploaded to server
+          {t.localProcessingNotice}
         </p>
         
         {/* 错误提示 */}

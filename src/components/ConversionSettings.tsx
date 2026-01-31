@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { FileType, OperationType, CompressionMode, ImageFormat, VideoFormat } from "@/types";
 import { imageFormats, videoFormats } from "@/lib/file-formats";
 import { getFormatKeyFromExtension } from "@/lib/format-mapper";
+import { getUiT, type Locale } from "@/lib/translations";
 
 interface ConversionSettingsProps {
   fileType: FileType;
@@ -16,12 +17,9 @@ interface ConversionSettingsProps {
   onCompressionModeChange: (mode: CompressionMode | null) => void;
   onStart: () => void;
   isProcessing?: boolean;
+  locale?: Locale;
 }
 
-/**
- * 转换设置组件
- * 根据操作类型显示相应的设置选项
- */
 export function ConversionSettings({
   fileType,
   operationType,
@@ -31,19 +29,20 @@ export function ConversionSettings({
   onCompressionModeChange,
   onStart,
   isProcessing = false,
+  locale = "en",
 }: ConversionSettingsProps) {
   if (!operationType) {
     return null;
   }
 
+  const t = getUiT(locale);
   const formats = fileType === "image" ? imageFormats : videoFormats;
 
-  // 格式转换模式
   if (operationType === "convert") {
     return (
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          Select Target Format
+          {t.selectTargetFormat}
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
           {formats.map((format) => {
@@ -97,7 +96,7 @@ export function ConversionSettings({
             )}
           >
             <Play className={cn("w-5 h-5", isProcessing && "animate-spin")} />
-            {isProcessing ? "Converting..." : "Start Conversion"}
+            {isProcessing ? t.converting : t.startConversion}
           </button>
         )}
       </div>
@@ -109,7 +108,7 @@ export function ConversionSettings({
     return (
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          Select Compression Mode
+          {t.selectCompressionMode}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           {/* 无损压缩 */}
@@ -127,14 +126,14 @@ export function ConversionSettings({
           >
             <div className="flex items-center justify-between mb-2">
               <div className="font-medium text-gray-900 dark:text-gray-100">
-                Lossless Compression
+                {t.losslessCompression}
               </div>
               {compressionMode === "lossless" && (
                 <CheckCircle2 className="w-5 h-5 text-blue-500" />
               )}
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              Maintain original quality, limited file size reduction
+              {t.losslessDesc}
             </div>
           </button>
 
@@ -153,14 +152,14 @@ export function ConversionSettings({
           >
             <div className="flex items-center justify-between mb-2">
               <div className="font-medium text-gray-900 dark:text-gray-100">
-                Lossy Compression
+                {t.lossyCompression}
               </div>
               {compressionMode === "lossy" && (
                 <CheckCircle2 className="w-5 h-5 text-blue-500" />
               )}
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              Reduce file size with some quality loss
+              {t.lossyDesc}
             </div>
           </button>
         </div>
@@ -176,7 +175,7 @@ export function ConversionSettings({
             )}
           >
             <Play className={cn("w-5 h-5", isProcessing && "animate-spin")} />
-            {isProcessing ? "Compressing..." : "Start Compression"}
+            {isProcessing ? t.compressing : t.startCompression}
           </button>
         )}
       </div>

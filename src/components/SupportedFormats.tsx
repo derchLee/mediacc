@@ -2,19 +2,18 @@ import React from "react";
 import { FileImage, FileVideo } from "lucide-react";
 import type { FileType } from "@/types";
 import { imageFormats, videoFormats } from "@/lib/file-formats";
+import { getUiT, type Locale } from "@/lib/translations";
 
 interface SupportedFormatsProps {
   fileType: FileType;
+  locale?: Locale;
 }
 
-/**
- * 支持的格式列表组件
- * 显示图片或视频支持的文件格式
- */
-export function SupportedFormats({ fileType }: SupportedFormatsProps) {
+export function SupportedFormats({ fileType, locale = "en" }: SupportedFormatsProps) {
+  const t = getUiT(locale);
   const formats = fileType === "image" ? imageFormats : videoFormats;
   const Icon = fileType === "image" ? FileImage : FileVideo;
-  const title = fileType === "image" ? "Supported Image Formats" : "Supported Video Formats";
+  const title = fileType === "image" ? t.supportedImageFormats : t.supportedVideoFormats;
 
   return (
     <div className="mt-8">

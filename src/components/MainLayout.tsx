@@ -3,65 +3,85 @@
 import { useState, useEffect, useCallback, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Image as ImageIcon, Video } from "lucide-react";
+import { Image as ImageIcon, Video, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FileType } from "@/types";
+import {
+  getLocaleFromPathname,
+  getCommonT,
+  getImagePath,
+  getVideoPath,
+  LOCALES,
+  localeLabels,
+  type Locale,
+} from "@/lib/translations";
 
 interface MainLayoutProps {
   children: ReactNode;
 }
 
 /**
- * 主布局组件
- * 包含 Tab 切换和通用布局
+ * Main layout: tabs, language switcher, footer.
+ * Locale and labels derived from pathname (static multi-directory i18n).
  */
 export function MainLayout({ children }: MainLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
-  
-  // 根据路径确定当前活跃的 Tab
+  const locale = getLocaleFromPathname(pathname);
+  const commonT = getCommonT(locale);
+
   const getActiveTab = useCallback((): FileType => {
-    if (pathname?.includes("/video")) {
-      return "video";
-    }
+    if (pathname?.includes("/video")) return "video";
     return "image";
   }, [pathname]);
 
   const [activeTab, setActiveTab] = useState<FileType>(getActiveTab());
 
-  // 当路径改变时，同步更新 Tab
   useEffect(() => {
-    const newTab = getActiveTab();
-    setActiveTab(newTab);
+    setActiveTab(getActiveTab());
   }, [pathname, getActiveTab]);
 
   const handleTabChange = (tab: FileType) => {
     setActiveTab(tab);
-    if (tab === "image") {
-      router.push("/image");
-    } else {
-      router.push("/video");
-    }
+    const path = tab === "image" ? getImagePath(locale) : getVideoPath(locale);
+    router.push(path);
   };
+
+  const isVideoPage = pathname?.includes("/video");
+  const currentPagePathForLocale = (l: Locale) => (isVideoPage ? getVideoPath(l) : getImagePath(l));
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* 标题区域 */}
+        {/* Header: logo + language switcher */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-gray-100">
+          <Link
+            href={locale === "en" ? "/" : `/${locale}`}
+            className="text-4xl font-bold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
             MediaCC
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Local Media Conversion & Compression Tool
-          </p>
-          <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm">
-            <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-            100% Local Processing
+          </Link>
+          <div className="mt-3 flex flex-wrap justify-center items-center gap-2 text-sm">
+            <Globe className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" />
+            {LOCALES.map((l) => (
+              <Link
+                key={l}
+                href={currentPagePathForLocale(l)}
+                className={cn(
+                  "px-2 py-1 rounded transition-colors",
+                  l === locale
+                    ? "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-medium"
+                    : "text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                )}
+                aria-current={l === locale ? "true" : undefined}
+              >
+                {localeLabels[l]}
+              </Link>
+            ))}
           </div>
         </div>
 
-        {/* Tab 切换 */}
+        {/* Tab navigation */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-6">
           <div className="flex border-b border-gray-200 dark:border-gray-700">
             <button
@@ -75,7 +95,7 @@ export function MainLayout({ children }: MainLayoutProps) {
               )}
             >
               <ImageIcon className="w-5 h-5 mr-2" aria-hidden="true" />
-              Image Processing
+              {commonT.tabImage}
             </button>
             <button
               onClick={() => handleTabChange("video")}
@@ -88,19 +108,18 @@ export function MainLayout({ children }: MainLayoutProps) {
               )}
             >
               <Video className="w-5 h-5 mr-2" aria-hidden="true" />
-              Video Processing
+              {commonT.tabVideo}
             </button>
           </div>
 
-          {/* Tab 内容区域 */}
           <div className="bg-white dark:bg-gray-800">
             {children}
           </div>
         </div>
 
-        {/* Follow Us Section */}
+        {/* Follow Us */}
         <div className="mt-12 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Follow us at:</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{commonT.followUs}</h3>
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <a
               href="https://discord.gg/MTZ5n96p9D"
@@ -130,36 +149,24 @@ export function MainLayout({ children }: MainLayoutProps) {
         {/* Footer */}
         <footer className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
-            <Link
-              href="/privacy"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Privacy Policy
+            <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              {commonT.privacyPolicy}
             </Link>
             <span>•</span>
-            <Link
-              href="/terms"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Terms of Service
+            <Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              {commonT.termsOfService}
             </Link>
             <span>•</span>
-            <Link
-              href="/cookies"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Cookie Policy
+            <Link href="/cookies" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              {commonT.cookiePolicy}
             </Link>
             <span>•</span>
-            <Link
-              href="/disclaimer"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Disclaimer
+            <Link href="/disclaimer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              {commonT.disclaimer}
             </Link>
           </div>
           <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-4">
-            © {new Date().getFullYear()} MediaCC. All rights reserved.
+            © {new Date().getFullYear()} MediaCC. {commonT.allRightsReserved}
           </p>
         </footer>
       </div>

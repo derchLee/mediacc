@@ -5,22 +5,22 @@ import { Download, FileImage, FileVideo, X, CheckCircle2 } from "lucide-react";
 import type { ProcessedFile } from "@/types";
 import { formatFileSize } from "@/lib/file-utils";
 import { cn } from "@/lib/utils";
+import { getUiT, type Locale } from "@/lib/translations";
 
 interface ResultListProps {
   files: ProcessedFile[];
   onRemove?: (id: string) => void;
   onDownload: (file: ProcessedFile) => void;
+  locale?: Locale;
 }
 
-/**
- * 处理结果列表组件
- * 显示处理后的文件列表和下载功能
- */
 export function ResultList({
   files,
   onRemove,
   onDownload,
+  locale = "en",
 }: ResultListProps) {
+  const t = getUiT(locale);
   if (files.length === 0) {
     return null;
   }
@@ -35,7 +35,7 @@ export function ResultList({
         <div className="flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-green-500" />
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            Processing Complete ({files.length})
+            {t.processingComplete} ({files.length})
           </h3>
         </div>
       </div>
@@ -80,18 +80,18 @@ export function ResultList({
                   {file.format}
                 </span>
                 <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded">
-                  {file.operationType === "convert" ? "Format Conversion" : "Compression"}
+                  {file.operationType === "convert" ? t.formatConversion : t.compression}
                 </span>
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <span>Size: {formatFileSize(file.size)}</span>
+                <span>{t.size}: {formatFileSize(file.size)}</span>
                 {file.compressionMode && (
                   <span>
-                    Mode: {file.compressionMode === "lossless" ? "Lossless" : "Lossy"}
+                    {t.mode}: {file.compressionMode === "lossless" ? t.lossless : t.lossy}
                   </span>
                 )}
                 {file.targetFormat && (
-                  <span>Target Format: {file.targetFormat.toUpperCase()}</span>
+                  <span>{t.targetFormat}: {file.targetFormat.toUpperCase()}</span>
                 )}
               </div>
             </div>
@@ -103,13 +103,13 @@ export function ResultList({
                 className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 font-medium"
               >
                 <Download className="w-4 h-4" />
-                Download
+                {t.download}
               </button>
               {onRemove && (
                 <button
                   onClick={() => onRemove(file.id)}
                   className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                  aria-label="Remove"
+                  aria-label={t.remove}
                 >
                   <X className="w-5 h-5" />
                 </button>

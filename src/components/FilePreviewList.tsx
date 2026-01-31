@@ -5,20 +5,20 @@ import { X, FileImage, FileVideo } from "lucide-react";
 import type { UploadedFile } from "@/types";
 import { formatFileSize } from "@/lib/file-utils";
 import { cn } from "@/lib/utils";
+import { getUiT, type Locale } from "@/lib/translations";
 
 interface FilePreviewListProps {
   files: UploadedFile[];
   onRemove?: (id: string) => void;
+  locale?: Locale;
 }
 
-/**
- * 文件预览列表组件
- * 显示已选择文件的详细信息
- */
 export function FilePreviewList({
   files,
   onRemove,
+  locale = "en",
 }: FilePreviewListProps) {
+  const t = getUiT(locale);
   if (files.length === 0) {
     return null;
   }
@@ -26,7 +26,7 @@ export function FilePreviewList({
   return (
     <div className="mt-6 space-y-2">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-        Uploaded Files ({files.length})
+        {t.uploadedFiles} ({files.length})
       </h3>
       <div className="space-y-3">
         {files.map((file) => (
@@ -61,8 +61,8 @@ export function FilePreviewList({
                 </span>
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <span>Size: {formatFileSize(file.size)}</span>
-                <span>Type: {file.type || "Unknown"}</span>
+                <span>{t.size}: {formatFileSize(file.size)}</span>
+                <span>{t.type}: {file.type || "—"}</span>
               </div>
             </div>
 
@@ -71,7 +71,7 @@ export function FilePreviewList({
               <button
                 onClick={() => onRemove(file.id)}
                 className="flex-shrink-0 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                aria-label="Remove file"
+                aria-label={t.removeFile}
               >
                 <X className="w-5 h-5" />
               </button>
