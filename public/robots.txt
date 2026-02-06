@@ -19,5 +19,5 @@ Allow: /*.jpeg$
 Allow: /*.svg$
 Allow: /*.ico$
 
-# Sitemap location (update with your actual domain)
-Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap location
+Sitemap: https://mediacc.it.com/sitemap.xml

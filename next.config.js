@@ -46,7 +46,35 @@ const nextConfig = {
     return config;
   },
 
+  // 永久重定向配置（308）用于 SEO
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/image',
+        permanent: true, // 308 永久重定向
+      },
+      {
+        source: '/ja',
+        destination: '/ja/image',
+        permanent: true,
+      },
+      {
+        source: '/es',
+        destination: '/es/image',
+        permanent: true,
+      },
+      {
+        source: '/pt',
+        destination: '/pt/image',
+        permanent: true,
+      },
+    ];
+  },
+
   // 配置 HTTP 响应头以支持 SharedArrayBuffer（ffmpeg.wasm 多线程必需）
+  // 注意：COOP/COEP 头部可能阻止某些爬虫访问，但这是 ffmpeg.wasm 多线程的必需配置
+  // Googlebot 应该能够处理这些头部
   async headers() {
     return [
       {
@@ -60,6 +88,19 @@ const nextConfig = {
             key: 'Cross-Origin-Embedder-Policy',
             value: 'require-corp',
           },
+          // 添加安全头部
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
         ],
       },
     ];
@@ -67,6 +108,9 @@ const nextConfig = {
 
   // 性能优化
   compress: true,
+  
+  // 启用 standalone 输出模式（用于 Docker 部署）
+  output: 'standalone',
   
   // 图片优化（可选，因为我们主要处理用户上传的文件）
   images: {
