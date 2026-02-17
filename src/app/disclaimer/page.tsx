@@ -75,8 +75,8 @@ export default function DisclaimerPage() {
             <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">4.1 File Size Limitations</h3>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
               <li>Maximum single file size: 150MB</li>
-              <li>Total file size limit per session: 500MB</li>
-              <li>Maximum number of files that can be processed simultaneously: 5 files</li>
+              <li>Total file size limit per session: 1000MB</li>
+              <li>Maximum number of files that can be processed simultaneously: 15 files</li>
             </ul>
             <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">4.2 Performance Limitations</h3>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">

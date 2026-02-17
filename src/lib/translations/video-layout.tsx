@@ -56,6 +56,16 @@ export function getVideoLayoutMetadata(locale: Locale): Metadata {
 
 export function VideoLayoutScripts({ locale }: { locale: Locale }) {
   const meta = getVideoLayoutMeta(locale);
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+  const prefix = locale === "en" ? "" : `/${locale}`;
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${base}${prefix || ""}` },
+      { "@type": "ListItem", position: 2, name: "Video Converter", item: `${base}${prefix}/video` },
+    ],
+  };
   const softwareAppJsonLd = { ...meta.softwareApp, "@context": "https://schema.org" };
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -77,6 +87,7 @@ export function VideoLayoutScripts({ locale }: { locale: Locale }) {
   };
   return (
     <>
+      <Script id="video-breadcrumb-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Script id="video-software-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
       <Script id="video-faq-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <Script id="video-howto-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />

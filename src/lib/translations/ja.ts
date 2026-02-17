@@ -97,8 +97,8 @@ export const imagePage: ImagePageT = {
   fileLimits: "4. ファイルサイズ制限と注意事項",
   fileLimitsList: [
     "1ファイルあたり最大150MB",
-    "1セッション合計最大500MB",
-    "同時処理は最大5ファイル",
+    "1セッション合計最大1000MB",
+    "同時処理は最大15ファイル",
     "大容量ファイルの注意：",
   ],
   largeFileWarnings: [
@@ -110,16 +110,15 @@ export const imagePage: ImagePageT = {
   implementationPrinciples: "実装の仕組み",
   formatConversionPrinciple: "形式変換の仕組み",
   formatConversionPrincipleList: [
-    "ブラウザのCanvas APIを使用した画像形式変換：",
-    "元画像をメモリ内のImageオブジェクトに読み込み",
-    "Canvasに描画",
-    "Canvasの toBlob() で対象形式にエクスポート",
-    "JPEG・WebPでは画質パラメータを設定可能（デフォルト92%）",
-    "HEIC・AVIFなど非対応形式はPNGにフォールバックまたはユーザーに通知",
+    "HEIC/HEIF：heic2any（WebAssembly）でクライアント側デコード、JPG/PNG/WebPへ出力",
+    "その他：Canvas APIで読み込み・描画・toBlob()でエクスポート",
+    "JPEG・WebPでは画質パラメータ設定可能（デフォルト92%）",
+    "AVIFなど非対応形式はPNGにフォールバックまたはユーザーに通知",
   ],
   compressionPrinciple: "圧縮の仕組み",
   compressionPrincipleList: [
-    "browser-image-compression ライブラリによる圧縮：",
+    "HEIC元：heic2anyでJPG/PNGに変換後、圧縮",
+    "browser-image-compression による圧縮：",
     "可逆圧縮：形式と画質を維持しつつエンコードパラメータでファイルサイズを削減",
     "非可逆圧縮：画質75%などで圧縮率を最大化",
     "Web Workerでバックグラウンド処理、メインスレッドをブロックしません",
@@ -173,8 +172,8 @@ export const videoPage: VideoPageT = {
   fileLimits: "4. ファイルサイズ制限と注意事項",
   fileLimitsList: [
     "1ファイルあたり最大150MB",
-    "1セッション合計最大500MB",
-    "同時処理は最大5ファイル",
+    "1セッション合計最大1000MB",
+    "同時処理は最大15ファイル",
     "大容量ファイルの注意：",
   ],
   largeFileWarnings: [
@@ -267,7 +266,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "画像変換の最大ファイルサイズは？",
-        text: "1ファイル最大150MBまで処理できます。快適に利用するには50MB以下を推奨します。最大5ファイル、合計500MBまで同時に処理可能です。",
+        text: "1ファイル最大150MBまで処理できます。快適に利用するには50MB以下を推奨します。最大15ファイル、合計1000MBまで同時に処理可能です。",
       },
       {
         name: "ブラウザ内での画像処理の仕組みは？",
@@ -347,7 +346,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       },
       {
         name: "動画変換の最大ファイルサイズは？",
-        text: "1ファイル最大150MBまで処理できます。快適に利用するには100MB以下を推奨します。大容量動画は数分かかることがあります。",
+        text: "1ファイル最大150MBまで処理できます。快適に利用するには100MB以下を推奨します。最大15ファイル、合計1000MBまで同時に処理可能です。大容量動画は数分かかることがあります。",
       },
       {
         name: "ブラウザ内での動画処理の仕組みは？",

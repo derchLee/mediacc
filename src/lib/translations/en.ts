@@ -64,7 +64,7 @@ export const imagePage: ImagePageT = {
     "100% local processing – files never leave your device",
     "Free to use, no signup required",
     "Fast image conversion and compression",
-    "Supports JPG, PNG, WebP, AVIF and more",
+    "Supports HEIC, JPG, PNG, WebP, AVIF and more",
   ],
   howItWorks: "How It Works",
   howSteps: [
@@ -97,8 +97,8 @@ export const imagePage: ImagePageT = {
   fileLimits: "4. File Size Limits & Notes",
   fileLimitsList: [
     "Single file limit: Maximum 150MB per image file",
-    "Total file size limit: Maximum 500MB total file size per session",
-    "File count limit: Maximum 5 files can be processed simultaneously",
+    "Total file size limit: Maximum 1000MB total file size per session",
+    "File count limit: Maximum 15 files can be processed simultaneously",
     "Large file processing warnings:",
   ],
   largeFileWarnings: [
@@ -110,16 +110,15 @@ export const imagePage: ImagePageT = {
   implementationPrinciples: "Implementation Principles",
   formatConversionPrinciple: "Format Conversion Principle",
   formatConversionPrincipleList: [
-    "Uses the browser's native Canvas API for image format conversion:",
-    "Load the original image into an Image object in memory",
-    "Draw the image onto a Canvas",
-    "Export to the target format using Canvas's toBlob() method",
-    "For JPEG and WebP formats, quality parameters can be set (default 92%)",
-    "Unsupported formats (such as HEIC, AVIF) will attempt to downgrade to PNG or prompt the user",
+    "HEIC/HEIF: Decoded client-side via heic2any (WebAssembly), then output as JPG/PNG/WebP",
+    "Other formats: Canvas API loads image, draws to canvas, exports via toBlob()",
+    "For JPEG and WebP, quality parameters can be set (default 92%)",
+    "AVIF and other unsupported formats may fallback to PNG or prompt the user",
   ],
   compressionPrinciple: "Compression Principle",
   compressionPrincipleList: [
-    "Uses the browser-image-compression library for intelligent compression:",
+    "HEIC source: First converted to JPG/PNG via heic2any, then compressed",
+    "Uses browser-image-compression for intelligent compression:",
     "Lossless compression: Maintains original format and quality while reducing file size through optimized encoding parameters",
     "Lossy compression: Adjusts quality parameters (75%) and compression algorithms to maximize compression ratio within acceptable visual quality",
     "Uses Web Worker for background thread processing without blocking the main interface",
@@ -173,8 +172,8 @@ export const videoPage: VideoPageT = {
   fileLimits: "4. File Size Limits & Notes",
   fileLimitsList: [
     "Single file limit: Maximum 150MB per video file",
-    "Total file size limit: Maximum 500MB total file size per session",
-    "File count limit: Maximum 5 files can be processed simultaneously",
+    "Total file size limit: Maximum 1000MB total file size per session",
+    "File count limit: Maximum 15 files can be processed simultaneously",
     "Large file processing warnings:",
   ],
   largeFileWarnings: [
@@ -219,9 +218,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
   return {
     title: "Free Online Image Converter & Compressor – 100% Local | MediaCC",
     description:
-      "Free online image converter and compressor. Convert JPG, PNG, WebP, AVIF and reduce image size in your browser. No upload, no server, 100% local processing.",
+      "Free online image converter and compressor. Convert HEIC, JPG, PNG, WebP, AVIF and reduce image size in your browser. No upload, no server, 100% local processing.",
     keywords: [
       "free image converter",
+      "heic to jpg",
+      "heic converter",
       "online image compressor",
       "jpg to png converter",
       "png to webp converter",
@@ -234,17 +235,17 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
     ],
     openGraphTitle: "Free Online Image Converter & Compressor – MediaCC",
     openGraphDescription:
-      "Convert and compress images directly in your browser. Your files never leave your device. Support JPG, PNG, WebP, AVIF formats.",
+      "Convert HEIC, JPG, PNG, WebP, AVIF directly in your browser. Your files never leave your device. Support HEIC (iOS), JPG, PNG, WebP, AVIF formats.",
     twitterTitle: "Free Online Image Converter & Compressor",
     twitterDescription:
-      "A privacy-first image tool with 100% local processing. Convert JPG, PNG, WebP, AVIF without uploading files.",
+      "A privacy-first image tool with 100% local processing. Convert HEIC, JPG, PNG, WebP, AVIF without uploading files.",
     softwareApp: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
       name: "MediaCC Image Converter",
       alternateName: "Online Image Converter & Compressor",
-      description: "Convert and compress images locally in your browser.",
+      description: "Convert HEIC, JPG, PNG, WebP and compress images locally in your browser.",
       softwareVersion: "1.0",
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: "Image Converter",
@@ -260,39 +261,39 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
     faq: [
       {
         name: "Are my images uploaded to a server?",
-        text: "No. All image conversion and compression is done locally in your browser using Canvas API and WebAssembly technology. Your files never leave your device, ensuring 100% privacy.",
+        text: "No. All conversion and compression runs locally via Canvas API, heic2any (for HEIC), and WebAssembly. Your files never leave your device—zero upload, 100% privacy.",
       },
       {
         name: "Is MediaCC Image Converter free to use?",
-        text: "Yes. MediaCC Image Converter is completely free and requires no registration or account. There are no hidden fees, watermarks, or usage limits.",
+        text: "Yes. MediaCC is completely free with no registration, no account, and no usage caps. Zero hidden fees, no watermarks. All features—including batch processing of up to 15 files—are included.",
       },
       {
         name: "What image formats are supported?",
-        text: "MediaCC supports JPG/JPEG, PNG, WebP, and AVIF image formats. You can convert between any of these formats and compress images to reduce file size.",
+        text: "MediaCC supports HEIC, HEIF, JPG, PNG, WebP, and AVIF. HEIC (iOS photos) is decoded client-side via heic2any. Convert between formats and compress up to 150MB per file. Lossless ~10% reduction; lossy ~50% with acceptable quality.",
       },
       {
         name: "What is the maximum file size for image conversion?",
-        text: "You can process images up to 150MB per file. For best performance, we recommend keeping individual files under 50MB. You can process up to 5 files at once with a total limit of 500MB.",
+        text: "Single file limit: 150MB. Session limit: 1000MB total across up to 15 files. For best performance, we recommend files under 50MB each.",
       },
       {
         name: "How does browser-based image processing work?",
-        text: "MediaCC uses the browser's built-in Canvas API and the browser-image-compression library to process images. Everything runs in JavaScript within your browser - no server communication is required.",
+        text: "MediaCC uses Canvas API and browser-image-compression. HEIC uses heic2any for client-side decoding. All processing runs in JavaScript/WebAssembly—no server requests. Images are processed and exported locally.",
       },
       {
         name: "Can I batch convert multiple images at once?",
-        text: "Yes. You can select up to 5 images at once and convert or compress them all in a single batch. Each file is processed sequentially to ensure browser stability.",
+        text: "Yes. You can process up to 15 images per batch with a 1000MB total limit. Files are processed sequentially to avoid memory issues and ensure stable operation.",
       },
       {
         name: "Will image quality be affected during conversion?",
-        text: "You have full control over output quality. Use the quality slider to balance between file size and image quality. For lossless conversions (like PNG), there is no quality loss.",
+        text: "You control output quality. Use the quality slider (default 92% for JPEG/WebP). Lossless conversions (e.g., PNG) retain full quality. Lossy compression lets you balance size vs. quality.",
       },
     ],
     howTo: {
       name: "How to Convert and Compress Images Online",
       description: "Step-by-step guide to convert image formats and reduce file size using MediaCC's browser-based tool.",
       step: [
-        { name: "Upload Images", text: "Drag and drop your images or click to select files. Supports JPG, PNG, WebP, AVIF formats up to 150MB per file." },
-        { name: "Choose Output Format", text: "Select your desired output format from the dropdown menu: JPG, PNG, WebP, or AVIF." },
+        { name: "Upload Images", text: "Drag and drop your images or click to select files. Supports HEIC, JPG, PNG, WebP, AVIF formats up to 150MB per file." },
+        { name: "Choose Output Format", text: "Select your desired output format from the dropdown: JPG, PNG, WebP, or AVIF." },
         { name: "Adjust Quality Settings", text: "Use the quality slider to balance between file size and image quality. Lower values mean smaller files." },
         { name: "Process and Download", text: "Click Convert/Compress to process your images locally. Download the results when complete." },
       ],
@@ -346,35 +347,35 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
     faq: [
       {
         name: "Are my videos uploaded to a server?",
-        text: "No. All video conversion and compression is done locally in your browser using FFmpeg.wasm (WebAssembly). Your files never leave your device, ensuring 100% privacy for sensitive videos.",
+        text: "No. All video conversion and compression runs locally via FFmpeg.wasm (WebAssembly). Your files never leave your device—zero upload, 100% privacy. FFmpeg runs entirely in the browser.",
       },
       {
         name: "Is MediaCC Video Converter free to use?",
-        text: "Yes. MediaCC Video Converter is completely free with no registration required. There are no hidden fees, watermarks, or daily usage limits.",
+        text: "Yes. MediaCC Video Converter is completely free with no registration, no daily limits, and no watermarks. All features including format conversion, compression, and audio extraction are included.",
       },
       {
         name: "What video formats are supported?",
-        text: "MediaCC supports MP4, WebM, MOV, MKV, and AVI video formats. You can convert between any of these formats and compress videos to reduce file size.",
+        text: "MediaCC supports MP4, WebM, MOV, MKV, and AVI. Convert between formats and compress with bitrate control. Lossless uses CRF 18; lossy uses CRF 28 with 1Mbps video / 128kbps audio limits.",
       },
       {
         name: "What is the maximum file size for video conversion?",
-        text: "You can process videos up to 150MB per file. For best performance, we recommend keeping individual files under 100MB. Processing large videos may take several minutes depending on your device's performance.",
+        text: "Single file: 150MB. Session: 1000MB across up to 15 files. 20–50MB videos may take 20–30 minutes; 50–100MB may take 30–45 min. Recommended: keep files under 50MB for faster processing.",
       },
       {
         name: "How does browser-based video processing work?",
-        text: "MediaCC uses FFmpeg.wasm, a WebAssembly port of the powerful FFmpeg library. This allows full video encoding and decoding to run entirely in your browser without any server communication.",
+        text: "MediaCC uses FFmpeg.wasm—a WebAssembly port of FFmpeg. Encoding/decoding runs in an in-memory virtual filesystem. No server calls. Supports libx264 (video) and AAC (audio) codecs.",
       },
       {
         name: "Can I extract audio from a video?",
-        text: "Yes. MediaCC can extract audio tracks from videos and save them as MP3 files. This is useful for creating audio versions of video content.",
+        text: "Yes. MediaCC extracts audio tracks and exports as MP3. Useful for podcasts, ringtones, or audio-only playback. Works with MP4, WebM, MOV, MKV, and AVI sources.",
       },
       {
         name: "Why is video processing slower than image processing?",
-        text: "Video files contain many frames and require complex encoding/decoding. Since all processing happens in your browser using WebAssembly, it may take longer than server-based tools.",
+        text: "Videos contain hundreds or thousands of frames and require full decode/encode cycles. FFmpeg.wasm runs in the browser—typically 20–45 minutes for 50–100MB files—but ensures complete privacy.",
       },
       {
         name: "Can I batch convert multiple videos at once?",
-        text: "Yes. You can select up to 5 videos at once. Videos are processed sequentially (one at a time) to prevent browser memory issues and ensure stable operation.",
+        text: "Yes. Up to 15 videos per batch (1000MB total). Videos are processed sequentially to prevent browser memory exhaustion and ensure stable operation.",
       },
     ],
     howTo: {

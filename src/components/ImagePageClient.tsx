@@ -12,7 +12,7 @@ import { useMediaStore } from "@/store";
 import { convertImageFormat, compressImage, generateProcessedFileName } from "@/lib/image-processor";
 import { getExtensionFromFormat } from "@/lib/format-utils";
 import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
-import type { ProcessedFile } from "@/types";
+import type { ProcessedFile, ImageFormat } from "@/types";
 import type { Locale } from "@/lib/translations";
 import type { ImagePageT } from "@/lib/translations";
 
@@ -63,13 +63,15 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
           let processedFileName: string;
           let processedFormat: string;
           if (operationType === "convert" && targetFormat) {
-            processedBlob = await convertImageFormat(uploadedFile.file, targetFormat as "jpg" | "png" | "webp" | "avif");
+            processedBlob = await convertImageFormat(uploadedFile.file, targetFormat as ImageFormat);
             processedFormat = getExtensionFromFormat(targetFormat);
             processedFileName = generateProcessedFileName(uploadedFile.name, processedFormat, "convert");
           } else if (operationType === "compress" && compressionMode) {
             processedBlob = await compressImage(uploadedFile.file, compressionMode);
-            processedFormat = uploadedFile.format;
-            processedFileName = generateProcessedFileName(uploadedFile.name, undefined, "compress");
+            // 实际输出格式（HEIC 压缩后为 jpg/png）
+            const outExt = processedBlob.type.includes("png") ? "png" : processedBlob.type.includes("webp") ? "webp" : "jpg";
+            processedFormat = outExt;
+            processedFileName = generateProcessedFileName(uploadedFile.name, undefined, "compress", outExt);
           } else continue;
           let preview: string | undefined;
           if (processedBlob.type.startsWith("image/")) preview = URL.createObjectURL(processedBlob);

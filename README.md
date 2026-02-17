@@ -5,7 +5,7 @@ A privacy-secure, zero-server-cost multimedia processing tool. All processing lo
 ## 🎯 Core Features
 
 ### Image Processing
-- **Format Conversion**: Supports JPG, PNG, WebP, AVIF inter-conversion
+- **Format Conversion**: Supports HEIC, JPG, PNG, WebP, AVIF inter-conversion (HEIC decoded via heic2any)
 - **Quality Compression**: Adjustable compression quality
 - **Proportional Scaling**: Maintains original aspect ratio when scaling
 - **Real-time Comparison Preview**: Before/After comparison feature
@@ -29,7 +29,7 @@ A privacy-secure, zero-server-cost multimedia processing tool. All processing lo
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Video Processing**: ffmpeg.wasm
-- **Image Processing**: Canvas API / Photon (WASM)
+- **Image Processing**: Canvas API, heic2any (HEIC), browser-image-compression
 - **Icons**: Lucide React
 - **State Management**: Zustand
 
@@ -177,6 +177,10 @@ mediacc/
 - [ ] Batch processing queue mechanism
 - [ ] PWA offline support
 - [ ] User interface optimization
+
+## 🔍 SEO & GEO
+
+本项目已实施 SEO（搜索引擎优化）与 GEO（生成式引擎优化），以提升在 Google、Bing 以及 AI 引擎（ChatGPT、Perplexity、Claude、Copilot）中的可见度。详细报告见 [docs/SEO-GEO-REPORT.md](docs/SEO-GEO-REPORT.md)。
 
 ## 📄 License
 

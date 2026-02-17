@@ -8,8 +8,8 @@ import type { FileType } from "@/types";
 /**
  * 文件大小限制（字节）
  */
-export const MAX_FILE_COUNT = 5;
-export const MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
+export const MAX_FILE_COUNT = 15;
+export const MAX_TOTAL_SIZE = 1000 * 1024 * 1024; // 1000MB
 export const MAX_SINGLE_FILE_SIZE = 150 * 1024 * 1024; // 150MB - 单个文件最大大小
 
 /**
@@ -90,14 +90,26 @@ export function getFileExtension(filename: string): string {
   return filename.split(".").pop()?.toLowerCase() || "";
 }
 
+/** 图片扩展名（含 HEIC，部分浏览器对 HEIC 的 file.type 为空） */
+const IMAGE_EXTENSIONS = new Set([
+  "jpg", "jpeg", "png", "gif", "webp", "avif", "heic", "heif", "bmp", "tiff", "tif",
+]);
+
+/** 视频扩展名 */
+const VIDEO_EXTENSIONS = new Set([
+  "mp4", "mov", "avi", "webm", "mkv", "wmv", "flv",
+]);
+
 /**
  * 检查文件类型是否匹配
+ * HEIC 在 Windows 等系统上 file.type 常为空，需结合扩展名判断
  */
 export function isFileTypeMatch(file: File, fileType: FileType): boolean {
+  const ext = getFileExtension(file.name);
   if (fileType === "image") {
-    return file.type.startsWith("image/");
+    return file.type.startsWith("image/") || IMAGE_EXTENSIONS.has(ext);
   } else {
-    return file.type.startsWith("video/");
+    return file.type.startsWith("video/") || VIDEO_EXTENSIONS.has(ext);
   }
 }
 

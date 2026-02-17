@@ -63,8 +63,8 @@ export default function TermsPage() {
             </p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
               <li>Maximum single file size: 150MB</li>
-              <li>Maximum total file size per session: 500MB</li>
-              <li>Maximum number of files per session: 5 files</li>
+              <li>Maximum total file size per session: 1000MB</li>
+              <li>Maximum number of files per session: 15 files</li>
               <li>Supported formats are listed on the respective pages</li>
             </ul>
             <p className="text-gray-700 dark:text-gray-300">

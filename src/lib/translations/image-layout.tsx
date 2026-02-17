@@ -57,6 +57,16 @@ export function getImageLayoutMetadata(locale: Locale): Metadata {
 
 export function ImageLayoutScripts({ locale }: { locale: Locale }) {
   const meta = getImageLayoutMeta(locale);
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+  const prefix = locale === "en" ? "" : `/${locale}`;
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${base}${prefix || ""}` },
+      { "@type": "ListItem", position: 2, name: "Image Converter", item: `${base}${prefix}/image` },
+    ],
+  };
   const softwareAppJsonLd = { ...meta.softwareApp, "@context": "https://schema.org" };
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -78,6 +88,7 @@ export function ImageLayoutScripts({ locale }: { locale: Locale }) {
   };
   return (
     <>
+      <Script id="image-breadcrumb-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Script id="image-software-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
       <Script id="image-faq-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <Script id="image-howto-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />

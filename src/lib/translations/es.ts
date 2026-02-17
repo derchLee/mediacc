@@ -97,8 +97,8 @@ export const imagePage: ImagePageT = {
   fileLimits: "4. Límites y notas de tamaño",
   fileLimitsList: [
     "Límite por archivo: máximo 150 MB por imagen",
-    "Límite total: máximo 500 MB por sesión",
-    "Máximo 5 archivos a la vez",
+    "Límite total: máximo 1000 MB por sesión",
+    "Máximo 15 archivos a la vez",
     "Avisos para archivos grandes:",
   ],
   largeFileWarnings: [
@@ -110,15 +110,14 @@ export const imagePage: ImagePageT = {
   implementationPrinciples: "Principios de implementación",
   formatConversionPrinciple: "Conversión de formato",
   formatConversionPrincipleList: [
-    "Usa la API Canvas del navegador para convertir formatos:",
-    "Carga la imagen en un objeto Image en memoria",
-    "Dibuja la imagen en un Canvas",
-    "Exporta al formato elegido con toBlob()",
-    "Para JPEG y WebP se puede ajustar la calidad (por defecto 92 %)",
-    "Formatos no soportados (p. ej. HEIC, AVIF) se intentan convertir a PNG o se avisa al usuario",
+    "HEIC/HEIF: decodificado en cliente con heic2any (WebAssembly), salida JPG/PNG/WebP",
+    "Otros: Canvas API carga, dibuja y exporta con toBlob()",
+    "JPEG y WebP: calidad ajustable (por defecto 92%)",
+    "AVIF y otros no soportados: conversión a PNG o aviso al usuario",
   ],
   compressionPrinciple: "Compresión",
   compressionPrincipleList: [
+    "Origen HEIC: primero se convierte a JPG/PNG con heic2any, luego se comprime",
     "Usa la librería browser-image-compression:",
     "Sin pérdida: mantiene formato y calidad y reduce tamaño con parámetros optimizados",
     "Con pérdida: calidad 75 % y algoritmos para maximizar compresión",
@@ -173,8 +172,8 @@ export const videoPage: VideoPageT = {
   fileLimits: "4. Límites y notas de tamaño",
   fileLimitsList: [
     "Límite por archivo: máximo 150 MB por vídeo",
-    "Límite total: máximo 500 MB por sesión",
-    "Máximo 5 archivos a la vez",
+    "Límite total: máximo 1000 MB por sesión",
+    "Máximo 15 archivos a la vez",
     "Avisos para archivos grandes:",
   ],
   largeFileWarnings: [
@@ -267,7 +266,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "¿Tamaño máximo de archivo?",
-        text: "Hasta 150 MB por archivo. Recomendamos menos de 50 MB. Máximo 5 archivos y 500 MB en total por sesión.",
+        text: "Hasta 150 MB por archivo. Recomendamos menos de 50 MB. Máximo 15 archivos y 1000 MB en total por sesión.",
       },
       {
         name: "¿Cómo funciona el procesamiento en el navegador?",
@@ -347,7 +346,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       },
       {
         name: "¿Tamaño máximo de archivo?",
-        text: "Hasta 150 MB por archivo. Recomendamos menos de 100 MB. Los vídeos grandes pueden tardar varios minutos.",
+        text: "Hasta 150 MB por archivo. Recomendamos menos de 100 MB. Máximo 15 archivos y 1000 MB en total por sesión. Los vídeos grandes pueden tardar varios minutos.",
       },
       {
         name: "¿Cómo funciona el procesamiento en el navegador?",
