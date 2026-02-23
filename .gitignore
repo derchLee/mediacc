@@ -41,3 +41,6 @@ next-env.d.ts
 # Large WASM files (for Cloudflare Pages deployment)
 # These files exceed 25MB limit and should be hosted on external CDN
 public/ffmpeg/ffmpeg-core.wasm
+
+# Markdown docs (not committed to GitHub)
+*.md

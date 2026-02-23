@@ -216,7 +216,7 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/es/image`;
   return {
-    title: "Convertidor y compresor de imágenes gratis – 100% local | MediaCC",
+    title: "Convertidor y compresor de imágenes gratis – 100% local",
     description:
       "Convertidor y compresor de imágenes gratis online. Convierte JPG, PNG, WebP, AVIF y reduce el tamaño en tu navegador. Sin subida, sin servidor, 100% local.",
     keywords: [
@@ -297,7 +297,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/es/video`;
   return {
-    title: "Convertidor y compresor de vídeo gratis – 100% local | MediaCC",
+    title: "Convertidor y compresor de vídeo gratis – 100% local",
     description:
       "Convertidor y compresor de vídeo gratis online. Convierte MP4, WebM, MOV, MKV, AVI y reduce el tamaño en tu navegador. Sin subida, sin servidor, 100% local.",
     keywords: [

@@ -216,7 +216,7 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/ja/image`;
   return {
-    title: "無料オンライン画像変換・圧縮 – 100%ローカル処理 | MediaCC",
+    title: "無料オンライン画像変換・圧縮 – 100%ローカル処理",
     description:
       "無料のオンライン画像変換・圧縮ツール。JPG、PNG、WebP、AVIFをブラウザ内で変換・圧縮。アップロード不要、サーバー不要、100%ローカル処理。",
     keywords: [
@@ -297,7 +297,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/ja/video`;
   return {
-    title: "無料オンライン動画変換・圧縮 – 100%ローカル処理 | MediaCC",
+    title: "無料オンライン動画変換・圧縮 – 100%ローカル処理",
     description:
       "無料のオンライン動画変換・圧縮ツール。MP4、WebM、MOV、MKV、AVIをブラウザ内で変換・圧縮。アップロード不要、サーバー不要、100%ローカル処理。",
     keywords: [
