@@ -339,7 +339,7 @@ export async function compressImage(
         maxWidthOrHeight: undefined,
         useWebWorker: true,
         fileType: isJpeg ? "image/jpeg" : "image/webp",
-        initialQuality: 0.75,
+        initialQuality: 0.7,
         alwaysKeepResolution: true,
       };
       const compressedFile = await imageCompression(fileToCompress, options);

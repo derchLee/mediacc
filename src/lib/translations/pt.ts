@@ -4,7 +4,7 @@
 
 import type { CommonT, ImagePageT, VideoPageT, ImageLayoutMetaT, VideoLayoutMetaT, UiT } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
 
 export const common: CommonT = {
   tabImage: "Imagem",
@@ -120,7 +120,7 @@ export const imagePage: ImagePageT = {
     "Origem HEIC: primeiro convertido para JPG/PNG via heic2any, depois comprimido",
     "Usa a biblioteca browser-image-compression:",
     "Sem perda: mantém formato e qualidade e reduz tamanho com parâmetros otimizados",
-    "Com perda: qualidade 75% e algoritmos para maximizar compressão",
+    "Com perda: qualidade 70% e algoritmos para maximizar compressão",
     "Usa Web Worker para não bloquear a interface",
     "Mantém a resolução original",
   ],

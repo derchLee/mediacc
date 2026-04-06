@@ -4,7 +4,7 @@
 
 import type { CommonT, ImagePageT, VideoPageT, ImageLayoutMetaT, VideoLayoutMetaT, UiT } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
 
 export const common: CommonT = {
   tabImage: "Image Processing",
@@ -120,7 +120,7 @@ export const imagePage: ImagePageT = {
     "HEIC source: First converted to JPG/PNG via heic2any, then compressed",
     "Uses browser-image-compression for intelligent compression:",
     "Lossless compression: Maintains original format and quality while reducing file size through optimized encoding parameters",
-    "Lossy compression: Adjusts quality parameters (75%) and compression algorithms to maximize compression ratio within acceptable visual quality",
+    "Lossy compression: Adjusts quality parameters (70%) and compression algorithms to maximize compression ratio within acceptable visual quality",
     "Uses Web Worker for background thread processing without blocking the main interface",
     "Automatically maintains original resolution without changing image dimensions",
   ],

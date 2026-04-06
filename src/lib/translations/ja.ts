@@ -4,7 +4,7 @@
 
 import type { CommonT, ImagePageT, VideoPageT, ImageLayoutMetaT, VideoLayoutMetaT, UiT } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
 
 export const common: CommonT = {
   tabImage: "画像処理",
@@ -120,7 +120,7 @@ export const imagePage: ImagePageT = {
     "HEIC元：heic2anyでJPG/PNGに変換後、圧縮",
     "browser-image-compression による圧縮：",
     "可逆圧縮：形式と画質を維持しつつエンコードパラメータでファイルサイズを削減",
-    "非可逆圧縮：画質75%などで圧縮率を最大化",
+    "非可逆圧縮：画質70%などで圧縮率を最大化",
     "Web Workerでバックグラウンド処理、メインスレッドをブロックしません",
     "解像度は変更せずそのまま維持",
   ],
