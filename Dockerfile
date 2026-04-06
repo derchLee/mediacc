@@ -24,6 +24,9 @@ COPY . .
 # 设置环境变量（构建时）
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+# NEXT_PUBLIC_* 在 build 时写入客户端包；须与生产主域一致（www）
+ARG NEXT_PUBLIC_BASE_URL=https://www.mediacc.it.com
+ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
 
 # 构建 Next.js 应用
 RUN npm run build

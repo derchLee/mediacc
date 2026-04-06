@@ -7,7 +7,7 @@ import { getVideoLayoutMeta } from "./index";
 import { LOCALES } from "./index";
 import type { Locale } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
 
 function getVideoCanonical(locale: Locale): string {
   return locale === "en" ? `${baseUrl}/video` : `${baseUrl}/${locale}/video`;
@@ -56,7 +56,7 @@ export function getVideoLayoutMetadata(locale: Locale): Metadata {
 
 export function VideoLayoutScripts({ locale }: { locale: Locale }) {
   const meta = getVideoLayoutMeta(locale);
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
   const prefix = locale === "en" ? "" : `/${locale}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",

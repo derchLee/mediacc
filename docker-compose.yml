@@ -5,13 +5,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BASE_URL: https://www.mediacc.it.com
     container_name: mediacc-app
     restart: unless-stopped
     ports:
       - "80:3000"  # 映射到容器内的 3000 端口
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_BASE_URL=https://mediacc.it.com
+      # Must match the canonical host users and Search Console use (www vs apex)
+      - NEXT_PUBLIC_BASE_URL=https://www.mediacc.it.com
       - PORT=3000
       - HOSTNAME=0.0.0.0
     # 健康检查

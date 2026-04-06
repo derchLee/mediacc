@@ -7,7 +7,7 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
  * Root Layout with SEO metadata
  */
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
 const siteName = "MediaCC";
 const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-NR6F75G20E";
 
@@ -52,11 +52,15 @@ export const metadata = {
   
   metadataBase: new URL(baseUrl),
   
-  // Canonical with language alternates
+  // Canonical + hreflang（主域 www；默认落地 /image）
   alternates: {
     canonical: baseUrl,
     languages: {
-      "en": baseUrl,
+      "x-default": `${baseUrl}/image`,
+      en: `${baseUrl}/image`,
+      ja: `${baseUrl}/ja/image`,
+      es: `${baseUrl}/es/image`,
+      pt: `${baseUrl}/pt/image`,
     },
   },
   

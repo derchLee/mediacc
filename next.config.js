@@ -49,6 +49,13 @@ const nextConfig = {
   // 永久重定向配置（308）用于 SEO
   async redirects() {
     return [
+      // Canonical host: apex → www（避免重复收录；仅匹配裸域 Host，本地 localhost 不受影响）
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "mediacc.it.com" }],
+        destination: "https://www.mediacc.it.com/:path*",
+        permanent: true,
+      },
       {
         source: '/',
         destination: '/image',

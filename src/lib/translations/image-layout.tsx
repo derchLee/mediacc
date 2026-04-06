@@ -8,7 +8,7 @@ import { getImageLayoutMeta } from "./index";
 import { LOCALES } from "./index";
 import type { Locale } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
 
 function getImageCanonical(locale: Locale): string {
   return locale === "en" ? `${baseUrl}/image` : `${baseUrl}/${locale}/image`;
@@ -57,7 +57,7 @@ export function getImageLayoutMetadata(locale: Locale): Metadata {
 
 export function ImageLayoutScripts({ locale }: { locale: Locale }) {
   const meta = getImageLayoutMeta(locale);
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://mediacc.it.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
   const prefix = locale === "en" ? "" : `/${locale}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
