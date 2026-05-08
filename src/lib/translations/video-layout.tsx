@@ -2,7 +2,6 @@
  * Build metadata and JSON-LD for video layout by locale.
  */
 import type { Metadata } from "next";
-import Script from "next/script";
 import { getVideoLayoutMeta } from "./index";
 import { LOCALES } from "./index";
 import type { Locale } from "./types";
@@ -87,10 +86,10 @@ export function VideoLayoutScripts({ locale }: { locale: Locale }) {
   };
   return (
     <>
-      <Script id="video-breadcrumb-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <Script id="video-software-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
-      <Script id="video-faq-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <Script id="video-howto-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
     </>
   );
 }

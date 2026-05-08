@@ -58,13 +58,15 @@ export const ui: UiT = {
 export const imagePage: ImagePageT = {
   h1: "無料オンライン画像変換・圧縮ツール",
   intro:
-    "MediaCC 画像変換は、ブラウザ内で画像の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。",
+    "MediaCC 画像変換は、ブラウザ内で画像の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。 iPhone で撮影した HEIC / HEIF のほか、JPG・PNG・WebP・AVIF など主要形式に対応し、形式変換や可逆／非可逆の圧縮まで同一画面で完了します。処理は WebAssembly・Canvas API を用いて端末内のみで行われるため、オフィスや外出先でも個人情報を気にせず利用できます。",
   whyChoose: "MediaCCを選ぶ理由",
   whyList: [
     "100%ローカル処理 – ファイルは端末から送信されません",
     "無料・会員登録不要",
     "高速な画像変換・圧縮",
-    "JPG、PNG、WebP、AVIFなどに対応",
+    "JPG、PNG、WebP、AVIF、HEIC（iPhone写真）などに対応",
+    "最大15ファイル・合計1000MBまで一括処理可能",
+    "Web Worker により UI をブロックせずバックグラウンドで処理",
   ],
   howItWorks: "使い方",
   howSteps: [
@@ -216,9 +218,9 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/ja/image`;
   return {
-    title: "無料オンライン画像変換・圧縮 – 100%ローカル処理",
+    title: "無料画像変換・圧縮（ブラウザ完結）",
     description:
-      "無料のオンライン画像変換・圧縮ツール。JPG、PNG、WebP、AVIFをブラウザ内で変換・圧縮。アップロード不要、サーバー不要、100%ローカル処理。",
+      "HEIC・JPG・PNG・WebP・AVIFをブラウザ内だけで変換・圧縮。アップロード不要の無料ツール。最大15ファイル・合計1000MBまで一括処理可能。",
     keywords: [
       "無料 画像変換",
       "オンライン 画像圧縮",
@@ -262,7 +264,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "対応している画像形式は？",
-        text: "JPG/JPEG、PNG、WebP、AVIFに対応しています。これらの形式間で変換し、圧縮してファイルサイズを削減できます。",
+        text: "HEIC / HEIF（iPhone写真）、JPG/JPEG、PNG、WebP、AVIFに対応しています。これらの形式間で変換し、圧縮してファイルサイズを削減できます。",
       },
       {
         name: "画像変換の最大ファイルサイズは？",
@@ -274,7 +276,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "複数画像を一括変換できますか？",
-        text: "はい。最大5枚まで選択して一括で変換・圧縮できます。各ファイルは順番に処理され、ブラウザの安定性を保ちます。",
+        text: "はい。最大15ファイルまで選択して一括で変換・圧縮できます（合計1000MBまで）。各ファイルは順番に処理され、ブラウザの安定性を保ちます。",
       },
       {
         name: "変換で画質は落ちますか？",
@@ -297,9 +299,9 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/ja/video`;
   return {
-    title: "無料オンライン動画変換・圧縮 – 100%ローカル処理",
+    title: "無料動画変換・圧縮（ブラウザ完結）",
     description:
-      "無料のオンライン動画変換・圧縮ツール。MP4、WebM、MOV、MKV、AVIをブラウザ内で変換・圧縮。アップロード不要、サーバー不要、100%ローカル処理。",
+      "MP4・WebM・MOV・MKV・AVIをブラウザ内のFFmpeg.wasmで変換・圧縮。アップロード不要の無料ツール。ローカル処理でプライバシーを維持。",
     keywords: [
       "無料 動画変換",
       "オンライン 動画圧縮",

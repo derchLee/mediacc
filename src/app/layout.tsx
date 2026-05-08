@@ -1,5 +1,4 @@
 import "./globals.css";
-import Script from "next/script";
 import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
@@ -12,14 +11,15 @@ const siteName = "MediaCC";
 const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-NR6F75G20E";
 
 export const metadata = {
-  // Title template: core message first, brand at end
+  // Title template: core message first, brand at end（默认标题控制在约 50–58 字符可见长度，避免 SERP 截断）
   title: {
-    default: "Free Online Media Converter & Compressor – 100% Local Processing | MediaCC",
+    default: "Free Media Converter – Images & Video in Browser | MediaCC",
     template: "%s | MediaCC",
   },
   
-  // Description: 120-160 chars, clear problem + solution + unique value
-  description: "Free online image and video converter. Convert HEIC, JPG, PNG, WebP, MP4, WebM in your browser. No upload, no server, 100% local processing. Privacy guaranteed.",
+  // Description: ~150 字符，兼顾关键词与可读性
+  description:
+    "Convert HEIC, JPG, PNG, WebP, MP4 & more in your browser—100% local, no upload. Free image & video converter with privacy-first processing.",
   
   // Extended keywords for better indexing (SEO/GEO)
   keywords: [
@@ -70,8 +70,9 @@ export const metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: siteName,
-    title: "Free Online Media Converter & Compressor – MediaCC",
-    description: "Convert HEIC, JPG, PNG, WebP and videos directly in your browser. Your files never leave your device. 100% local processing, privacy guaranteed.",
+    title: "Free Media Converter – Images & Video Local in Browser",
+    description:
+      "Convert HEIC, JPG, PNG, WebP and video in your browser. Files stay on your device—local processing, no upload.",
     images: [
       {
         url: "/og-image.jpg",
@@ -85,8 +86,8 @@ export const metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Free Online Media Converter & Compressor – MediaCC",
-    description: "A privacy-first media tool. Convert and compress images/videos without uploading files. 100% local processing.",
+    title: "Free Media Converter – Local Browser Processing",
+    description: "Privacy-first media tool: convert & compress images and video locally—no file upload to any server.",
     images: ["/og-image.jpg"],
     creator: "@mediacc",
   },
@@ -129,7 +130,7 @@ const jsonLd = {
   url: baseUrl,
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Web Browser (Chrome, Firefox, Safari, Edge)",
-  dateModified: "2025-02-17",
+  dateModified: "2026-05-08",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -228,20 +229,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* WebApplication Structured Data (JSON-LD) for SEO & GEO */}
-        <Script
+        {/* JSON-LD 使用原生 script，确保首屏 HTML 即含结构化数据（部分爬虫不执行 next/script） */}
+        <script
           id="structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* FAQ Structured Data for rich snippets + GEO */}
-        <Script
+        <script
           id="faq-structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
-        {/* WebSite schema for sitelinks */}
-        <Script
+        <script
           id="website-structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}

@@ -216,9 +216,9 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/image`;
   return {
-    title: "Free Online Image Converter & Compressor – 100% Local",
+    title: "Free Image Converter – HEIC, JPG, WebP",
     description:
-      "Free online image converter and compressor. Convert HEIC, JPG, PNG, WebP, AVIF and reduce image size in your browser. No upload, no server, 100% local processing.",
+      "Convert & compress HEIC, JPG, PNG, WebP, AVIF in your browser—no upload, 100% local. Free online image converter with lossless or lossy compression.",
     keywords: [
       "free image converter",
       "heic to jpg",
@@ -304,9 +304,9 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/video`;
   return {
-    title: "Free Online Video Converter & Compressor – 100% Local",
+    title: "Free Video Converter – MP4, WebM, MOV",
     description:
-      "Free online video converter and compressor. Convert MP4, WebM, MOV, MKV, AVI and reduce video size in your browser. No upload, no server, 100% local processing.",
+      "Convert & compress MP4, WebM, MOV, MKV, AVI in your browser via FFmpeg.wasm—no upload, 100% local. Free online video converter.",
     keywords: [
       "free video converter",
       "online video compressor",

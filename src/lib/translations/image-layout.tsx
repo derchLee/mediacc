@@ -3,7 +3,6 @@
  * Used by app/image/layout.tsx and app/[ja|es|pt]/image/layout.tsx.
  */
 import type { Metadata } from "next";
-import Script from "next/script";
 import { getImageLayoutMeta } from "./index";
 import { LOCALES } from "./index";
 import type { Locale } from "./types";
@@ -88,10 +87,10 @@ export function ImageLayoutScripts({ locale }: { locale: Locale }) {
   };
   return (
     <>
-      <Script id="image-breadcrumb-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <Script id="image-software-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
-      <Script id="image-faq-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <Script id="image-howto-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
     </>
   );
 }
