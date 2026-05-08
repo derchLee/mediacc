@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MediaCC — Multilingual documentation</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #fff;
+      --border: #d8dde4;
+      --text: #1a1d21;
+      --muted: #5c6570;
+      --accent: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.55;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2.5rem;
+      color: var(--text);
+      background: var(--bg);
+    }
+    h1 { font-size: 1.65rem; margin: 0 0 0.35rem; }
+    .lede { color: var(--muted); font-size: 0.95rem; margin: 0 0 1.25rem; }
+    .tabs { margin-top: 0.5rem; }
+    .tabs input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+    .tab-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0;
+    }
+    .tab-labels label {
+      display: inline-block;
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      background: #e9ecf1;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    .tab-labels label:hover {
+      background: #dfe3ea;
+      color: var(--text);
+    }
+    #tab-en:checked ~ .tab-labels label[for="tab-en"],
+    #tab-es:checked ~ .tab-labels label[for="tab-es"],
+    #tab-ja:checked ~ .tab-labels label[for="tab-ja"],
+    #tab-pt:checked ~ .tab-labels label[for="tab-pt"] {
+      background: var(--card);
+      color: var(--text);
+      border-color: var(--border);
+      position: relative;
+      z-index: 1;
+      margin-bottom: -1px;
+      padding-bottom: calc(0.55rem + 1px);
+    }
+    .panels {
+      border: 1px solid var(--border);
+      border-radius: 0 8px 8px 8px;
+      background: var(--card);
+      padding: 1.1rem 1.25rem 1.35rem;
+      min-height: 12rem;
+    }
+    .panels .panel { display: none; }
+    #tab-en:checked ~ .panels #panel-en,
+    #tab-es:checked ~ .panels #panel-es,
+    #tab-ja:checked ~ .panels #panel-ja,
+    #tab-pt:checked ~ .panels #panel-pt {
+      display: block;
+    }
+    .panel h2 {
+      font-size: 1.1rem;
+      margin: 1.25rem 0 0.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.25rem;
+    }
+    .panel h2:first-child { margin-top: 0; }
+    .panel table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+    .panel th, .panel td {
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.6rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .panel th { background: #f0f2f5; }
+    .panel pre {
+      background: #f0f2f5;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .panel ul { margin: 0.35rem 0 0.75rem; padding-left: 1.25rem; }
+    .panel li { margin: 0.25rem 0; }
+    .panel a { color: var(--accent); }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <h1>MediaCC</h1>
+  <p class="lede">Click a tab to show that language only. (Pure HTML/CSS — open this file in a browser, or serve via GitHub Pages.)</p>
+
+  <div class="tabs">
+    <input type="radio" name="readme-lang" id="tab-en" checked />
+    <input type="radio" name="readme-lang" id="tab-es" />
+    <input type="radio" name="readme-lang" id="tab-ja" />
+    <input type="radio" name="readme-lang" id="tab-pt" />
+
+    <div class="tab-labels">
+      <label for="tab-en">English</label>
+      <label for="tab-es">Español</label>
+      <label for="tab-ja">日本語</label>
+      <label for="tab-pt">Português</label>
+    </div>
+
+    <div class="panels">
+      <div class="panel" id="panel-en">
+        <h2>About</h2>
+        <p><strong>Privacy-first image &amp; video conversion and compression in the browser.</strong><br />
+        All heavy work runs <strong>locally</strong> on the user’s device (Canvas, WebAssembly, FFmpeg.wasm)—files are <strong>not</strong> uploaded to your servers.</p>
+
+        <h2>Live site</h2>
+        <table>
+          <thead><tr><th>URL</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>Production entry; apex redirects to canonical <strong>www</strong>.</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>Image tool (default).</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>Video tool.</td></tr>
+          </tbody>
+        </table>
+        <p>Localized UI: <code>/ja/image</code>, <code>/es/image</code>, <code>/pt/image</code> (and matching <code>/video</code> paths).</p>
+
+        <h2>How it works</h2>
+        <ol>
+          <li><strong>Images</strong> — Canvas (<code>drawImage</code> + <code>toBlob</code>); <strong>HEIC/HEIF</strong> via <strong>heic2any</strong> (WASM); compression via <strong>browser-image-compression</strong> (optional Web Workers; lossless / lossy).</li>
+          <li><strong>Videos</strong> — <strong>FFmpeg.wasm</strong> (<code>@ffmpeg/ffmpeg</code> + <code>@ffmpeg/core</code>) in-browser (demux, encode, bitrate, frames, audio extract). <strong>SharedArrayBuffer</strong> needs strict COOP/COEP headers.</li>
+          <li><strong>App</strong> — <strong>Next.js 15</strong> (App Router), React 18, TypeScript, Tailwind CSS, <strong>Zustand</strong>. Routes: <code>src/app/</code> (<code>/image</code>, <code>/video</code>, locales, legal pages).</li>
+          <li><strong>Headers</strong> (<code>next.config.js</code>) — <code>Cross-Origin-Opener-Policy: same-origin</code>, <code>Cross-Origin-Embedder-Policy: require-corp</code> (required for ffmpeg.wasm threading); keep behind CDN/reverse proxy too.</li>
+        </ol>
+
+        <h2>Deployment (Docker Compose)</h2>
+        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh   # Linux/macOS — or .\download-ffmpeg.ps1 on Windows
+
+docker compose build
+docker compose up -d</pre>
+        <p>Host <strong>80</strong> → container <strong>3000</strong>. Set <code>NEXT_PUBLIC_BASE_URL=https://www.mediacc.it.com</code> (must match public canonical URL). See <strong>DEPLOYMENT.md</strong> for TLS, Cloudflare, COOP/COEP.</p>
+
+        <h2>Local development</h2>
+        <pre>npm install
+./download-ffmpeg.sh
+npm run dev</pre>
+        <p>Open <code>http://localhost:3000</code> (redirects to <code>/image</code>).</p>
+
+        <h2>Tech stack</h2>
+        <table>
+          <tbody>
+            <tr><th>Framework</th><td>Next.js 15 (App Router), React 18</td></tr>
+            <tr><th>Language</th><td>TypeScript</td></tr>
+            <tr><th>Styling</th><td>Tailwind CSS</td></tr>
+            <tr><th>Images</th><td>Canvas, heic2any, browser-image-compression</td></tr>
+            <tr><th>Video</th><td>@ffmpeg/ffmpeg, @ffmpeg/core (WASM)</td></tr>
+            <tr><th>State / Icons</th><td>Zustand / Lucide React</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Privacy &amp; SEO</h2>
+        <p>Processing stays in the <strong>browser</strong>; no account required for core features. Policies on the live site: <code>/privacy</code>, <code>/cookies</code>, <code>/terms</code>. SEO &amp; GEO: metadata, hreflang, <code>robots.txt</code>, <code>sitemap.xml</code>, JSON-LD.</p>
+      </div>
+
+      <div class="panel" id="panel-es">
+        <h2>Acerca de</h2>
+        <p>Herramienta gratuita para <strong>convertir y comprimir imágenes y vídeo en el navegador</strong>. Los archivos <strong>no se suben</strong> al servidor: procesamiento <strong>100 % local</strong> (Canvas, WebAssembly, FFmpeg.wasm).</p>
+
+        <h2>Sitio en línea</h2>
+        <table>
+          <thead><tr><th>URL</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>Entrada producción; apex redirige a <strong>www</strong>.</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>Herramienta de imagen.</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>Herramienta de vídeo.</td></tr>
+          </tbody>
+        </table>
+        <p>Interfaz localizada: <code>/es/image</code>, <code>/es/video</code> (también <code>/ja</code>, <code>/pt</code>).</p>
+
+        <h2>Cómo funciona</h2>
+        <ol>
+          <li><strong>Imágenes:</strong> <strong>Canvas</strong>; <strong>HEIC</strong> con <strong>heic2any</strong>; compresión con <strong>browser-image-compression</strong> (Workers opcionales).</li>
+          <li><strong>Vídeo:</strong> <strong>FFmpeg.wasm</strong> en el cliente; hace falta <strong>COOP/COEP</strong> para multihilo.</li>
+          <li><strong>Aplicación:</strong> <strong>Next.js 15</strong>, React 18, TypeScript, Tailwind, <strong>Zustand</strong>.</li>
+          <li><strong>Cabeceras</strong> en <code>next.config.js</code>: igual que en la versión inglesa; mantener tras proxy/CDN.</li>
+        </ol>
+
+        <h2>Despliegue</h2>
+        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh
+docker compose build
+docker compose up -d</pre>
+        <p>Variables: <code>NEXT_PUBLIC_BASE_URL</code> = URL pública (ej. <code>https://www.mediacc.it.com</code>). Desarrollo local: <code>npm install</code>, <code>./download-ffmpeg.sh</code>, <code>npm run dev</code>. Más detalle: <strong>DEPLOYMENT.md</strong>.</p>
+
+        <h2>Privacidad y SEO</h2>
+        <p>Sin subida de archivos para la lógica de conversión. Políticas en <code>/privacy</code>, <code>/cookies</code>, <code>/terms</code>. SEO/GEO: metadatos, <code>robots.txt</code>, sitemap, JSON-LD.</p>
+
+        <h2>Pila tecnológica</h2>
+        <p>Next.js 15 · TypeScript · Tailwind · Canvas · heic2any · browser-image-compression · FFmpeg.wasm · Zustand · Lucide.</p>
+      </div>
+
+      <div class="panel" id="panel-ja">
+        <h2>概要</h2>
+        <p>ブラウザ内で<strong>画像・動画の変換・圧縮</strong>を行う無料ツール。<strong>ファイルはサーバーにアップロードされず</strong>、端末上で Canvas・WebAssembly・<strong>FFmpeg.wasm</strong> により処理します。</p>
+
+        <h2>本番サイト</h2>
+        <table>
+          <thead><tr><th>URL</th><th>説明</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>本番入口（apex は <strong>www</strong> にリダイレクト）</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>画像ツール</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>動画ツール</td></tr>
+          </tbody>
+        </table>
+        <p>日本語 UI: <code>/ja/image</code>、<code>/ja/video</code>（<code>/es</code>、<code>/pt</code> も同様）。</p>
+
+        <h2>実装の仕組み</h2>
+        <ol>
+          <li><strong>画像:</strong> <strong>Canvas</strong> 描画・出力、HEIC は <strong>heic2any</strong>、圧縮は <strong>browser-image-compression</strong>（Web Worker 可）。</li>
+          <li><strong>動画:</strong> ブラウザ内 <strong>FFmpeg.wasm</strong>。マルチスレッド用に <strong>COOP/COEP</strong> が必要。</li>
+          <li><strong>アプリ:</strong> <strong>Next.js 15</strong> App Router、React 18、TypeScript、Tailwind、<strong>Zustand</strong>。</li>
+          <li><code>next.config.js</code> の分離ヘッダは CDN 背後でも維持。</li>
+        </ol>
+
+        <h2>デプロイ</h2>
+        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh
+docker compose build
+docker compose up -d</pre>
+        <p><code>NEXT_PUBLIC_BASE_URL</code> に本番 URL（例: <code>https://www.mediacc.it.com</code>）を設定。詳細は英語版と <strong>DEPLOYMENT.md</strong>。開発: <code>npm install</code> → <code>./download-ffmpeg.sh</code> → <code>npm run dev</code>。</p>
+
+        <h2>プライバシー・SEO</h2>
+        <p>変換処理はブラウザ内。詳細は本番の <code>/privacy</code> など。SEO/GEO: メタデータ、hreflang、<code>robots.txt</code>、サイトマップ、JSON-LD。</p>
+
+        <h2>技術スタック</h2>
+        <p>Next.js 15 · TypeScript · Tailwind · Canvas · heic2any · browser-image-compression · FFmpeg.wasm · Zustand · Lucide。</p>
+      </div>
+
+      <div class="panel" id="panel-pt">
+        <h2>Sobre</h2>
+        <p>Ferramenta gratuita para <strong>converter e comprimir imagens e vídeo no navegador</strong>. Os ficheiros <strong>não são enviados</strong> para o servidor: processamento <strong>100 % local</strong> (Canvas, WebAssembly, FFmpeg.wasm).</p>
+
+        <h2>Site em produção</h2>
+        <table>
+          <thead><tr><th>URL</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>Entrada; apex redireciona para <strong>www</strong>.</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>Ferramenta de imagem.</td></tr>
+            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>Ferramenta de vídeo.</td></tr>
+          </tbody>
+        </table>
+        <p>UI em português: <code>/pt/image</code>, <code>/pt/video</code> (também <code>/ja</code>, <code>/es</code>).</p>
+
+        <h2>Como funciona</h2>
+        <ol>
+          <li><strong>Imagens:</strong> <strong>Canvas</strong>; <strong>HEIC</strong> com <strong>heic2any</strong>; compressão com <strong>browser-image-compression</strong>.</li>
+          <li><strong>Vídeo:</strong> <strong>FFmpeg.wasm</strong> no cliente; <strong>COOP/COEP</strong> para multithreading.</li>
+          <li><strong>App:</strong> <strong>Next.js 15</strong>, React 18, TypeScript, Tailwind, <strong>Zustand</strong>.</li>
+          <li>Cabeçalhos em <code>next.config.js</code> — manter atrás de CDN/proxy.</li>
+        </ol>
+
+        <h2>Implantação</h2>
+        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh
+docker compose build
+docker compose up -d</pre>
+        <p>Defina <code>NEXT_PUBLIC_BASE_URL</code> com o URL público (ex.: <code>https://www.mediacc.it.com</code>). Docker manual e desenvolvimento local: ver secção <strong>English</strong> neste ficheiro ou <strong>README.md</strong>. Mais detalhes: <strong>DEPLOYMENT.md</strong>.</p>
+
+        <h2>Privacidade e SEO</h2>
+        <p>Sem envio de ficheiros para servidores MediaCC para a lógica de conversão. Políticas: <code>/privacy</code>, <code>/cookies</code>, <code>/terms</code>. SEO/GEO: metadados, hreflang, <code>robots.txt</code>, sitemap, JSON-LD.</p>
+
+        <h2>Stack</h2>
+        <p>Next.js 15 · TypeScript · Tailwind · Canvas · heic2any · browser-image-compression · FFmpeg.wasm · Zustand · Lucide.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p><strong>Repository README:</strong> GitHub does not run scripts or full tab styles inside <code>README.md</code>. Use this HTML file for true single-panel tabs, or the collapsible sections in <code>README.md</code> as a fallback.</p>
+    <p>MIT License · See project root for structure, license, and contributing.</p>
+  </footer>
+</body>
+</html>
