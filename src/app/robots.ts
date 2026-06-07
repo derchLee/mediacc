@@ -17,21 +17,21 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com"
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      // Default: allow all
+      // Default: allow all — 注意：必须允许 /_next/static/ 否则 Googlebot 无法渲染 CSS/JS
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/", "/admin/", "/cdn-cgi/"],
+        disallow: ["/api/", "/admin/", "/cdn-cgi/"],
       },
       // Explicit allow for AI search engine crawlers (GEO: ensure citation visibility)
-      { userAgent: "GPTBot", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "ChatGPT-User", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "PerplexityBot", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "ClaudeBot", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "anthropic-ai", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "Bingbot", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "Googlebot", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
-      { userAgent: "Google-Extended", allow: "/", disallow: ["/api/", "/_next/", "/cdn-cgi/"] },
+      { userAgent: "GPTBot", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "ChatGPT-User", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "PerplexityBot", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "ClaudeBot", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "anthropic-ai", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "Bingbot", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "Googlebot", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
+      { userAgent: "Google-Extended", allow: "/", disallow: ["/api/", "/cdn-cgi/"] },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };

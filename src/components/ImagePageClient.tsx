@@ -15,6 +15,8 @@ import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
 import type { ProcessedFile, ImageFormat } from "@/types";
 import type { Locale } from "@/lib/translations";
 import type { ImagePageT } from "@/lib/translations";
+import { MediaPageShell } from "@/components/MediaPageShell";
+import { CompetitorComparison } from "@/components/CompetitorComparison";
 
 interface ImagePageClientProps {
   locale: Locale;
@@ -114,7 +116,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
 
   return (
     <MainLayout>
-      <main className="p-6">
+      <MediaPageShell pageType="image" locale={locale}>
         <header className="mb-8">
           <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.h1}</h1>
           <p className="text-lg text-gray-700 dark:text-gray-300">{t.intro}</p>
@@ -162,6 +164,8 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             />
           </>
         )}
+
+        <CompetitorComparison pageType="image" locale={locale} />
 
         <section className="mt-12 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">{t.detailedGuide}</h2>
@@ -233,7 +237,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             <p className="text-green-800 dark:text-green-300">{t.privacyText}</p>
           </div>
         </section>
-      </main>
+      </MediaPageShell>
     </MainLayout>
   );
 }

@@ -52,7 +52,7 @@ export function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header: logo + language switcher */}
         <div className="text-center mb-8">
           <Link
