@@ -3,7 +3,13 @@
  */
 import { ImagePageClient } from "@/components/ImagePageClient";
 import { getImagePageT } from "@/lib/translations";
+import { ImageLayoutScripts } from "@/lib/translations/image-layout";
 
 export default function EsImagePage() {
-  return <ImagePageClient locale="es" t={getImagePageT("es")} />;
+  return (
+    <>
+      <ImageLayoutScripts locale="es" />
+      <ImagePageClient locale="es" t={getImagePageT("es")} />
+    </>
+  );
 }

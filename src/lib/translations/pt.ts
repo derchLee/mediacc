@@ -64,7 +64,7 @@ export const imagePage: ImagePageT = {
     "100% processamento local – os arquivos não saem do seu dispositivo",
     "Grátis, sem cadastro",
     "Conversão e compressão de imagens rápida",
-    "Suporta JPG, PNG, WebP, AVIF e mais",
+    "Suporta JPG, PNG, WebP, HEIC e mais",
   ],
   howItWorks: "Como funciona",
   howSteps: [
@@ -76,7 +76,7 @@ export const imagePage: ImagePageT = {
   howToUse: "Como usar",
   formatConversion: "1. Conversão de formato",
   formatConversionList: [
-    "Formatos suportados: JPG/JPEG, PNG, GIF, WebP, AVIF, HEIC, BMP, TIFF",
+    "Formatos suportados: JPG/JPEG, PNG, GIF, WebP, HEIC, HEIC, BMP, TIFF",
     'Selecione a operação "Converter" e o formato de destino (ex.: JPG para PNG)',
     'Clique em "Iniciar processamento"; a conversão é feita localmente no seu navegador',
     "Após a conversão você pode baixar a imagem no novo formato",
@@ -113,7 +113,7 @@ export const imagePage: ImagePageT = {
     "HEIC/HEIF: decodificado no cliente via heic2any (WebAssembly), saída JPG/PNG/WebP",
     "Outros: Canvas API carrega, desenha e exporta com toBlob()",
     "JPEG e WebP: qualidade ajustável (padrão 92%)",
-    "AVIF e outros não suportados: conversão para PNG ou aviso ao usuário",
+    "HEIC e outros não suportados: conversão para PNG ou aviso ao usuário",
   ],
   compressionPrinciple: "Compressão",
   compressionPrincipleList: [
@@ -160,7 +160,7 @@ export const videoPage: VideoPageT = {
   videoCompressionList: [
     'Selecione "Comprimir" e o modo de compressão',
     "Sem perda: CRF 18 e preset rápido para otimizar tamanho",
-    "Com perda: CRF 28, preset médio, limites de bitrate (vídeo 1 Mbps, áudio 128 kbps)",
+    "Modo de menor tamanho: usa ajustes de compressão mais fortes para reduzir o arquivo mantendo qualidade visual aceitável",
     "A compressão pode levar vários minutos",
   ],
   batchProcessing: "3. Processamento em lote",
@@ -204,7 +204,7 @@ export const videoPage: VideoPageT = {
   compressionPrinciple: "Compressão",
   compressionPrincipleList: [
     "Sem perda: CRF 18 e preset rápido para manter qualidade",
-    "Com perda: CRF 28, preset médio, bitrate vídeo 1 Mbps e áudio 128 kbps",
+    "Modo de menor tamanho: usa parâmetros de compressão mais fortes para reduzir significativamente o tamanho",
     "Todo o processamento é local no navegador",
   ],
   privacySecurity: "Privacidade e segurança",
@@ -218,7 +218,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
   return {
     title: "Conversor de imagens grátis (local)",
     description:
-      "Conversor e compressor de imagens grátis online. Converta JPG, PNG, WebP, AVIF e reduza o tamanho no seu navegador. Sem envio, sem servidor, 100% local.",
+      "Conversor e compressor de imagens grátis online. Converta JPG, PNG, WebP, HEIC e reduza o tamanho no seu navegador. Sem envio, sem servidor, 100% local.",
     keywords: [
       "conversor de imagens grátis",
       "comprimir imagens online",
@@ -229,9 +229,9 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "privacidade",
     ],
     openGraphTitle: "Conversor e compressor de imagens grátis – MediaCC",
-    openGraphDescription: "Converta e comprima imagens no seu navegador. Seus arquivos não saem do seu dispositivo. JPG, PNG, WebP, AVIF.",
+    openGraphDescription: "Converta e comprima imagens no seu navegador. Seus arquivos não saem do seu dispositivo. JPG, PNG, WebP, HEIC.",
     twitterTitle: "Conversor e compressor de imagens grátis",
-    twitterDescription: "Ferramenta de imagens com 100% processamento local. Converta JPG, PNG, WebP, AVIF sem enviar arquivos.",
+    twitterDescription: "Ferramenta de imagens com 100% processamento local. Converta JPG, PNG, WebP, HEIC sem enviar arquivos.",
     softwareApp: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
@@ -262,7 +262,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "Quais formatos de imagem são suportados?",
-        text: "JPG/JPEG, PNG, WebP e AVIF. Você pode converter entre eles e comprimir para reduzir o tamanho.",
+        text: "JPG/JPEG, PNG, WebP e entrada HEIC/HEIF em navegadores compatíveis. HEIC pode ser exportado como JPG, PNG ou WebP; entrada AVIF depende do navegador."
       },
       {
         name: "Tamanho máximo de arquivo?",
@@ -278,16 +278,16 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "A qualidade é afetada na conversão?",
-        text: "Você tem controle sobre a qualidade com o controle deslizante. Em conversões sem perda (ex.: PNG) não há perda de qualidade.",
+        text: "A qualidade pode variar conforme o formato e o modo selecionados. O MediaCC usa ajustes de qualidade predefinidos no navegador e um modo de compressão mais forte quando a prioridade é reduzir o tamanho."
       },
     ],
     howTo: {
       name: "Como converter e comprimir imagens online",
       description: "Guia passo a passo para converter formatos e reduzir tamanho com o MediaCC no navegador.",
       step: [
-        { name: "Enviar imagens", text: "Arraste e solte ou clique para selecionar. JPG, PNG, WebP, AVIF até 150 MB por arquivo." },
-        { name: "Escolher formato de saída", text: "Selecione no menu: JPG, PNG, WebP ou AVIF." },
-        { name: "Ajustar qualidade", text: "Use o controle deslizante para equilibrar tamanho e qualidade." },
+        { name: "Enviar imagens", text: "Arraste e solte ou clique para selecionar. JPG, PNG, WebP e entrada HEIC/HEIF até 150 MB por arquivo." },
+        { name: "Escolher formato de saída", text: "Selecione no menu: JPG, PNG ou WebP." },
+        { name: "Escolher modo de compressão", text: "Use os modos disponíveis para priorizar qualidade visual ou menor tamanho de arquivo." },
         { name: "Processar e baixar", text: "Clique em Converter/Comprimir e baixe o resultado." },
       ],
     },
@@ -353,8 +353,8 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
         text: "O MediaCC usa FFmpeg.wasm, a versão FFmpeg em WebAssembly. A codificação e decodificação rodam inteiramente no seu navegador.",
       },
       {
-        name: "Posso extrair o áudio de um vídeo?",
-        text: "Sim. O MediaCC pode extrair a trilha de áudio e salvar como MP3.",
+        name: "O MediaCC envia vídeos para processar?",
+        text: "Não. O MediaCC processa vídeos localmente no navegador com FFmpeg.wasm. Por isso vídeos grandes podem demorar mais e dependem da memória e CPU do dispositivo.",
       },
       {
         name: "Por que o vídeo demora mais que a imagem?",
@@ -371,7 +371,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       step: [
         { name: "Enviar vídeos", text: "Arraste e solte ou clique para selecionar. MP4, WebM, MOV, MKV, AVI até 150 MB por arquivo." },
         { name: "Escolher formato de saída", text: "Selecione no menu: MP4, WebM, MOV, MKV ou AVI." },
-        { name: "Ajustar compressão", text: "Configure bitrate, resolução e qualidade." },
+        { name: "Escolher modo de compressão", text: "Selecione um preset para priorizar qualidade visual ou menor tamanho de arquivo." },
         { name: "Processar e baixar", text: "Clique em Converter/Comprimir e baixe o resultado." },
       ],
     },

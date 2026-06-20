@@ -1,6 +1,12 @@
 import { VideoPageClient } from "@/components/VideoPageClient";
 import { getVideoPageT } from "@/lib/translations";
+import { VideoLayoutScripts } from "@/lib/translations/video-layout";
 
 export default function JaVideoPage() {
-  return <VideoPageClient locale="ja" t={getVideoPageT("ja")} />;
+  return (
+    <>
+      <VideoLayoutScripts locale="ja" />
+      <VideoPageClient locale="ja" t={getVideoPageT("ja")} />
+    </>
+  );
 }

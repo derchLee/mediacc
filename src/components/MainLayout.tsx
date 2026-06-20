@@ -15,6 +15,7 @@ import {
   localeLabels,
   type Locale,
 } from "@/lib/translations";
+import { getConversionFromPathname, getConversionPath } from "@/lib/seo/conversions";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -48,7 +49,13 @@ export function MainLayout({ children }: MainLayoutProps) {
   };
 
   const isVideoPage = pathname?.includes("/video");
-  const currentPagePathForLocale = (l: Locale) => (isVideoPage ? getVideoPath(l) : getImagePath(l));
+  const currentConversion = getConversionFromPathname(pathname);
+  const currentPagePathForLocale = (l: Locale) => {
+    if (currentConversion) {
+      return getConversionPath(l, currentConversion.kind, currentConversion.slug);
+    }
+    return isVideoPage ? getVideoPath(l) : getImagePath(l);
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">

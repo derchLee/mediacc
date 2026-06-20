@@ -64,7 +64,7 @@ export const imagePage: ImagePageT = {
     "100%ローカル処理 – ファイルは端末から送信されません",
     "無料・会員登録不要",
     "高速な画像変換・圧縮",
-    "JPG、PNG、WebP、AVIF、HEIC（iPhone写真）などに対応",
+    "HEIC/HEIF 写真と JPG、PNG、WebP 画像を JPG、PNG、WebP に変換",
     "最大15ファイル・合計1000MBまで一括処理可能",
     "Web Worker により UI をブロックせずバックグラウンドで処理",
   ],
@@ -78,7 +78,7 @@ export const imagePage: ImagePageT = {
   howToUse: "使い方",
   formatConversion: "1. 形式変換",
   formatConversionList: [
-    "対応形式：JPG/JPEG、PNG、GIF、WebP、AVIF、HEIC、BMP、TIFF",
+    "安定した出力形式：JPG/JPEG、PNG、WebP。HEIC/HEIF 入力は対応ブラウザで変換でき、AVIF 入力はブラウザ対応状況に依存します",
     "「変換」を選択し、変換先形式を選択（例：JPGからPNG）",
     "「処理開始」をクリックすると、ブラウザ内でローカルに変換が完了します",
     "変換後、新しい形式で画像をダウンロードできます",
@@ -161,8 +161,8 @@ export const videoPage: VideoPageT = {
   videoCompression: "2. 動画圧縮",
   videoCompressionList: [
     "「圧縮」を選択し、圧縮モードを選択",
-    "可逆圧縮：CRF 18の高画質でファイルサイズを最適化",
-    "非可逆圧縮：CRF 28で画質とファイルサイズのバランス、ビットレート制限（動画1Mbps、音声128kbps）",
+    "高画質モード：画質を優先した FFmpeg プリセットでファイルサイズを最適化",
+    "小容量モード：より強い圧縮設定で、見た目の品質とのバランスを取りながらファイルサイズを削減",
     "圧縮には時間がかかる場合があります",
   ],
   batchProcessing: "3. 一括処理",
@@ -205,8 +205,8 @@ export const videoPage: VideoPageT = {
   ],
   compressionPrinciple: "圧縮の仕組み",
   compressionPrincipleList: [
-    "可逆圧縮：CRF 18の高画質とfast presetで画質を維持しつつ効率化",
-    "非可逆圧縮：CRF 28とmedium preset、動画1Mbps・音声128kbps制限でファイルサイズを大幅削減",
+    "高画質モード：画質を優先したプリセットで、見た目の品質を保ちながらエンコード効率を最適化",
+    "小容量モード：より強い圧縮パラメータでファイルサイズを大きく削減",
     "すべての処理はサーバーに依存せずブラウザ内でローカルに完了",
   ],
   privacySecurity: "プライバシーとセキュリティ",
@@ -220,7 +220,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
   return {
     title: "無料画像変換・圧縮（ブラウザ完結）",
     description:
-      "HEIC・JPG・PNG・WebP・AVIFをブラウザ内だけで変換・圧縮。アップロード不要の無料ツール。最大15ファイル・合計1000MBまで一括処理可能。",
+      "HEIC写真とJPG・PNG・WebP画像をブラウザ内だけで変換・圧縮。アップロード不要の無料ツール。最大15ファイル・合計1000MBまで一括処理可能。",
     keywords: [
       "無料 画像変換",
       "オンライン 画像圧縮",
@@ -231,9 +231,9 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "プライバシー",
     ],
     openGraphTitle: "無料オンライン画像変換・圧縮 – MediaCC",
-    openGraphDescription: "ブラウザ内で画像を変換・圧縮。ファイルは端末から送信されません。JPG、PNG、WebP、AVIF対応。",
+    openGraphDescription: "ブラウザ内で HEIC 写真と JPG、PNG、WebP 画像を変換・圧縮。ファイルは端末から送信されません。",
     twitterTitle: "無料オンライン画像変換・圧縮",
-    twitterDescription: "100%ローカル処理のプライバシー重視画像ツール。アップロードなしでJPG、PNG、WebP、AVIFを変換。",
+    twitterDescription: "100%ローカル処理のプライバシー重視画像ツール。アップロードなしで HEIC、JPG、PNG、WebP を変換。",
     softwareApp: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
@@ -264,7 +264,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "対応している画像形式は？",
-        text: "HEIC / HEIF（iPhone写真）、JPG/JPEG、PNG、WebP、AVIFに対応しています。これらの形式間で変換し、圧縮してファイルサイズを削減できます。",
+        text: "対応ブラウザでは HEIC / HEIF（iPhone写真）入力に対応し、JPG/JPEG、PNG、WebP へ変換できます。JPG、PNG、WebP 間の変換と圧縮にも対応しています。AVIF 入力はブラウザ対応状況に依存します。"
       },
       {
         name: "画像変換の最大ファイルサイズは？",
@@ -280,16 +280,16 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "変換で画質は落ちますか？",
-        text: "出力画質はスライダーで調整できます。PNGなどの可逆変換では画質劣化はありません。",
+        text: "変換や圧縮では、選択した形式とモードにより出力品質が変わる場合があります。MediaCC は JPG/WebP 出力にブラウザ側のプリセット品質設定を使い、小容量を優先する場合はより強い圧縮モードを使用します。"
       },
     ],
     howTo: {
       name: "オンラインで画像を変換・圧縮する方法",
       description: "MediaCCのブラウザ内ツールで画像形式を変換し、ファイルサイズを削減する手順。",
       step: [
-        { name: "画像をアップロード", text: "画像をドラッグ＆ドロップするか、クリックして選択。JPG、PNG、WebP、AVIF、1ファイル150MBまで対応。" },
-        { name: "出力形式を選択", text: "ドロップダウンから形式を選択：JPG、PNG、WebP、AVIF。" },
-        { name: "画質を調整", text: "スライダーでファイルサイズと画質のバランスを調整。値を下げるとファイルが小さくなります。" },
+        { name: "画像をアップロード", text: "画像をドラッグ＆ドロップするか、クリックして選択。JPG、PNG、WebP、HEIC/HEIF 入力に対応し、1ファイル150MBまで処理できます。" },
+        { name: "出力形式を選択", text: "ドロップダウンから形式を選択：JPG、PNG、WebP。" },
+        { name: "圧縮モードを選択", text: "画質を優先するか、小さいファイルサイズを優先するかを利用可能な圧縮モードから選択します。" },
         { name: "処理してダウンロード", text: "変換/圧縮をクリックしてローカルで処理。完了したら結果をダウンロード。" },
       ],
     },
@@ -355,8 +355,8 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
         text: "MediaCCはFFmpeg.wasm（FFmpegのWebAssembly版）を使用します。エンコード・デコードがすべてブラウザ内で実行され、サーバー通信は不要です。",
       },
       {
-        name: "動画から音声を抽出できますか？",
-        text: "はい。動画から音声トラックを抽出し、MP3として保存できます。",
+        name: "MediaCC は動画をアップロードして処理しますか？",
+        text: "いいえ。MediaCC は FFmpeg.wasm を使ってブラウザ内でローカル処理します。そのため大容量動画は端末のメモリや CPU によって処理時間が長くなる場合があります。",
       },
       {
         name: "動画処理が画像より遅い理由は？",
@@ -373,7 +373,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       step: [
         { name: "動画をアップロード", text: "動画をドラッグ＆ドロップするか、クリックして選択。MP4、WebM、MOV、MKV、AVI、1ファイル150MBまで対応。" },
         { name: "出力形式を選択", text: "ドロップダウンから形式を選択：MP4、WebM、MOV、MKV、AVI。" },
-        { name: "圧縮設定を調整", text: "ビットレート、解像度、画質を設定してファイルサイズと画質のバランスを調整。" },
+        { name: "圧縮モードを選択", text: "画質を優先するか、小さいファイルサイズを優先するかをプリセットから選択します。" },
         { name: "処理してダウンロード", text: "変換/圧縮をクリックしてFFmpeg.wasmでローカル処理。完了したら結果をダウンロード。" },
       ],
     },

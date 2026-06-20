@@ -17,6 +17,7 @@ import type { Locale } from "@/lib/translations";
 import type { VideoPageT } from "@/lib/translations";
 import { MediaPageShell } from "@/components/MediaPageShell";
 import { CompetitorComparison } from "@/components/CompetitorComparison";
+import { PopularConversions } from "@/components/PopularConversions";
 
 interface VideoPageClientProps {
   locale: Locale;
@@ -135,6 +136,8 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
             ))}
           </ol>
         </section>
+
+        <PopularConversions kind="video" locale={locale} />
 
         <FileUploader fileType="video" onFilesSelected={handleFilesSelected} multiple currentFiles={files} locale={locale} />
         <SupportedFormats fileType="video" locale={locale} />

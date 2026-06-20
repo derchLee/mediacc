@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { allConversions } from "@/lib/seo/conversions";
 
 const defaultBaseUrl = "https://www.mediacc.it.com";
 
@@ -18,6 +19,8 @@ const TOOL_PAGES = ["/image", "/video"] as const;
 const PRIMARY_PRIORITY = 1.0;
 const LOCALIZED_PRIORITY = 0.8;
 const LEGAL_PRIORITY = 0.3;
+const CONVERSION_PRIMARY_PRIORITY = 0.75;
+const CONVERSION_LOCALIZED_PRIORITY = 0.6;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -25,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 为每个工具页（image/video）构建跨语言 alternates 映射，
   // 搜索引擎会把多语言版本归并为同一组结果，避免本地化页面互相竞争排名。
-  const buildAlternates = (suffix: (typeof TOOL_PAGES)[number]) => {
+  const buildAlternates = (suffix: string) => {
     const languages: Record<string, string> = {
       "x-default": `${baseUrl}${suffix}`, // 默认指向英文版
     };
@@ -52,7 +55,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }
     }
 
-    // 2) 法律/支持页：低权重，仅作收录用
+    // 2) 格式转换落地页：长尾 SEO/GEO 页面，按中心化 conversion 数据生成
+    for (const conversion of allConversions) {
+      const suffix = `/${conversion.kind}/${conversion.slug}`;
+      for (const { prefix } of localePrefixes) {
+        const isPrimary = prefix === "";
+        entries.push({
+          url: `${baseUrl}${prefix}${suffix}`,
+          lastModified: now,
+          changeFrequency: "monthly",
+          priority: isPrimary ? CONVERSION_PRIMARY_PRIORITY : CONVERSION_LOCALIZED_PRIORITY,
+          alternates: buildAlternates(suffix),
+        });
+      }
+    }
+
+    // 3) 法律/支持页：低权重，仅作收录用
     for (const path of ["/privacy", "/terms", "/cookies", "/disclaimer"]) {
       entries.push({
         url: `${baseUrl}${path}`,

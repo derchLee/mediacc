@@ -17,6 +17,7 @@ import type { Locale } from "@/lib/translations";
 import type { ImagePageT } from "@/lib/translations";
 import { MediaPageShell } from "@/components/MediaPageShell";
 import { CompetitorComparison } from "@/components/CompetitorComparison";
+import { PopularConversions } from "@/components/PopularConversions";
 
 interface ImagePageClientProps {
   locale: Locale;
@@ -137,6 +138,8 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             ))}
           </ol>
         </section>
+
+        <PopularConversions kind="image" locale={locale} />
 
         <FileUploader fileType="image" onFilesSelected={handleFilesSelected} multiple currentFiles={files} locale={locale} />
         <SupportedFormats fileType="image" locale={locale} />

@@ -3,7 +3,13 @@
  */
 import { VideoPageClient } from "@/components/VideoPageClient";
 import { getVideoPageT } from "@/lib/translations";
+import { VideoLayoutScripts } from "@/lib/translations/video-layout";
 
 export default function VideoPage() {
-  return <VideoPageClient locale="en" t={getVideoPageT("en")} />;
+  return (
+    <>
+      <VideoLayoutScripts locale="en" />
+      <VideoPageClient locale="en" t={getVideoPageT("en")} />
+    </>
+  );
 }
