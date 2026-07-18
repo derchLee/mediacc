@@ -58,16 +58,8 @@ export const metadata = {
   metadataBase: new URL(baseUrl),
   
   // Canonical + hreflang（主域 www；默认落地 /image）
-  alternates: {
-    canonical: baseUrl,
-    languages: {
-      "x-default": `${baseUrl}/image`,
-      en: `${baseUrl}/image`,
-      ja: `${baseUrl}/ja/image`,
-      es: `${baseUrl}/es/image`,
-      pt: `${baseUrl}/pt/image`,
-    },
-  },
+  // Canonicals are page-specific. A root canonical here would be inherited by
+  // unrelated pages and make search engines consolidate their URLs.
   
   // Open Graph for social sharing and AI citation
   openGraph: {

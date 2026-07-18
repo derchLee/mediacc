@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Disclaimer",
   description: "Disclaimer for MediaCC - Important legal information about our service",
+  alternates: { canonical: "/disclaimer" },
   robots: {
     index: true,
     follow: true,

@@ -1,0 +1,26 @@
+# MediaCC
+
+> MediaCC is a free browser-based image and video converter. Selected media files are processed locally on the user's device and are not uploaded to MediaCC servers for conversion.
+
+## Main tools
+
+- Image converter: https://www.mediacc.it.com/image
+- Video converter: https://www.mediacc.it.com/video
+- HEIC to JPG: https://www.mediacc.it.com/image/heic-to-jpg
+- HEIC to PNG: https://www.mediacc.it.com/image/heic-to-png
+- WebP to JPG: https://www.mediacc.it.com/image/webp-to-jpg
+- MOV to MP4: https://www.mediacc.it.com/video/mov-to-mp4
+- WebM to MP4: https://www.mediacc.it.com/video/webm-to-mp4
+
+## Product facts
+
+- Image outputs focus on JPG, PNG, and WebP.
+- Video conversion uses FFmpeg WebAssembly in supported modern browsers.
+- Users can process up to 15 files per session, 150 MB per file, and 1000 MB total.
+- No account is required and MediaCC does not add a watermark.
+
+## Policies
+
+- Privacy: https://www.mediacc.it.com/privacy
+- Terms: https://www.mediacc.it.com/terms
+- Disclaimer and technical limits: https://www.mediacc.it.com/disclaimer

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Cookie Policy",
   description: "Cookie Policy for MediaCC - Learn about our use of cookies and similar technologies",
+  alternates: { canonical: "/cookies" },
   robots: {
     index: true,
     follow: true,

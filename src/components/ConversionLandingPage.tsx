@@ -21,6 +21,18 @@ interface ConversionLandingPageProps {
   conversion: ConversionDefinition;
 }
 
+const formatNotes: Record<string, string> = {
+  heic: "HEIC is commonly created by iPhone and iPad cameras. It uses efficient compression, but some Windows apps, websites, and older devices cannot open it.",
+  jpg: "JPG is widely supported by browsers, email clients, office software, social networks, and photo-printing services. It is best suited to photographs without transparency.",
+  png: "PNG uses lossless compression and supports transparency. It is useful for screenshots, graphics, logos, and images that need crisp edges.",
+  webp: "WebP is a web-focused image format that can reduce download size while retaining good visual quality and transparency support.",
+  mov: "MOV is a media container commonly produced by Apple devices and video software. Compatibility can depend on the video and audio codecs stored inside it.",
+  mp4: "MP4 is a broadly supported video container for browsers, phones, televisions, presentation software, and social platforms.",
+  webm: "WebM is an open media container designed for web playback and is commonly used with VP8, VP9, or AV1 video.",
+  mkv: "MKV is a flexible container that can hold multiple audio tracks, subtitles, and different codecs, but it is not accepted by every browser or device.",
+  avi: "AVI is an older Microsoft container. Converting it can improve playback compatibility on modern browsers, phones, and streaming devices.",
+};
+
 function JsonLdScript({ id, data }: { id: string; data: unknown }) {
   return (
     <script
@@ -100,6 +112,23 @@ export function ConversionLandingPage({ locale, conversion }: ConversionLandingP
               <p className="text-gray-700 dark:text-gray-300">{copy.limits}</p>
             </div>
           </section>
+
+          {locale === "en" && (
+            <section className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+                When to convert {conversion.fromLabel} to {conversion.toLabel}
+              </h2>
+              <p className="mb-4 text-gray-700 dark:text-gray-300">
+                {formatNotes[conversion.from]}
+              </p>
+              <p className="mb-4 text-gray-700 dark:text-gray-300">
+                {formatNotes[conversion.to]}
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
+                Choose this {conversion.fromLabel} to {conversion.toLabel} conversion when the destination app or website requests {conversion.toLabel}, or when your device cannot open {conversion.fromLabel}. Keep the original file until you have checked the converted output; conversion can change file size, metadata, transparency, or visual quality depending on the formats involved.
+              </p>
+            </section>
+          )}
 
           {related.length > 0 && (
             <section className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">

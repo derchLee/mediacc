@@ -291,6 +291,10 @@ export function getConversionMetadata(locale: Locale, kind: MediaKind, slug: str
     description,
     keywords: [
       `${conversion.fromLabel.toLowerCase()} to ${conversion.toLabel.toLowerCase()}`,
+      `${conversion.fromLabel.toLowerCase()} to ${conversion.toLabel.toLowerCase()} converter online free`,
+      `${conversion.fromLabel.toLowerCase()} to ${conversion.toLabel.toLowerCase()} no upload`,
+      `convert ${conversion.fromLabel.toLowerCase()} to ${conversion.toLabel.toLowerCase()} in browser`,
+      `private ${conversion.fromLabel.toLowerCase()} converter`,
       `${conversion.fromLabel.toLowerCase()} converter`,
       `${conversion.toLabel.toLowerCase()} converter`,
       `free ${kind} converter`,

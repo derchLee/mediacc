@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for MediaCC - Learn how we protect your data and privacy",
+  alternates: { canonical: "/privacy" },
   robots: {
     index: true,
     follow: true,

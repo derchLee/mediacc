@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms of Service for MediaCC - Usage terms and conditions",
+  alternates: { canonical: "/terms" },
   robots: {
     index: true,
     follow: true,
