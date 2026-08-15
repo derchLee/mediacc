@@ -52,12 +52,16 @@ export const useMediaStore = create<MediaStore>((set, get) => ({
   isProcessing: false,
 
   setFileType: (type) =>
-    set({
-      fileType: type,
-      files: [],
-      operationType: null,
-      processedFiles: [],
-    }),
+    set((state) =>
+      state.fileType === type
+        ? state
+        : {
+            fileType: type,
+            files: [],
+            operationType: null,
+            processedFiles: [],
+          }
+    ),
 
   addFiles: (newFiles) =>
     set((state) => {

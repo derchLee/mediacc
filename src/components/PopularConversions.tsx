@@ -19,14 +19,14 @@ export function PopularConversions({ kind, locale }: PopularConversionsProps) {
   const heading = kind === "image" ? copy.popularImageHeading : copy.popularVideoHeading;
 
   return (
-    <section className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+    <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
       <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{heading}</h2>
       <div className="flex flex-wrap gap-3">
         {conversions.map((conversion) => (
           <Link
             key={conversion.slug}
             href={getConversionPath(locale, kind, conversion.slug)}
-            className="rounded-full border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40"
+            className="rounded-full border border-[#b8d9e8] bg-[#edf7fb] px-4 py-2 text-sm font-bold text-[#176b9a] transition-all hover:-translate-y-0.5 hover:border-[#1976a8] hover:bg-white hover:shadow-sm dark:border-blue-800 dark:bg-blue-950/30 dark:text-blue-300"
           >
             {getConversionTitle(locale, conversion)}
           </Link>

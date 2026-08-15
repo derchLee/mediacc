@@ -207,8 +207,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         {/* Theme color for mobile browser chrome */}
         <meta name="theme-color" content="#3b82f6" />
-        {/* Preconnect for performance */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
       </head>
       <body>
         <GoogleAnalytics />

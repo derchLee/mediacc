@@ -15,6 +15,7 @@ class FFmpegIframeManager {
   private messageIdCounter = 0;
   private ready = false;
   private readyPromise: Promise<void> | null = null;
+  private ffmpegInitPromise: Promise<void> | null = null;
   private boundHandleMessage: ((event: MessageEvent) => void) | null = null;
 
   constructor() {
@@ -51,28 +52,31 @@ class FFmpegIframeManager {
     this.iframe.src = iframeSrc;
     this.iframe.style.display = "none";
     this.iframe.setAttribute("sandbox", "allow-scripts allow-same-origin"); // 添加安全限制
-    document.body.appendChild(this.iframe);
-
     // 绑定消息处理器（保存引用以便后续移除）
     this.boundHandleMessage = this.handleMessage.bind(this);
     window.addEventListener("message", this.boundHandleMessage);
 
-    // 等待 iframe 准备就绪
+    // 先监听 READY，再挂载 iframe，避免缓存命中时错过就绪消息
     this.readyPromise = new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
         window.removeEventListener("message", checkReady);
-        reject(new Error("iframe 初始化超时（10秒）"));
-      }, 10000); // 10秒超时
+        reject(new Error("iframe 初始化超时（30秒），请刷新页面后重试"));
+      }, 30000);
 
       const checkReady = (event: MessageEvent) => {
         // 验证消息来源（确保来自我们的 iframe）
-        if (
-          event.source !== this.iframe?.contentWindow ||
-          !event.data?.type ||
-          event.data.type !== "READY"
-        ) {
+        if (event.source !== this.iframe?.contentWindow || !event.data?.type) {
           return;
         }
+
+        if (event.data.type === "ERROR") {
+          clearTimeout(timeoutId);
+          window.removeEventListener("message", checkReady);
+          reject(new Error(event.data.payload?.message || "iframe 初始化失败"));
+          return;
+        }
+
+        if (event.data.type !== "READY") return;
 
         clearTimeout(timeoutId);
         resolve();
@@ -81,6 +85,8 @@ class FFmpegIframeManager {
       };
       window.addEventListener("message", checkReady);
     });
+
+    document.body.appendChild(this.iframe);
   }
 
   private handleMessage(event: MessageEvent): void {
@@ -116,21 +122,25 @@ class FFmpegIframeManager {
     }
   }
 
-  private sendMessage(
+  private async sendMessage(
     type: string,
     payload: any,
     handler: MessageHandler
   ): Promise<any> {
-    return new Promise(async (resolve, reject) => {
-      await this.ensureReady();
+    // 在创建 Promise 前等待初始化，使失败能被调用方正常 catch，避免未处理异常
+    await this.ensureReady();
 
+    return new Promise((resolve, reject) => {
       const id = `msg_${this.messageIdCounter++}`;
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
       this.messageHandlers.set(id, (data) => {
         if (data.type.endsWith("_SUCCESS")) {
+          if (timeoutId) clearTimeout(timeoutId);
           handler(data);
           resolve(data.payload);
         } else if (data.type === "ERROR") {
+          if (timeoutId) clearTimeout(timeoutId);
           reject(new Error(data.payload.message));
         } else {
           handler(data);
@@ -138,6 +148,7 @@ class FFmpegIframeManager {
       });
 
       if (!this.iframe?.contentWindow) {
+        this.messageHandlers.delete(id);
         reject(new Error("iframe 未准备就绪"));
         return;
       }
@@ -145,8 +156,8 @@ class FFmpegIframeManager {
       // 根据文件大小动态设置超时时间
       // 如果payload包含fileData，根据文件大小计算超时
       let timeoutMs = 900000; // 默认15分钟
-      if (payload?.fileData && Array.isArray(payload.fileData)) {
-        const fileSizeMB = payload.fileData.length / 1024 / 1024;
+      if (payload?.fileData instanceof ArrayBuffer) {
+        const fileSizeMB = payload.fileData.byteLength / 1024 / 1024;
         if (fileSizeMB > 100) {
           // 大于100MB：45分钟超时
           timeoutMs = 2700000;
@@ -162,10 +173,11 @@ class FFmpegIframeManager {
         }
       }
 
-      this.iframe.contentWindow.postMessage({ id, type, payload }, "*");
+      const transfer = payload?.fileData instanceof ArrayBuffer ? [payload.fileData] : [];
+      this.iframe.contentWindow.postMessage({ id, type, payload }, "*", transfer);
 
       // 设置动态超时
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         if (this.messageHandlers.has(id)) {
           this.messageHandlers.delete(id);
           const timeoutMinutes = timeoutMs / 60000;
@@ -176,7 +188,13 @@ class FFmpegIframeManager {
   }
 
   async initFFmpeg(): Promise<void> {
-    await this.sendMessage("INIT", {}, () => {});
+    if (!this.ffmpegInitPromise) {
+      this.ffmpegInitPromise = this.sendMessage("INIT", {}, () => {}).catch((error) => {
+        this.ffmpegInitPromise = null;
+        throw error;
+      });
+    }
+    await this.ffmpegInitPromise;
   }
 
   async convertVideoFormat(
@@ -185,8 +203,7 @@ class FFmpegIframeManager {
     onProgress?: (progress: number) => void
   ): Promise<Blob> {
     // 读取文件数据
-    const arrayBuffer = await file.arrayBuffer();
-    const fileData = Array.from(new Uint8Array(arrayBuffer));
+    const fileData = await file.arrayBuffer();
 
     // 创建进度监听器（如果提供）
     let progressHandler: MessageHandler | undefined;
@@ -221,8 +238,7 @@ class FFmpegIframeManager {
     onProgress?: (progress: number) => void
   ): Promise<Blob> {
     // 读取文件数据
-    const arrayBuffer = await file.arrayBuffer();
-    const fileData = Array.from(new Uint8Array(arrayBuffer));
+    const fileData = await file.arrayBuffer();
 
     // 设置进度监听（在压缩消息中处理）
     let progressHandler: MessageHandler | undefined;
@@ -269,6 +285,7 @@ class FFmpegIframeManager {
     this.messageHandlers.clear();
     this.ready = false;
     this.readyPromise = null;
+    this.ffmpegInitPromise = null;
   }
 }
 

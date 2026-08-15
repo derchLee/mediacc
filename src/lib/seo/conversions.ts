@@ -73,10 +73,10 @@ export const allConversions = [...imageConversions, ...videoConversions];
 const localeCopy: Record<Locale, ConversionCopy> = {
   en: {
     converter: "Converter",
-    titleSuffix: "Free, Private Browser Tool",
+    titleSuffix: "Free, No Upload or Signup",
     privateBrowserTool: "private browser tool",
     h1: "{from} to {to} Converter",
-    intro: "Convert {from} to {to} with MediaCC directly in your browser. Your media files stay on your device and are not uploaded to MediaCC servers.",
+    intro: "Convert {from} to {to} free with MediaCC directly in your browser. No upload, signup, or watermark—your media files stay on your device.",
     cta: "Open the {kind} converter",
     howToHeading: "How to convert {from} to {to}",
     steps: [

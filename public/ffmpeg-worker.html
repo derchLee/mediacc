@@ -113,11 +113,11 @@
             // 不传递 workerURL，让 UMD 版本使用默认路径（814.ffmpeg.js）
           });
           
-          // 添加超时保护（60秒）
+          // 32MB WASM 在较慢网络下可能超过 60 秒，保留更合理的启动保护
           const timeoutPromise = new Promise((_, reject) => {
             setTimeout(() => {
-              reject(new Error('ffmpeg.load() 超时（60秒）- 可能原因：Worker 加载失败或 WASM 文件损坏'));
-            }, 60000);
+              reject(new Error('ffmpeg.load() 超时（180秒）- 请检查网络或 FFmpeg 核心文件'));
+            }, 180000);
           });
           
           await Promise.race([loadPromise, timeoutPromise]);
@@ -192,14 +192,14 @@
           ffmpeg.on('progress', progressHandler);
           
           try {
-            console.log('[FFmpeg Worker] 写入输入文件:', inputFileName, '大小:', fileData?.length);
+            console.log('[FFmpeg Worker] 写入输入文件:', inputFileName, '大小:', fileData?.byteLength);
             // 写入输入文件
             await ffmpeg.writeFile(inputFileName, new Uint8Array(fileData));
             console.log('[FFmpeg Worker] 输入文件写入成功');
             
             console.log('[FFmpeg Worker] 开始执行转换命令...');
             // 性能优化：根据文件大小选择不同的优化策略
-            const fileSizeMB = fileData.length / 1024 / 1024;
+            const fileSizeMB = fileData.byteLength / 1024 / 1024;
             const isHugeFile = fileSizeMB > 80; // 大于80MB视为超大文件
             const isLargeFile = fileSizeMB > 50; // 大于50MB视为大文件
             
@@ -274,11 +274,15 @@
             
             // 发送结果
             console.log('[FFmpeg Worker] 发送转换成功消息，数据大小:', data?.length);
+            const outputBytes = new Uint8Array(data);
+            const outputBuffer = outputBytes.byteOffset === 0 && outputBytes.byteLength === outputBytes.buffer.byteLength
+              ? outputBytes.buffer
+              : outputBytes.slice().buffer;
             window.parent.postMessage({
               id,
               type: 'CONVERT_FORMAT_SUCCESS',
-              payload: Array.from(new Uint8Array(data)),
-            }, '*');
+              payload: outputBuffer,
+            }, '*', [outputBuffer]);
             console.log('[FFmpeg Worker] 转换成功消息已发送');
           } catch (conversionError) {
             console.error('[FFmpeg Worker] 转换过程中出错:', conversionError);
@@ -351,7 +355,7 @@
             await ffmpeg.writeFile(inputFileName, new Uint8Array(fileData));
             
             // 性能优化：根据文件大小选择不同的优化策略
-            const fileSizeMB = fileData.length / 1024 / 1024;
+            const fileSizeMB = fileData.byteLength / 1024 / 1024;
             const isHugeFile = fileSizeMB > 80; // 大于80MB视为超大文件
             const isLargeFile = fileSizeMB > 50; // 大于50MB视为大文件
             
@@ -421,11 +425,15 @@
             const data = await ffmpeg.readFile(outputFileName);
             
             // 发送结果
+            const outputBytes = new Uint8Array(data);
+            const outputBuffer = outputBytes.byteOffset === 0 && outputBytes.byteLength === outputBytes.buffer.byteLength
+              ? outputBytes.buffer
+              : outputBytes.slice().buffer;
             window.parent.postMessage({
               id,
               type: 'COMPRESS_SUCCESS',
-              payload: Array.from(new Uint8Array(data)),
-            }, '*');
+              payload: outputBuffer,
+            }, '*', [outputBuffer]);
           } catch (compressionError) {
             throw compressionError;
           } finally {

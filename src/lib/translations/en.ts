@@ -25,6 +25,32 @@ export const ui: UiT = {
   selectFiles: "Select Files",
   localProcessingNotice: "100% local processing, files are not uploaded to server",
   fileValidationFailed: "File validation failed",
+  tooManyFiles: "You can select up to {max} files. {current} file(s) are already selected.",
+  fileTooLarge: "Each file must be {max} MB or smaller.",
+  totalSizeTooLarge: "The total size cannot exceed {max} MB. {current} MB is already selected.",
+  fileTypeMismatch: "{count} selected file(s) do not match the supported format.",
+  uploadSuccess: "Files added successfully. Continue to the uploads workspace to convert or compress them.",
+  continueProcessing: "Continue to uploads",
+  close: "Close",
+  cookieSettings: "Cookie Settings",
+  cookiesTitle: "We Use Cookies",
+  cookiesDescription: "We use cookies to improve your experience and analyze site traffic.",
+  learnMore: "Learn more",
+  acceptAll: "Accept All",
+  rejectAll: "Reject All",
+  customize: "Customize",
+  necessaryCookies: "Necessary Cookies",
+  necessaryCookiesDesc: "Required for the website to function properly",
+  analyticsCookies: "Analytics Cookies",
+  analyticsCookiesDesc: "Help us understand how visitors use the website",
+  advertisingCookies: "Advertising Cookies",
+  advertisingCookiesDesc: "Used to deliver relevant advertisements",
+  savePreferences: "Save Preferences",
+  unexpectedError: "Something went wrong",
+  retry: "Try again",
+  pageNotFound: "Page not found",
+  pageNotFoundDesc: "The page you requested does not exist.",
+  backHome: "Back to home",
   selectOperation: "Select Operation",
   formatConversion: "Format Conversion",
   convertToOtherFormats: "Convert to other formats",
@@ -56,15 +82,15 @@ export const ui: UiT = {
 };
 
 export const imagePage: ImagePageT = {
-  h1: "Free Online Image Converter & Compressor",
+  h1: "Free Image Converter: HEIC to JPG, PNG & WebP",
   intro:
-    "MediaCC Image Converter is a tool that lets you convert and compress images directly in your browser. No file upload, no server processing, and no privacy risk. Your files never leave your device.",
+    "Convert HEIC photos to JPG, PNG, or WebP and batch-convert or compress images for free. MediaCC runs locally in your browser—no upload, no signup, and no watermark. Your files never leave your device.",
   whyChoose: "Why Choose MediaCC?",
   whyList: [
     "100% local processing – files never leave your device",
-    "Free to use, no signup required",
-    "Fast image conversion and compression",
-    "Converts HEIC/HEIF photos and JPG, PNG, WebP images to JPG, PNG, or WebP",
+    "Free to use with no signup and no watermark",
+    "Batch-convert up to 15 images in one session",
+    "Convert iPhone HEIC/HEIF photos and JPG, PNG, or WebP images to JPG, PNG, or WebP",
   ],
   howItWorks: "How It Works",
   howSteps: [
@@ -72,6 +98,8 @@ export const imagePage: ImagePageT = {
     "Choose output format or compression level",
     "Download the processed image instantly – all processing happens locally in your browser",
   ],
+  tutorialTitle: "Image conversion and compression example",
+  tutorialDescription: "Follow this animated example to add images, choose an output format or compression mode, process them locally, and download the results.",
   detailedGuide: "Detailed Usage Guide",
   howToUse: "How to Use",
   formatConversion: "1. Format Conversion",
@@ -131,15 +159,15 @@ export const imagePage: ImagePageT = {
 };
 
 export const videoPage: VideoPageT = {
-  h1: "Free Online Video Converter & Compressor",
+  h1: "Free Video to MP4 Converter & Compressor",
   intro:
-    "MediaCC Video Converter is a tool that lets you convert and compress videos directly in your browser. No file upload, no server processing, and no privacy risk. Your files never leave your device.",
+    "Convert MOV, WebM, MKV, or AVI to MP4 and compress video for free. MediaCC uses FFmpeg.wasm locally in your browser—no upload, no signup, and no watermark. Your videos never leave your device.",
   whyChoose: "Why Choose MediaCC?",
   whyList: [
     "100% local processing – files never leave your device",
-    "Free to use, no signup required",
-    "Fast video conversion and compression powered by FFmpeg.wasm",
-    "Supports MP4, WebM, MOV, MKV, AVI and more",
+    "Free to use with no signup and no watermark",
+    "Private, browser-based conversion powered by FFmpeg.wasm",
+    "Convert MOV, WebM, MKV, and AVI to widely compatible MP4",
   ],
   howItWorks: "How It Works",
   howSteps: [
@@ -147,6 +175,8 @@ export const videoPage: VideoPageT = {
     "Choose output format or compression level",
     "Download the processed video – all processing happens locally in your browser",
   ],
+  tutorialTitle: "Video format conversion example",
+  tutorialDescription: "Follow this animated example to add videos, select the target format, start local conversion, and download each completed file.",
   detailedGuide: "Detailed Usage Guide",
   howToUse: "How to Use",
   formatConversion: "1. Format Conversion",
@@ -216,9 +246,9 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/image`;
   return {
-    title: "Free Image Converter – HEIC, JPG, WebP",
+    title: "HEIC to JPG & Free Image Converter – No Upload",
     description:
-      "Convert HEIC photos and JPG, PNG, WebP images in your browser—no upload, 100% local. Free online image converter with preset compression modes.",
+      "Convert HEIC to JPG, PNG or WebP and batch-compress images free in your browser. No upload, signup or watermark; files stay on your device.",
     keywords: [
       "free image converter",
       "heic to jpg",
@@ -232,8 +262,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "local image processing",
       "privacy-first image tool",
       "browser-based image converter",
+      "batch image converter",
+      "convert images without uploading",
+      "image converter no signup",
     ],
-    openGraphTitle: "Free Online Image Converter & Compressor – MediaCC",
+    openGraphTitle: "HEIC to JPG & Free Batch Image Converter – MediaCC",
     openGraphDescription:
       "Convert HEIC photos and JPG, PNG, WebP images directly in your browser. Your files never leave your device.",
     twitterTitle: "Free Online Image Converter & Compressor",
@@ -304,9 +337,9 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/video`;
   return {
-    title: "Free Video Converter – MP4, WebM, MOV",
+    title: "Video to MP4 Converter – Free, Private, No Upload",
     description:
-      "Convert & compress MP4, WebM, MOV, MKV, AVI in your browser via FFmpeg.wasm—no upload, 100% local. Free online video converter.",
+      "Convert MOV, WebM, MKV or AVI to MP4 and compress video free in your browser. Private FFmpeg.wasm processing with no upload, signup or watermark.",
     keywords: [
       "free video converter",
       "online video compressor",
@@ -319,8 +352,12 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "privacy-first video tool",
       "browser-based video converter",
       "ffmpeg online",
+      "video to mp4 converter",
+      "mov to mp4 converter",
+      "convert video without uploading",
+      "video converter no signup",
     ],
-    openGraphTitle: "Free Online Video Converter & Compressor – MediaCC",
+    openGraphTitle: "Free Video to MP4 Converter – No Upload | MediaCC",
     openGraphDescription:
       "Convert and compress videos directly in your browser. Your files never leave your device. Support MP4, WebM, MOV, MKV, AVI formats.",
     twitterTitle: "Free Online Video Converter & Compressor",

@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { Upload, File, AlertCircle } from "lucide-react";
+import { Upload, File, AlertCircle, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getAcceptString } from "@/lib/file-formats";
 import { validateFiles } from "@/lib/file-utils";
 import type { FileType } from "@/types";
 import { getUiT, type Locale } from "@/lib/translations";
+import type { FileValidationResult } from "@/lib/file-utils";
 
 interface FileUploaderProps {
   onFilesSelected?: (files: File[]) => void;
@@ -33,6 +34,18 @@ export function FileUploader({
   const [isDragging, setIsDragging] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [uploadSucceeded, setUploadSucceeded] = useState(false);
+
+  const getValidationMessage = useCallback(
+    (validation: FileValidationResult) => {
+      if (!validation.errorCode) return t.fileValidationFailed;
+      return Object.entries(validation.values || {}).reduce(
+        (message, [key, value]) => message.replaceAll(`{${key}}`, String(value)),
+        t[validation.errorCode]
+      );
+    },
+    [t]
+  );
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -67,6 +80,7 @@ export function FileUploader({
       setIsDragging(false);
       setDragCounter(0);
       setError(null);
+      setUploadSucceeded(false);
 
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         const files = Array.from(e.dataTransfer.files);
@@ -76,19 +90,21 @@ export function FileUploader({
           if (onFilesSelected) {
             onFilesSelected(files);
           }
+          setUploadSucceeded(true);
         } else {
-          setError(validation.error || t.fileValidationFailed);
+          setError(getValidationMessage(validation));
         }
         
         e.dataTransfer.clearData();
       }
     },
-    [onFilesSelected, currentFiles, fileType, t]
+    [onFilesSelected, currentFiles, fileType, getValidationMessage]
   );
 
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setError(null);
+      setUploadSucceeded(false);
       if (e.target.files && e.target.files.length > 0) {
         const files = Array.from(e.target.files);
         const validation = validateFiles(currentFiles, files, fileType);
@@ -97,15 +113,16 @@ export function FileUploader({
           if (onFilesSelected) {
             onFilesSelected(files);
           }
+          setUploadSucceeded(true);
         } else {
-          setError(validation.error || t.fileValidationFailed);
+          setError(getValidationMessage(validation));
         }
         
         // 清空 input，允许重复选择同一文件
         e.target.value = "";
       }
     },
-    [onFilesSelected, currentFiles, fileType, t]
+    [onFilesSelected, currentFiles, fileType, getValidationMessage]
   );
 
   // 根据文件类型设置默认 accept
@@ -114,45 +131,44 @@ export function FileUploader({
   return (
     <div
       className={cn(
-        "relative border-2 border-dashed rounded-lg transition-all duration-200",
+        "relative overflow-hidden rounded-3xl border-[6px] border-[#176b9a] bg-[#1976a8] p-2 shadow-[0_18px_45px_rgba(25,118,168,.28)] transition-all duration-200",
         isDragging
-          ? "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
-          : "border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600",
-        "bg-white dark:bg-gray-900"
+          ? "scale-[1.01] border-[#0d557d] bg-[#2588be]"
+          : "hover:bg-[#1d80b5] dark:border-[#164f6e]"
       )}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <div className="flex flex-col items-center justify-center p-12 text-center">
+      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/70 px-6 py-10 text-center sm:min-h-[340px]">
         <div
           className={cn(
-            "mb-4 p-4 rounded-full",
+            "mb-5 rounded-2xl p-4 shadow-inner",
             isDragging
-              ? "bg-blue-100 dark:bg-blue-900/30"
-              : "bg-gray-100 dark:bg-gray-800"
+              ? "bg-white text-[#1976a8]"
+              : "bg-white/15 text-white"
           )}
         >
           {isDragging ? (
-            <Upload className="w-10 h-10 text-blue-500" />
+            <Upload className="h-11 w-11 text-[#1976a8]" />
           ) : (
-            <File className="w-10 h-10 text-gray-400" />
+            <File className="h-11 w-11 text-white" />
           )}
         </div>
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+        <h3 className="mb-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
           {isDragging
             ? t.releaseToUpload
             : fileType === "image"
               ? t.dragDropImages
               : t.dragDropVideos}
         </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <p className="mb-5 text-sm text-blue-50/90">
           {t.orClickToSelect}
         </p>
         <label
           htmlFor={`file-upload-${fileType}`}
-          className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          className="inline-flex cursor-pointer items-center rounded-xl bg-white px-5 py-3 font-bold text-[#176b9a] shadow-[0_8px_20px_rgba(0,0,0,.14)] transition-all hover:-translate-y-0.5 hover:bg-blue-50"
         >
           <Upload className="w-4 h-4 mr-2" />
           {t.selectFiles}
@@ -165,7 +181,7 @@ export function FileUploader({
           multiple={multiple}
           onChange={handleFileInput}
         />
-        <p className="mt-4 text-xs text-gray-400 dark:text-gray-500">
+        <p className="mt-5 rounded-full bg-black/10 px-3 py-1.5 text-xs font-medium text-blue-50">
           {t.localProcessingNotice}
         </p>
         
@@ -174,6 +190,24 @@ export function FileUploader({
           <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center gap-2 text-red-700 dark:text-red-400 text-sm">
             <AlertCircle className="w-5 h-5 flex-shrink-0" />
             <span>{error}</span>
+          </div>
+        )}
+
+        {uploadSucceeded && (
+          <div className="mt-4 w-full rounded-lg border border-green-200 bg-green-50 p-3 text-left text-sm text-green-800 dark:border-green-800 dark:bg-green-900/20 dark:text-green-300">
+            <div className="flex items-start gap-2">
+              <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+              <div className="flex-1">
+                <p>{t.uploadSuccess}</p>
+                <button
+                  type="button"
+                  onClick={() => document.getElementById("uploads")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                  className="mt-2 font-medium text-green-700 underline hover:text-green-900 dark:text-green-300 dark:hover:text-green-100"
+                >
+                  {t.continueProcessing}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

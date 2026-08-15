@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, ReactNode } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Image as ImageIcon, Video, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,27 +26,11 @@ interface MainLayoutProps {
  * Locale and labels derived from pathname (static multi-directory i18n).
  */
 export function MainLayout({ children }: MainLayoutProps) {
-  const router = useRouter();
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname);
   const commonT = getCommonT(locale);
 
-  const getActiveTab = useCallback((): FileType => {
-    if (pathname?.includes("/video")) return "video";
-    return "image";
-  }, [pathname]);
-
-  const [activeTab, setActiveTab] = useState<FileType>(getActiveTab());
-
-  useEffect(() => {
-    setActiveTab(getActiveTab());
-  }, [pathname, getActiveTab]);
-
-  const handleTabChange = (tab: FileType) => {
-    setActiveTab(tab);
-    const path = tab === "image" ? getImagePath(locale) : getVideoPath(locale);
-    router.push(path);
-  };
+  const activeTab: FileType = pathname?.includes("/video") ? "video" : "image";
 
   const isVideoPage = pathname?.includes("/video");
   const currentConversion = getConversionFromPathname(pathname);
@@ -58,27 +42,28 @@ export function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <main className="min-h-screen bg-[#f7f5ef]/90 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
+      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-7">
         {/* Header: logo + language switcher */}
-        <div className="text-center mb-8">
+        <div className="mb-7 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <Link
             href={locale === "en" ? "/" : `/${locale}`}
-            className="text-4xl font-bold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="group flex items-center gap-3 text-3xl font-black tracking-tight text-[#17324d] transition-colors hover:text-[#1976a8] dark:text-white"
           >
-            MediaCC
+            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#1976a8] text-lg font-black text-white shadow-[0_8px_20px_rgba(25,118,168,.25)] transition-transform group-hover:-rotate-3">M</span>
+            <span>MediaCC</span>
           </Link>
-          <div className="mt-3 flex flex-wrap justify-center items-center gap-2 text-sm">
+          <div className="flex flex-wrap items-center justify-center gap-1 rounded-full border border-slate-200 bg-white/80 p-1.5 text-sm shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/80">
             <Globe className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" />
             {LOCALES.map((l) => (
               <Link
                 key={l}
                 href={currentPagePathForLocale(l)}
                 className={cn(
-                  "px-2 py-1 rounded transition-colors",
+                  "rounded-full px-3 py-1.5 transition-colors",
                   l === locale
-                    ? "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-medium"
-                    : "text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                    ? "bg-[#1976a8] font-semibold text-white shadow-sm"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-[#1976a8] dark:text-slate-300 dark:hover:bg-slate-800"
                 )}
                 aria-current={l === locale ? "true" : undefined}
               >
@@ -89,37 +74,39 @@ export function MainLayout({ children }: MainLayoutProps) {
         </div>
 
         {/* Tab navigation */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-6">
-          <div className="flex border-b border-gray-200 dark:border-gray-700">
-            <button
-              onClick={() => handleTabChange("image")}
+        <div className="mb-7 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 shadow-[0_12px_35px_rgba(23,50,77,.08)] dark:border-slate-700 dark:bg-slate-900/90">
+          <div className="flex bg-slate-50/80 p-1.5 dark:bg-slate-900">
+            <Link
+              href={getImagePath(locale)}
+              prefetch
               className={cn(
-                "flex-1 flex items-center justify-center px-6 py-4 font-medium text-sm transition-colors",
-                "hover:bg-gray-50 dark:hover:bg-gray-700",
+                "flex flex-1 items-center justify-center rounded-xl px-6 py-3.5 text-sm font-bold transition-all",
+                "hover:bg-white dark:hover:bg-slate-800",
                 activeTab === "image"
-                  ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                  : "text-gray-600 dark:text-gray-400"
+                  ? "bg-white text-[#1976a8] shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"
+                  : "text-slate-500 dark:text-slate-400"
               )}
             >
               <ImageIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               {commonT.tabImage}
-            </button>
-            <button
-              onClick={() => handleTabChange("video")}
+            </Link>
+            <Link
+              href={getVideoPath(locale)}
+              prefetch
               className={cn(
                 "flex-1 flex items-center justify-center px-6 py-4 font-medium text-sm transition-colors",
                 "hover:bg-gray-50 dark:hover:bg-gray-700",
                 activeTab === "video"
-                  ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                  : "text-gray-600 dark:text-gray-400"
+                  ? "bg-white text-[#1976a8] shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"
+                  : "text-slate-500 dark:text-slate-400"
               )}
             >
               <Video className="w-5 h-5 mr-2" aria-hidden="true" />
               {commonT.tabVideo}
-            </button>
+            </Link>
           </div>
 
-          <div className="bg-white dark:bg-gray-800">
+          <div className="bg-white dark:bg-slate-900">
             {children}
           </div>
         </div>

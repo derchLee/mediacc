@@ -9,11 +9,11 @@ import { OperationSelector } from "@/components/OperationSelector";
 import { ConversionSettings } from "@/components/ConversionSettings";
 import { ResultList } from "@/components/ResultList";
 import { useMediaStore } from "@/store";
-import { convertVideoFormat, compressVideo, generateProcessedVideoFileName } from "@/lib/video-processor";
+import { convertVideoFormat, compressVideo, generateProcessedVideoFileName, preloadVideoProcessor } from "@/lib/video-processor";
 import { getExtensionFromFormat } from "@/lib/format-utils";
 import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
 import type { ProcessedFile } from "@/types";
-import type { Locale } from "@/lib/translations";
+import { getUiT, type Locale } from "@/lib/translations";
 import type { VideoPageT } from "@/lib/translations";
 import { MediaPageShell } from "@/components/MediaPageShell";
 import { CompetitorComparison } from "@/components/CompetitorComparison";
@@ -48,7 +48,13 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
     setFileType("video");
   }, [setFileType]);
 
-  const handleFilesSelected = (newFiles: File[]) => addFiles(newFiles);
+  const handleFilesSelected = (newFiles: File[]) => {
+    setFileType("video");
+    addFiles(newFiles);
+    void preloadVideoProcessor().catch((error) => {
+      console.error("[Video processing preload]", error);
+    });
+  };
   const handleFileRemove = (id: string) => removeFile(id);
 
   const handleStartOperation = async () => {
@@ -90,13 +96,13 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
           };
           addProcessedFile(processedFile);
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
-          setErrorMessage(`${uploadedFile.name}: ${errorMsg}`);
+          console.error(`[Video processing] ${uploadedFile.name}:`, error);
+          setErrorMessage(`${uploadedFile.name}: ${t.processingFailed}`);
         }
       }
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      setErrorMessage(errorMsg);
+      console.error("[Video processing]", error);
+      setErrorMessage(t.processingFailed);
     } finally {
       setIsProcessing(false);
     }
@@ -116,32 +122,16 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
   return (
     <MainLayout>
       <MediaPageShell pageType="video" locale={locale}>
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.h1}</h1>
-          <p className="text-lg text-gray-700 dark:text-gray-300">{t.intro}</p>
+        <header className="mx-auto mb-8 max-w-3xl text-center">
+          <span className="mb-4 inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[.12em] text-[#1976a8] dark:bg-blue-950/40">{getUiT(locale).localProcessingNotice}</span>
+          <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight text-[#17324d] dark:text-white sm:text-5xl">{t.h1}</h1>
+          <p className="text-lg leading-relaxed text-slate-600 dark:text-slate-300">{t.intro}</p>
         </header>
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.whyChoose}</h2>
-          <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-2">
-            {t.whyList.map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
-        </section>
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.howItWorks}</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-2">
-            {t.howSteps.map((step, i) => (
-              <li key={i}>{step}</li>
-            ))}
-          </ol>
-        </section>
-
-        <PopularConversions kind="video" locale={locale} />
 
         <FileUploader fileType="video" onFilesSelected={handleFilesSelected} multiple currentFiles={files} locale={locale} />
         <SupportedFormats fileType="video" locale={locale} />
-        <FilePreviewList files={files} onRemove={handleFileRemove} locale={locale} />
+        <div id="uploads" className="scroll-mt-6">
+          <FilePreviewList files={files} onRemove={handleFileRemove} locale={locale} />
 
         {errorMessage && (
           <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
@@ -153,7 +143,7 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
                 <h4 className="text-sm font-medium text-red-800 dark:text-red-200 mb-1">{t.processingFailed}</h4>
                 <p className="text-sm text-red-700 dark:text-red-300">{errorMessage}</p>
               </div>
-              <button onClick={() => setErrorMessage(null)} className="flex-shrink-0 text-red-500 hover:text-red-700" aria-label="Close">
+              <button onClick={() => setErrorMessage(null)} className="flex-shrink-0 text-red-500 hover:text-red-700" aria-label={getUiT(locale).close}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -182,6 +172,17 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
             />
           </>
         )}
+        </div>
+
+        <section className="mb-8 mt-12 rounded-2xl bg-[#f4f8fa] p-6 dark:bg-slate-800/60 sm:p-8">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.whyChoose}</h2>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-2">
+            {t.whyList.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </section>
+        <PopularConversions kind="video" locale={locale} />
 
         <CompetitorComparison pageType="video" locale={locale} />
 

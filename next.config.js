@@ -85,6 +85,24 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/ffmpeg/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/tutorials/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
           {
@@ -102,7 +120,8 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY',
+            // FFmpeg 通过同源 /ffmpeg-worker.html iframe 运行；DENY 会阻止它初始化
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-XSS-Protection',

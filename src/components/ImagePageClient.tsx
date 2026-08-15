@@ -13,7 +13,7 @@ import { convertImageFormat, compressImage, generateProcessedFileName } from "@/
 import { getExtensionFromFormat } from "@/lib/format-utils";
 import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
 import type { ProcessedFile, ImageFormat } from "@/types";
-import type { Locale } from "@/lib/translations";
+import { getUiT, type Locale } from "@/lib/translations";
 import type { ImagePageT } from "@/lib/translations";
 import { MediaPageShell } from "@/components/MediaPageShell";
 import { CompetitorComparison } from "@/components/CompetitorComparison";
@@ -48,7 +48,10 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
     setFileType("image");
   }, [setFileType]);
 
-  const handleFilesSelected = (newFiles: File[]) => addFiles(newFiles);
+  const handleFilesSelected = (newFiles: File[]) => {
+    setFileType("image");
+    addFiles(newFiles);
+  };
   const handleFileRemove = (id: string) => removeFile(id);
 
   const handleStartOperation = async () => {
@@ -92,13 +95,13 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
           };
           addProcessedFile(processedFile);
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
-          setErrorMessage(`${uploadedFile.name}: ${errorMsg}`);
+          console.error(`[Image processing] ${uploadedFile.name}:`, error);
+          setErrorMessage(`${uploadedFile.name}: ${t.processingFailed}`);
         }
       }
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      setErrorMessage(errorMsg);
+      console.error("[Image processing]", error);
+      setErrorMessage(t.processingFailed);
     } finally {
       setIsProcessing(false);
     }
@@ -118,32 +121,16 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
   return (
     <MainLayout>
       <MediaPageShell pageType="image" locale={locale}>
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.h1}</h1>
-          <p className="text-lg text-gray-700 dark:text-gray-300">{t.intro}</p>
+        <header className="mx-auto mb-8 max-w-3xl text-center">
+          <span className="mb-4 inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[.12em] text-[#1976a8] dark:bg-blue-950/40">{getUiT(locale).localProcessingNotice}</span>
+          <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight text-[#17324d] dark:text-white sm:text-5xl">{t.h1}</h1>
+          <p className="text-lg leading-relaxed text-slate-600 dark:text-slate-300">{t.intro}</p>
         </header>
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.whyChoose}</h2>
-          <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-2">
-            {t.whyList.map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
-        </section>
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.howItWorks}</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-2">
-            {t.howSteps.map((step, i) => (
-              <li key={i}>{step}</li>
-            ))}
-          </ol>
-        </section>
-
-        <PopularConversions kind="image" locale={locale} />
 
         <FileUploader fileType="image" onFilesSelected={handleFilesSelected} multiple currentFiles={files} locale={locale} />
         <SupportedFormats fileType="image" locale={locale} />
-        <FilePreviewList files={files} onRemove={handleFileRemove} locale={locale} />
+        <div id="uploads" className="scroll-mt-6">
+          <FilePreviewList files={files} onRemove={handleFileRemove} locale={locale} />
 
         {files.length > 0 && (
           <>
@@ -167,6 +154,17 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             />
           </>
         )}
+        </div>
+
+        <section className="mb-8 mt-12 rounded-2xl bg-[#f4f8fa] p-6 dark:bg-slate-800/60 sm:p-8">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{t.whyChoose}</h2>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-2">
+            {t.whyList.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </section>
+        <PopularConversions kind="image" locale={locale} />
 
         <CompetitorComparison pageType="image" locale={locale} />
 

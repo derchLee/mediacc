@@ -12,6 +12,11 @@
 import type { VideoFormat, CompressionMode } from "@/types";
 import { getFFmpegIframeManager } from "./ffmpeg-iframe-manager";
 
+/** 在用户选择视频后后台加载 FFmpeg，减少点击处理后的等待时间。 */
+export function preloadVideoProcessor(): Promise<void> {
+  return getFFmpegIframeManager().initFFmpeg();
+}
+
 /**
  * 转换视频格式
  */

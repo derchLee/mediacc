@@ -16,11 +16,11 @@ interface MediaPageShellProps {
  */
 export function MediaPageShell({ pageType, locale, children }: MediaPageShellProps) {
   return (
-    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 p-4 sm:p-6">
-      <div className="w-full lg:w-56 xl:w-64 shrink-0 order-2 lg:order-1">
+    <div className="flex flex-col gap-8 p-5 sm:p-8 lg:flex-row lg:p-10">
+      <div className="order-2 w-full shrink-0 lg:w-56 xl:w-64">
         <CompetitorSidebar pageType={pageType} locale={locale} />
       </div>
-      <div className="flex-1 min-w-0 order-1 lg:order-2">{children}</div>
+      <div className="order-1 min-w-0 flex-1">{children}</div>
     </div>
   );
 }

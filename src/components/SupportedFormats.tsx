@@ -16,22 +16,19 @@ export function SupportedFormats({ fileType, locale = "en" }: SupportedFormatsPr
   const title = fileType === "image" ? t.supportedImageFormats : t.supportedVideoFormats;
 
   return (
-    <div className="mt-8">
-      <div className="flex items-center mb-4">
+    <div className="mt-6 rounded-2xl bg-[#f4f8fa] p-5 dark:bg-slate-800/60">
+      <div className="mb-3 flex items-center">
         <Icon className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
           {title}
         </h3>
       </div>
-      <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
         {formats.map((format, index) => (
-          <span key={index} className="inline-flex items-center">
-            <span className="font-medium text-gray-900 dark:text-gray-100">
+          <span key={index} className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            <span className="font-bold text-slate-700 dark:text-slate-100">
               {format.name}
             </span>
-            {index < formats.length - 1 && (
-              <span className="mx-2 text-gray-400 dark:text-gray-500">/</span>
-            )}
           </span>
         ))}
       </div>

@@ -5,7 +5,6 @@
  * 其他不支持的格式（AVIF, TIFF, BMP 等）会给出提示
  */
 
-import imageCompression from "browser-image-compression";
 import type { ImageFormat, CompressionMode } from "@/types";
 
 /**
@@ -294,6 +293,7 @@ export async function compressImage(
   mode: CompressionMode
 ): Promise<Blob> {
   try {
+    const imageCompression = (await import("browser-image-compression")).default;
     const sourceFormat = detectImageFormat(file);
     let fileToCompress = file;
 

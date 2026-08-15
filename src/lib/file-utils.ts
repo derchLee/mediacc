@@ -5,6 +5,18 @@
 
 import type { FileType } from "@/types";
 
+export type FileValidationErrorCode =
+  | "tooManyFiles"
+  | "fileTooLarge"
+  | "totalSizeTooLarge"
+  | "fileTypeMismatch";
+
+export interface FileValidationResult {
+  valid: boolean;
+  errorCode?: FileValidationErrorCode;
+  values?: Record<string, string | number>;
+}
+
 /**
  * 文件大小限制（字节）
  */
@@ -15,15 +27,13 @@ export const MAX_SINGLE_FILE_SIZE = 150 * 1024 * 1024; // 150MB - 单个文件�
 /**
  * 验证文件数量
  */
-export function validateFileCount(currentCount: number, newFilesCount: number): {
-  valid: boolean;
-  error?: string;
-} {
+export function validateFileCount(currentCount: number, newFilesCount: number): FileValidationResult {
   const totalCount = currentCount + newFilesCount;
   if (totalCount > MAX_FILE_COUNT) {
     return {
       valid: false,
-      error: `Maximum ${MAX_FILE_COUNT} files allowed. Currently have ${currentCount} file(s)`,
+      errorCode: "tooManyFiles",
+      values: { max: MAX_FILE_COUNT, current: currentCount },
     };
   }
   return { valid: true };
@@ -32,14 +42,12 @@ export function validateFileCount(currentCount: number, newFilesCount: number): 
 /**
  * 验证单个文件大小
  */
-export function validateSingleFileSize(file: File): {
-  valid: boolean;
-  error?: string;
-} {
+export function validateSingleFileSize(file: File): FileValidationResult {
   if (file.size > MAX_SINGLE_FILE_SIZE) {
     return {
       valid: false,
-      error: "目前不支持上传太大的文件",
+      errorCode: "fileTooLarge",
+      values: { max: MAX_SINGLE_FILE_SIZE / 1024 / 1024 },
     };
   }
   return { valid: true };
@@ -51,10 +59,7 @@ export function validateSingleFileSize(file: File): {
 export function validateTotalSize(
   currentTotalSize: number,
   newFiles: File[]
-): {
-  valid: boolean;
-  error?: string;
-} {
+): FileValidationResult {
   const newFilesSize = newFiles.reduce((sum, file) => sum + file.size, 0);
   const totalSize = currentTotalSize + newFilesSize;
 
@@ -63,7 +68,8 @@ export function validateTotalSize(
     const maxSizeMB = (MAX_TOTAL_SIZE / (1024 * 1024)).toFixed(0);
     return {
       valid: false,
-      error: `Total file size cannot exceed ${maxSizeMB}MB, currently using ${currentSizeMB}MB`,
+      errorCode: "totalSizeTooLarge",
+      values: { max: maxSizeMB, current: currentSizeMB },
     };
   }
 
@@ -120,10 +126,7 @@ export function validateFiles(
   currentFiles: { size: number }[],
   newFiles: File[],
   fileType: FileType
-): {
-  valid: boolean;
-  error?: string;
-} {
+): FileValidationResult {
   // 验证单个文件大小（优先检查，避免处理大文件）
   for (const file of newFiles) {
     const singleFileValidation = validateSingleFileSize(file);
@@ -150,7 +153,8 @@ export function validateFiles(
   if (invalidFiles.length > 0) {
     return {
       valid: false,
-      error: `Selected ${invalidFiles.length} file(s) with mismatched file types`,
+      errorCode: "fileTypeMismatch",
+      values: { count: invalidFiles.length },
     };
   }
 

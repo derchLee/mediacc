@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { X, Cookie, Settings } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname, getUiT } from "@/lib/translations";
 
 const COOKIE_CONSENT_KEY = "mediacc_cookie_consent";
 
@@ -17,6 +19,8 @@ interface CookiePreferences {
  * GDPR/CCPA compliant cookie consent management
  */
 export function CookieConsent() {
+  const pathname = usePathname();
+  const t = getUiT(getLocaleFromPathname(pathname));
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -97,7 +101,7 @@ export function CookieConsent() {
       <button
         onClick={() => setShowSettings(true)}
         className="fixed bottom-4 right-4 z-50 p-3 bg-gray-800 dark:bg-gray-700 text-white rounded-full shadow-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-        aria-label="Cookie Settings"
+        aria-label={t.cookieSettings}
       >
         <Cookie className="w-5 h-5" />
       </button>
@@ -116,19 +120,19 @@ export function CookieConsent() {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-                  We Use Cookies
+                  {t.cookiesTitle}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking &quot;Accept All&quot;, you consent to our use of cookies.{" "}
+                  {t.cookiesDescription}{" "}
                   <Link href="/cookies" className="text-blue-600 dark:text-blue-400 hover:underline">
-                    Learn more
+                    {t.learnMore}
                   </Link>
                 </p>
               </div>
               <button
                 onClick={() => setShowBanner(false)}
                 className="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                aria-label="Close"
+                aria-label={t.close}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -138,20 +142,20 @@ export function CookieConsent() {
                 onClick={handleAcceptAll}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
-                Accept All
+                {t.acceptAll}
               </button>
               <button
                 onClick={handleRejectAll}
                 className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
               >
-                Reject All
+                {t.rejectAll}
               </button>
               <button
                 onClick={() => setShowSettings(true)}
                 className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium flex items-center gap-2"
               >
                 <Settings className="w-4 h-4" />
-                Customize
+                {t.customize}
               </button>
             </div>
           </div>
@@ -160,7 +164,7 @@ export function CookieConsent() {
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Cookie Settings
+                {t.cookieSettings}
               </h3>
               <button
                 onClick={() => {
@@ -170,7 +174,7 @@ export function CookieConsent() {
                   }
                 }}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                aria-label="Close"
+                aria-label={t.close}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -181,9 +185,9 @@ export function CookieConsent() {
               <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">Necessary Cookies</h4>
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">{t.necessaryCookies}</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Required for the website to function properly
+                      {t.necessaryCookiesDesc}
                     </p>
                   </div>
                   <input
@@ -199,9 +203,9 @@ export function CookieConsent() {
               <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">Analytics Cookies</h4>
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">{t.analyticsCookies}</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Help us understand how visitors interact with our website (e.g., Google Analytics)
+                      {t.analyticsCookiesDesc}
                     </p>
                   </div>
                   <input
@@ -219,9 +223,9 @@ export function CookieConsent() {
               <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">Advertising Cookies</h4>
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">{t.advertisingCookies}</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Used to deliver relevant advertisements (e.g., Google Ads)
+                      {t.advertisingCookiesDesc}
                     </p>
                   </div>
                   <input
@@ -241,13 +245,13 @@ export function CookieConsent() {
                 onClick={handleSavePreferences}
                 className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
-                Save Preferences
+                {t.savePreferences}
               </button>
               <Link
                 href="/cookies"
                 className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
               >
-                Learn More
+                {t.learnMore}
               </Link>
             </div>
           </div>
