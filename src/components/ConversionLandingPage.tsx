@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MainLayout } from "@/components/MainLayout";
 import { MediaPageShell } from "@/components/MediaPageShell";
 import type { Locale } from "@/lib/translations";
+import { conversionGuides } from "@/lib/seo/conversion-guides";
 import {
   buildConversionJsonLd,
   getConversionCopy,
@@ -53,6 +54,7 @@ export function ConversionLandingPage({ locale, conversion }: ConversionLandingP
   const related = getRelatedConversions(conversion);
   const jsonLd = buildConversionJsonLd(locale, conversion);
   const toolPath = getToolPath(locale, conversion.kind);
+  const guide = locale === "en" ? conversionGuides[conversion.slug] : undefined;
 
   return (
     <>
@@ -127,6 +129,23 @@ export function ConversionLandingPage({ locale, conversion }: ConversionLandingP
               <p className="text-gray-700 dark:text-gray-300">
                 Choose this {conversion.fromLabel} to {conversion.toLabel} conversion when the destination app or website requests {conversion.toLabel}, or when your device cannot open {conversion.fromLabel}. Keep the original file until you have checked the converted output; conversion can change file size, metadata, transparency, or visual quality depending on the formats involved.
               </p>
+            </section>
+          )}
+
+          {guide && (
+            <section className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{guide.heading}</h2>
+              <div className="space-y-4 text-gray-700 dark:text-gray-300">
+                {guide.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                <p>
+                  Reference: <a href="https://support.apple.com/en-la/116944" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Apple guidance on HEIF and HEVC media</a>.
+                </p>
+                <p>
+                  <Link href={toolPath} className="text-blue-600 dark:text-blue-400 underline">
+                    Start your {conversion.fromLabel} to {conversion.toLabel} conversion
+                  </Link>
+                </p>
+              </div>
             </section>
           )}
 

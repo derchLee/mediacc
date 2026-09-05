@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Locale } from "@/lib/translations";
 import { LOCALES } from "@/lib/translations";
 import { getLocalePrefix } from "@/lib/translations/types";
+import { conversionGuides } from "@/lib/seo/conversion-guides";
 
 export type MediaKind = "image" | "video";
 export type ConversionSlug = `${string}-to-${string}`;
@@ -274,6 +275,7 @@ export function getConversionTitle(locale: Locale, conversion: ConversionDefinit
 }
 
 export function getConversionDescription(locale: Locale, conversion: ConversionDefinition): string {
+  if (locale === "en" && conversionGuides[conversion.slug]) return conversionGuides[conversion.slug].description;
   const copy = getConversionCopy(locale);
   return interpolate(copy.intro, conversion, getKindLabel(locale, conversion.kind));
 }
@@ -282,7 +284,7 @@ export function getConversionMetadata(locale: Locale, kind: MediaKind, slug: str
   const conversion = getConversion(kind, slug);
   if (!conversion) return {};
 
-  const title = `${getConversionTitle(locale, conversion)} - ${getConversionCopy(locale).titleSuffix}`;
+  const title = (locale === "en" && conversionGuides[slug]?.title) || `${getConversionTitle(locale, conversion)} - ${getConversionCopy(locale).titleSuffix}`;
   const description = getConversionDescription(locale, conversion);
   const canonical = getAbsoluteConversionUrl(locale, kind, slug);
 
@@ -364,7 +366,7 @@ export function getConversionFaq(locale: Locale, conversion: ConversionDefinitio
       : { name: copy.faq.quality, text: commonAnswers.quality },
   ];
 
-  return items;
+  return locale === "en" ? [...items, ...(conversionGuides[conversion.slug]?.faq || [])] : items;
 }
 
 export function getConversionHowTo(locale: Locale, conversion: ConversionDefinition) {
