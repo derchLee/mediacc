@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Disclaimer",
-  description: "Disclaimer for MediaCC - Important legal information about our service",
+  description: "Disclaimer for MediaKit - Important legal information about our service",
   alternates: { canonical: "/disclaimer" },
   robots: {
     index: true,
@@ -31,7 +31,7 @@ export default function DisclaimerPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">1. Nature of Service</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              MediaCC is a multimedia conversion and compression tool based on browser local processing technology. All processing is completed on your device using the following technologies:
+              MediaKit is a multimedia conversion and compression tool based on browser local processing technology. All processing is completed on your device using the following technologies:
             </p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
               <li><strong>Image Processing:</strong> Canvas API and browser-image-compression library</li>

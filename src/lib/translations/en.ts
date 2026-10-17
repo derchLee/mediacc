@@ -4,7 +4,7 @@
 
 import type { CommonT, ImagePageT, VideoPageT, ImageLayoutMetaT, VideoLayoutMetaT, UiT } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
 
 export const common: CommonT = {
   tabImage: "Image Processing",
@@ -82,10 +82,10 @@ export const ui: UiT = {
 };
 
 export const imagePage: ImagePageT = {
-  h1: "Free Image Converter: HEIC to JPG, PNG & WebP",
+  h1: "Image Converter & Compressor",
   intro:
-    "Convert HEIC photos to JPG, PNG, or WebP and batch-convert or compress images for free. MediaCC runs locally in your browser—no upload, no signup, and no watermark. Your files never leave your device.",
-  whyChoose: "Why Choose MediaCC?",
+    "Convert HEIC to JPG, WebP to JPG or PNG, and PNG to JPG, or compress JPG, PNG and WebP images for free. MediaKit processes your files locally in your browser, with no uploads or signup.",
+  whyChoose: "Why Choose MediaKit?",
   whyList: [
     "100% local processing – files never leave your device",
     "Free to use with no signup and no watermark",
@@ -154,15 +154,15 @@ export const imagePage: ImagePageT = {
   ],
   privacySecurity: "Privacy & Security",
   privacyText:
-    "All processing happens locally in your browser. MediaCC never uploads, stores, or analyzes your files. Your images stay on your device from start to finish – no server, no cloud, no third-party access.",
+    "All processing happens locally in your browser. MediaKit never uploads, stores, or analyzes your files. Your images stay on your device from start to finish – no server, no cloud, no third-party access.",
   processingFailed: "Processing Failed",
 };
 
 export const videoPage: VideoPageT = {
-  h1: "Free Video to MP4 Converter & Compressor",
+  h1: "Video Converter & Compressor",
   intro:
-    "Convert MOV, WebM, MKV, or AVI to MP4 and compress video for free. MediaCC uses FFmpeg.wasm locally in your browser—no upload, no signup, and no watermark. Your videos never leave your device.",
-  whyChoose: "Why Choose MediaCC?",
+    "Convert MOV to MP4 or WebM to MP4, and compress MP4 videos to reduce video file size. MediaKit processes videos locally in your browser with no file uploads or signup. Processing speed depends on your device and video size.",
+  whyChoose: "Why Choose MediaKit?",
   whyList: [
     "100% local processing – files never leave your device",
     "Free to use with no signup and no watermark",
@@ -239,16 +239,16 @@ export const videoPage: VideoPageT = {
   ],
   privacySecurity: "Privacy & Security",
   privacyText:
-    "All processing happens locally in your browser. MediaCC never uploads, stores, or analyzes your files. Your videos stay on your device from start to finish – no server, no cloud, no third-party access.",
+    "All processing happens locally in your browser. MediaKit never uploads, stores, or analyzes your files. Your videos stay on your device from start to finish – no server, no cloud, no third-party access.",
   processingFailed: "Processing Failed",
 };
 
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/image`;
   return {
-    title: "HEIC to JPG & Free Image Converter – No Upload",
+    title: "Free Image Converter & Compressor",
     description:
-      "Convert HEIC to JPG, PNG or WebP and batch-compress images free in your browser. No upload, signup or watermark; files stay on your device.",
+      "Convert HEIC, JPG, PNG and WebP images, and reduce image file sizes in your browser. Free local processing with no file uploads or signup.",
     keywords: [
       "free image converter",
       "heic to jpg",
@@ -257,6 +257,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "jpg to png converter",
       "png to webp converter",
       "webp to jpg",
+      "webp to png",
+      "png to jpg",
+      "compress jpg",
+      "compress png",
+      "heic to jpg without uploading",
       "image compression online",
       "reduce image size",
       "local image processing",
@@ -266,7 +271,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "convert images without uploading",
       "image converter no signup",
     ],
-    openGraphTitle: "HEIC to JPG & Free Batch Image Converter – MediaCC",
+    openGraphTitle: "Free Image Converter & Compressor | MediaKit",
     openGraphDescription:
       "Convert HEIC photos and JPG, PNG, WebP images directly in your browser. Your files never leave your device.",
     twitterTitle: "Free Online Image Converter & Compressor",
@@ -276,7 +281,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: "MediaCC Image Converter",
+      name: "MediaKit Image Converter",
       alternateName: "Online Image Converter & Compressor",
       description: "Convert HEIC, JPG, PNG, WebP and compress images locally in your browser.",
       softwareVersion: "1.0",
@@ -288,8 +293,8 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       inLanguage: "en",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-      author: { "@type": "Organization", name: "MediaCC", url: baseUrl },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      author: { "@type": "Organization", name: "MediaKit", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
       {
@@ -297,12 +302,12 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
         text: "No. All conversion and compression runs locally via Canvas API, heic2any (for HEIC), and WebAssembly. Your files never leave your device—zero upload, 100% privacy.",
       },
       {
-        name: "Is MediaCC Image Converter free to use?",
-        text: "Yes. MediaCC is completely free with no registration, no account, and no usage caps. Zero hidden fees, no watermarks. All features—including batch processing of up to 15 files—are included.",
+        name: "Is MediaKit Image Converter free to use?",
+        text: "Yes. MediaKit is completely free with no registration, no account, and no usage caps. Zero hidden fees, no watermarks. All features—including batch processing of up to 15 files—are included.",
       },
       {
         name: "What image formats are supported?",
-        text: "MediaCC supports JPG/JPEG, PNG, WebP, and HEIC/HEIF input in supported browsers. HEIC (iOS photos) is decoded client-side via heic2any and can be exported as JPG, PNG, or WebP. AVIF input depends on browser support.",
+        text: "MediaKit supports JPG/JPEG, PNG, WebP, and HEIC/HEIF input in supported browsers. HEIC (iOS photos) is decoded client-side via heic2any and can be exported as JPG, PNG, or WebP. AVIF input depends on browser support.",
       },
       {
         name: "What is the maximum file size for image conversion?",
@@ -310,7 +315,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "How does browser-based image processing work?",
-        text: "MediaCC uses Canvas API and browser-image-compression. HEIC uses heic2any for client-side decoding. All processing runs in JavaScript/WebAssembly—no server requests. Images are processed and exported locally.",
+        text: "MediaKit uses Canvas API and browser-image-compression. HEIC uses heic2any for client-side decoding. All processing runs in JavaScript/WebAssembly—no server requests. Images are processed and exported locally.",
       },
       {
         name: "Can I batch convert multiple images at once?",
@@ -318,12 +323,12 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "Will image quality be affected during conversion?",
-        text: "Format conversion and compression can affect output quality depending on the selected format and mode. MediaCC uses preset browser-side quality settings for JPG/WebP output and a stronger compression mode when smaller files are preferred.",
+        text: "Format conversion and compression can affect output quality depending on the selected format and mode. MediaKit uses preset browser-side quality settings for JPG/WebP output and a stronger compression mode when smaller files are preferred.",
       },
     ],
     howTo: {
       name: "How to Convert and Compress Images Online",
-      description: "Step-by-step guide to convert image formats and reduce file size using MediaCC's browser-based tool.",
+      description: "Step-by-step guide to convert image formats and reduce file size using MediaKit's browser-based tool.",
       step: [
         { name: "Upload Images", text: "Drag and drop your images or click to select files. Supports JPG, PNG, WebP, and HEIC/HEIF input up to 150MB per file." },
         { name: "Choose Output Format", text: "Select your desired output format from the dropdown: JPG, PNG, or WebP." },
@@ -337,14 +342,18 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
 function buildVideoLayoutMeta(): VideoLayoutMetaT {
   const url = `${baseUrl}/video`;
   return {
-    title: "Video to MP4 Converter – Free, Private, No Upload",
+    title: "Free Video Converter & Compressor – No Upload",
     description:
-      "Convert MOV, WebM, MKV or AVI to MP4 and compress video free in your browser. Private FFmpeg.wasm processing with no upload, signup or watermark.",
+      "Convert MOV or WebM to MP4 and compress videos directly in your browser. Free local processing with no file uploads. File size and browser limits apply.",
     keywords: [
       "free video converter",
       "online video compressor",
       "mp4 converter",
       "webm to mp4",
+      "mov to mp4",
+      "compress mp4",
+      "reduce video file size",
+      "video converter without uploading",
       "mov converter",
       "video compression online",
       "reduce video size",
@@ -357,7 +366,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "convert video without uploading",
       "video converter no signup",
     ],
-    openGraphTitle: "Free Video to MP4 Converter – No Upload | MediaCC",
+    openGraphTitle: "Free Video Converter & Compressor – No Upload | MediaKit",
     openGraphDescription:
       "Convert and compress videos directly in your browser. Your files never leave your device. Support MP4, WebM, MOV, MKV, AVI formats.",
     twitterTitle: "Free Online Video Converter & Compressor",
@@ -367,7 +376,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: "MediaCC Video Converter",
+      name: "MediaKit Video Converter",
       alternateName: "Online Video Converter & Compressor",
       description: "Convert and compress videos locally in your browser.",
       applicationCategory: "MultimediaApplication",
@@ -378,8 +387,8 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       inLanguage: "en",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-      author: { "@type": "Organization", name: "MediaCC", url: baseUrl },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      author: { "@type": "Organization", name: "MediaKit", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
       {
@@ -387,12 +396,12 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
         text: "No. All video conversion and compression runs locally via FFmpeg.wasm (WebAssembly). Your files never leave your device—zero upload, 100% privacy. FFmpeg runs entirely in the browser.",
       },
       {
-        name: "Is MediaCC Video Converter free to use?",
-        text: "Yes. MediaCC Video Converter is completely free with no registration, no daily limits, and no watermarks. Browser-based format conversion and compression features are included.",
+        name: "Is MediaKit Video Converter free to use?",
+        text: "Yes. MediaKit Video Converter is completely free with no registration, no daily limits, and no watermarks. Browser-based format conversion and compression features are included.",
       },
       {
         name: "What video formats are supported?",
-        text: "MediaCC supports common browser-side video conversion workflows for MP4, WebM, MOV, MKV, and AVI. You can convert between these formats and use preset compression modes to reduce file size.",
+        text: "MediaKit supports common browser-side video conversion workflows for MP4, WebM, MOV, MKV, and AVI. You can convert between these formats and use preset compression modes to reduce file size.",
       },
       {
         name: "What is the maximum file size for video conversion?",
@@ -400,11 +409,11 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       },
       {
         name: "How does browser-based video processing work?",
-        text: "MediaCC uses FFmpeg.wasm—a WebAssembly port of FFmpeg. Encoding/decoding runs in an in-memory virtual filesystem. No server calls. Supports libx264 (video) and AAC (audio) codecs.",
+        text: "MediaKit uses FFmpeg.wasm—a WebAssembly port of FFmpeg. Encoding/decoding runs in an in-memory virtual filesystem. No server calls. Supports libx264 (video) and AAC (audio) codecs.",
       },
       {
-        name: "Does MediaCC upload videos for processing?",
-        text: "No. MediaCC processes videos locally in your browser with FFmpeg.wasm. The tradeoff is that large videos can take longer and depend on your device memory and CPU.",
+        name: "Does MediaKit upload videos for processing?",
+        text: "No. MediaKit processes videos locally in your browser with FFmpeg.wasm. The tradeoff is that large videos can take longer and depend on your device memory and CPU.",
       },
       {
         name: "Why is video processing slower than image processing?",
@@ -417,7 +426,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
     ],
     howTo: {
       name: "How to Convert and Compress Videos Online",
-      description: "Step-by-step guide to convert video formats and reduce file size using MediaCC's browser-based FFmpeg.wasm tool.",
+      description: "Step-by-step guide to convert video formats and reduce file size using MediaKit's browser-based FFmpeg.wasm tool.",
       step: [
         { name: "Upload Videos", text: "Drag and drop your videos or click to select files. Supports MP4, WebM, MOV, MKV, AVI formats up to 150MB per file." },
         { name: "Choose Output Format", text: "Select your desired output format from the dropdown menu: MP4, WebM, MOV, MKV, or AVI." },

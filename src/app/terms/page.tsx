@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms of Service for MediaCC - Usage terms and conditions",
+  description: "Terms of Service for MediaKit - Usage terms and conditions",
   alternates: { canonical: "/terms" },
   robots: {
     index: true,
@@ -25,14 +25,14 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">1. Acceptance of Terms</h2>
             <p className="text-gray-700 dark:text-gray-300">
-              By accessing and using MediaCC (&quot;the Service&quot;), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
+              By accessing and using MediaKit (&quot;the Service&quot;), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">2. Description of Service</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              MediaCC is a web-based application that allows users to convert and compress images and videos. All processing is performed locally in your browser using WebAssembly technology.
+              MediaKit is a web-based application that allows users to convert and compress images and videos. All processing is performed locally in your browser using WebAssembly technology.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
               <strong>Key Features:</strong>
@@ -108,7 +108,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">7. Intellectual Property</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              The Service and its original content, features, and functionality are owned by MediaCC and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+              The Service and its original content, features, and functionality are owned by MediaKit and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
               Your files remain your property. We do not claim ownership of any files you process through the Service.

@@ -81,7 +81,7 @@ export function ConversionLandingPage({ locale, conversion }: ConversionLandingP
 
           <header className="mb-8">
             <p className="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400 mb-2">
-              MediaCC {copy.privateBrowserTool}
+              MediaKit {copy.privateBrowserTool}
             </p>
             <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">{title}</h1>
             <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl">{intro}</p>

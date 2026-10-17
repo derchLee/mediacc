@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MediaCC — Multilingual documentation</title>
+  <title>MediaKit — Multilingual documentation</title>
   <style>
     :root {
       --bg: #f6f7f9;
@@ -124,7 +124,7 @@
   </style>
 </head>
 <body>
-  <h1>MediaCC</h1>
+  <h1>MediaKit</h1>
   <p class="lede">Click a tab to show that language only. (Pure HTML/CSS — open this file in a browser, or serve via GitHub Pages.)</p>
 
   <div class="tabs">
@@ -150,9 +150,9 @@
         <table>
           <thead><tr><th>URL</th><th>Notes</th></tr></thead>
           <tbody>
-            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>Production entry; apex redirects to canonical <strong>www</strong>.</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>Image tool (default).</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>Video tool.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com">https://mediakit.upupdays.com</a></td><td>Production entry; redirects to <code>/image</code>.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/image">…/image</a></td><td>Image tool (default).</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/video">…/video</a></td><td>Video tool.</td></tr>
           </tbody>
         </table>
         <p>Localized UI: <code>/ja/image</code>, <code>/es/image</code>, <code>/pt/image</code> (and matching <code>/video</code> paths).</p>
@@ -166,12 +166,12 @@
         </ol>
 
         <h2>Deployment (Docker Compose)</h2>
-        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+        <pre>git clone &lt;your-repo-url&gt; mediakit &amp;&amp; cd mediakit
 chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh   # Linux/macOS — or .\download-ffmpeg.ps1 on Windows
 
 docker compose build
 docker compose up -d</pre>
-        <p>Host <strong>80</strong> → container <strong>3000</strong>. Set <code>NEXT_PUBLIC_BASE_URL=https://www.mediacc.it.com</code> (must match public canonical URL). See <strong>DEPLOYMENT.md</strong> for TLS, Cloudflare, COOP/COEP.</p>
+        <p>Host <strong>80</strong> → container <strong>3000</strong>. Set <code>NEXT_PUBLIC_BASE_URL=https://mediakit.upupdays.com</code> (must match public canonical URL). See <strong>DEPLOYMENT.md</strong> for TLS, Cloudflare, COOP/COEP.</p>
 
         <h2>Local development</h2>
         <pre>npm install
@@ -203,9 +203,9 @@ npm run dev</pre>
         <table>
           <thead><tr><th>URL</th><th>Notas</th></tr></thead>
           <tbody>
-            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>Entrada producción; apex redirige a <strong>www</strong>.</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>Herramienta de imagen.</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>Herramienta de vídeo.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com">https://mediakit.upupdays.com</a></td><td>Entrada de producción; redirige a <code>/image</code>.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/image">…/image</a></td><td>Herramienta de imagen.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/video">…/video</a></td><td>Herramienta de vídeo.</td></tr>
           </tbody>
         </table>
         <p>Interfaz localizada: <code>/es/image</code>, <code>/es/video</code> (también <code>/ja</code>, <code>/pt</code>).</p>
@@ -219,11 +219,11 @@ npm run dev</pre>
         </ol>
 
         <h2>Despliegue</h2>
-        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+        <pre>git clone &lt;your-repo-url&gt; mediakit &amp;&amp; cd mediakit
 chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh
 docker compose build
 docker compose up -d</pre>
-        <p>Variables: <code>NEXT_PUBLIC_BASE_URL</code> = URL pública (ej. <code>https://www.mediacc.it.com</code>). Desarrollo local: <code>npm install</code>, <code>./download-ffmpeg.sh</code>, <code>npm run dev</code>. Más detalle: <strong>DEPLOYMENT.md</strong>.</p>
+        <p>Variables: <code>NEXT_PUBLIC_BASE_URL</code> = URL pública (ej. <code>https://mediakit.upupdays.com</code>). Desarrollo local: <code>npm install</code>, <code>./download-ffmpeg.sh</code>, <code>npm run dev</code>. Más detalle: <strong>DEPLOYMENT.md</strong>.</p>
 
         <h2>Privacidad y SEO</h2>
         <p>Sin subida de archivos para la lógica de conversión. Políticas en <code>/privacy</code>, <code>/cookies</code>, <code>/terms</code>. SEO/GEO: metadatos, <code>robots.txt</code>, sitemap, JSON-LD.</p>
@@ -240,9 +240,9 @@ docker compose up -d</pre>
         <table>
           <thead><tr><th>URL</th><th>説明</th></tr></thead>
           <tbody>
-            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>本番入口（apex は <strong>www</strong> にリダイレクト）</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>画像ツール</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>動画ツール</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com">https://mediakit.upupdays.com</a></td><td>本番入口（<code>/image</code> にリダイレクト）</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/image">…/image</a></td><td>画像ツール</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/video">…/video</a></td><td>動画ツール</td></tr>
           </tbody>
         </table>
         <p>日本語 UI: <code>/ja/image</code>、<code>/ja/video</code>（<code>/es</code>、<code>/pt</code> も同様）。</p>
@@ -256,11 +256,11 @@ docker compose up -d</pre>
         </ol>
 
         <h2>デプロイ</h2>
-        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+        <pre>git clone &lt;your-repo-url&gt; mediakit &amp;&amp; cd mediakit
 chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh
 docker compose build
 docker compose up -d</pre>
-        <p><code>NEXT_PUBLIC_BASE_URL</code> に本番 URL（例: <code>https://www.mediacc.it.com</code>）を設定。詳細は英語版と <strong>DEPLOYMENT.md</strong>。開発: <code>npm install</code> → <code>./download-ffmpeg.sh</code> → <code>npm run dev</code>。</p>
+        <p><code>NEXT_PUBLIC_BASE_URL</code> に本番 URL（例: <code>https://mediakit.upupdays.com</code>）を設定。詳細は英語版と <strong>DEPLOYMENT.md</strong>。開発: <code>npm install</code> → <code>./download-ffmpeg.sh</code> → <code>npm run dev</code>。</p>
 
         <h2>プライバシー・SEO</h2>
         <p>変換処理はブラウザ内。詳細は本番の <code>/privacy</code> など。SEO/GEO: メタデータ、hreflang、<code>robots.txt</code>、サイトマップ、JSON-LD。</p>
@@ -277,9 +277,9 @@ docker compose up -d</pre>
         <table>
           <thead><tr><th>URL</th><th>Notas</th></tr></thead>
           <tbody>
-            <tr><td><a href="https://mediacc.it.com">https://mediacc.it.com</a></td><td>Entrada; apex redireciona para <strong>www</strong>.</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/image">…/image</a></td><td>Ferramenta de imagem.</td></tr>
-            <tr><td><a href="https://www.mediacc.it.com/video">…/video</a></td><td>Ferramenta de vídeo.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com">https://mediakit.upupdays.com</a></td><td>Entrada; redireciona para <code>/image</code>.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/image">…/image</a></td><td>Ferramenta de imagem.</td></tr>
+            <tr><td><a href="https://mediakit.upupdays.com/video">…/video</a></td><td>Ferramenta de vídeo.</td></tr>
           </tbody>
         </table>
         <p>UI em português: <code>/pt/image</code>, <code>/pt/video</code> (também <code>/ja</code>, <code>/es</code>).</p>
@@ -293,14 +293,14 @@ docker compose up -d</pre>
         </ol>
 
         <h2>Implantação</h2>
-        <pre>git clone &lt;your-repo-url&gt; mediacc &amp;&amp; cd mediacc
+        <pre>git clone &lt;your-repo-url&gt; mediakit &amp;&amp; cd mediakit
 chmod +x download-ffmpeg.sh &amp;&amp; ./download-ffmpeg.sh
 docker compose build
 docker compose up -d</pre>
-        <p>Defina <code>NEXT_PUBLIC_BASE_URL</code> com o URL público (ex.: <code>https://www.mediacc.it.com</code>). Docker manual e desenvolvimento local: ver secção <strong>English</strong> neste ficheiro ou <strong>README.md</strong>. Mais detalhes: <strong>DEPLOYMENT.md</strong>.</p>
+        <p>Defina <code>NEXT_PUBLIC_BASE_URL</code> com o URL público (ex.: <code>https://mediakit.upupdays.com</code>). Docker manual e desenvolvimento local: ver secção <strong>English</strong> neste ficheiro ou <strong>README.md</strong>. Mais detalhes: <strong>DEPLOYMENT.md</strong>.</p>
 
         <h2>Privacidade e SEO</h2>
-        <p>Sem envio de ficheiros para servidores MediaCC para a lógica de conversão. Políticas: <code>/privacy</code>, <code>/cookies</code>, <code>/terms</code>. SEO/GEO: metadados, hreflang, <code>robots.txt</code>, sitemap, JSON-LD.</p>
+        <p>Sem envio de ficheiros para servidores MediaKit para a lógica de conversão. Políticas: <code>/privacy</code>, <code>/cookies</code>, <code>/terms</code>. SEO/GEO: metadados, hreflang, <code>robots.txt</code>, sitemap, JSON-LD.</p>
 
         <h2>Stack</h2>
         <p>Next.js 15 · TypeScript · Tailwind · Canvas · heic2any · browser-image-compression · FFmpeg.wasm · Zustand · Lucide.</p>

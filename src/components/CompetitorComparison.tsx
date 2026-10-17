@@ -42,7 +42,7 @@ export function CompetitorComparison({ pageType, locale }: CompetitorComparisonP
                 scope="col"
                 className="px-5 py-3 font-semibold w-[26%] text-blue-700 dark:text-blue-300 bg-blue-50/60 dark:bg-blue-950/30"
               >
-                {t.tableMediaCC}
+                {t.tableMediaKit}
               </th>
               <th scope="col" className="px-5 py-3 font-semibold w-[26%]">
                 {t.tableCloudTools}
@@ -65,7 +65,7 @@ export function CompetitorComparison({ pageType, locale }: CompetitorComparisonP
                   {row.feature}
                 </th>
                 <td className="px-5 py-3.5 text-gray-800 dark:text-gray-200 bg-blue-50/30 dark:bg-blue-950/10 border-l-2 border-blue-400 dark:border-blue-600">
-                  {row.mediaCC}
+                  {row.mediaKit}
                 </td>
                 <td className="px-5 py-3.5 text-gray-600 dark:text-gray-400">{row.cloudTools}</td>
                 <td className="px-5 py-3.5 text-gray-700 dark:text-gray-300">{row.recommendation}</td>
@@ -82,9 +82,9 @@ export function CompetitorComparison({ pageType, locale }: CompetitorComparisonP
             <h3 className="font-semibold text-gray-900 dark:text-gray-100">{row.feature}</h3>
             <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 px-3 py-2 border-l-2 border-blue-400">
               <span className="text-xs font-semibold text-blue-700 dark:text-blue-300">
-                {t.tableMediaCC}
+                {t.tableMediaKit}
               </span>
-              <p className="text-sm text-gray-800 dark:text-gray-200 mt-0.5">{row.mediaCC}</p>
+              <p className="text-sm text-gray-800 dark:text-gray-200 mt-0.5">{row.mediaKit}</p>
             </div>
             <div>
               <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
@@ -107,10 +107,10 @@ export function CompetitorComparison({ pageType, locale }: CompetitorComparisonP
         <div className="rounded-lg border border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-950/20 p-4">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-green-800 dark:text-green-300 mb-3">
             <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
-            {t.useMediaCCTitle}
+            {t.useMediaKitTitle}
           </h3>
           <ul className="space-y-1.5 text-sm text-green-900/90 dark:text-green-200/90">
-            {t.useMediaCCList.map((item, i) => (
+            {t.useMediaKitList.map((item, i) => (
               <li key={i} className="flex gap-2">
                 <span className="text-green-500 shrink-0">•</span>
                 <span>{item}</span>

@@ -47,7 +47,7 @@ interface ConversionCopy {
   };
 }
 
-export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
 
 export const imageConversions: ConversionDefinition[] = [
   { kind: "image", slug: "heic-to-jpg", from: "heic", to: "jpg", fromLabel: "HEIC", toLabel: "JPG", popular: true, related: ["heic-to-png", "heic-to-webp", "png-to-jpg", "jpg-to-webp"] },
@@ -77,17 +77,17 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     titleSuffix: "Free, No Upload or Signup",
     privateBrowserTool: "private browser tool",
     h1: "{from} to {to} Converter",
-    intro: "Convert {from} to {to} free with MediaCC directly in your browser. No upload, signup, or watermark—your media files stay on your device.",
+    intro: "Convert {from} to {to} free with MediaKit directly in your browser. No upload, signup, or watermark—your media files stay on your device.",
     cta: "Open the {kind} converter",
     howToHeading: "How to convert {from} to {to}",
     steps: [
-      "Open the MediaCC {kind} converter.",
+      "Open the MediaKit {kind} converter.",
       "Select your {from} file from your device.",
       "Choose {to} as the target format and start conversion.",
       "Download the converted {to} file when local processing finishes.",
     ],
     capabilityHeading: "Browser-based conversion notes",
-    capability: "MediaCC processes files locally in supported browsers. Image output is focused on JPG, PNG, and WebP; HEIC/HEIF photos can be converted to JPG, PNG, or WebP. Video conversion uses FFmpeg.wasm and works best with common formats such as MP4, MOV, WebM, MKV, and AVI.",
+    capability: "MediaKit processes files locally in supported browsers. Image output is focused on JPG, PNG, and WebP; HEIC/HEIF photos can be converted to JPG, PNG, or WebP. Video conversion uses FFmpeg.wasm and works best with common formats such as MP4, MOV, WebM, MKV, and AVI.",
     limitsHeading: "File limits",
     limits: "You can process up to 15 files per session, with a 150MB single-file limit and 1000MB total session limit. Large videos may take several minutes depending on file size, duration, format, and device performance.",
     faqHeading: "Frequently asked questions",
@@ -98,7 +98,7 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     backToVideo: "Back to video converter",
     faq: {
       private: "Is {from} to {to} conversion private?",
-      upload: "Are my files uploaded to MediaCC servers?",
+      upload: "Are my files uploaded to MediaKit servers?",
       free: "Is the {from} to {to} converter free?",
       limits: "What file size limits apply?",
       quality: "Will conversion change quality?",
@@ -110,17 +110,17 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     titleSuffix: "無料・プライベートなブラウザツール",
     privateBrowserTool: "プライベートなブラウザツール",
     h1: "{from} から {to} への変換ツール",
-    intro: "MediaCC で {from} を {to} にブラウザ内で変換できます。メディアファイルは端末内に残り、MediaCC サーバーへアップロードされません。",
+    intro: "MediaKit で {from} を {to} にブラウザ内で変換できます。メディアファイルは端末内に残り、MediaKit サーバーへアップロードされません。",
     cta: "{kind} 変換ツールを開く",
     howToHeading: "{from} を {to} に変換する方法",
     steps: [
-      "MediaCC の {kind} 変換ツールを開きます。",
+      "MediaKit の {kind} 変換ツールを開きます。",
       "端末から {from} ファイルを選択します。",
       "出力形式に {to} を選び、変換を開始します。",
       "ローカル処理が完了したら {to} ファイルをダウンロードします。",
     ],
     capabilityHeading: "ブラウザ変換の注意点",
-    capability: "MediaCC は対応ブラウザ内でローカル処理します。画像出力は主に JPG、PNG、WebP に対応し、HEIC/HEIF 写真は JPG、PNG、WebP に変換できます。動画変換は FFmpeg.wasm を使用し、MP4、MOV、WebM、MKV、AVI など一般的な形式に適しています。",
+    capability: "MediaKit は対応ブラウザ内でローカル処理します。画像出力は主に JPG、PNG、WebP に対応し、HEIC/HEIF 写真は JPG、PNG、WebP に変換できます。動画変換は FFmpeg.wasm を使用し、MP4、MOV、WebM、MKV、AVI など一般的な形式に適しています。",
     limitsHeading: "ファイル制限",
     limits: "1セッションで最大15ファイル、1ファイル150MB、合計1000MBまで処理できます。大きな動画はサイズ、長さ、形式、端末性能により数分以上かかる場合があります。",
     faqHeading: "よくある質問",
@@ -131,7 +131,7 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     backToVideo: "動画変換ツールへ戻る",
     faq: {
       private: "{from} から {to} への変換はプライベートですか？",
-      upload: "ファイルは MediaCC サーバーへアップロードされますか？",
+      upload: "ファイルは MediaKit サーバーへアップロードされますか？",
       free: "{from} から {to} への変換は無料ですか？",
       limits: "ファイルサイズ制限はありますか？",
       quality: "変換で画質は変わりますか？",
@@ -143,17 +143,17 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     titleSuffix: "herramienta privada y gratuita en navegador",
     privateBrowserTool: "herramienta privada en navegador",
     h1: "Convertidor de {from} a {to}",
-    intro: "Convierte {from} a {to} con MediaCC directamente en tu navegador. Tus archivos permanecen en tu dispositivo y no se suben a los servidores de MediaCC.",
+    intro: "Convierte {from} a {to} con MediaKit directamente en tu navegador. Tus archivos permanecen en tu dispositivo y no se suben a los servidores de MediaKit.",
     cta: "Abrir el convertidor de {kind}",
     howToHeading: "Cómo convertir {from} a {to}",
     steps: [
-      "Abre el convertidor de {kind} de MediaCC.",
+      "Abre el convertidor de {kind} de MediaKit.",
       "Selecciona tu archivo {from} desde el dispositivo.",
       "Elige {to} como formato de destino e inicia la conversión.",
       "Descarga el archivo {to} convertido cuando termine el procesamiento local.",
     ],
     capabilityHeading: "Notas de conversión en navegador",
-    capability: "MediaCC procesa archivos localmente en navegadores compatibles. La salida de imagen se centra en JPG, PNG y WebP; las fotos HEIC/HEIF pueden convertirse a JPG, PNG o WebP. La conversión de video usa FFmpeg.wasm y funciona mejor con formatos comunes como MP4, MOV, WebM, MKV y AVI.",
+    capability: "MediaKit procesa archivos localmente en navegadores compatibles. La salida de imagen se centra en JPG, PNG y WebP; las fotos HEIC/HEIF pueden convertirse a JPG, PNG o WebP. La conversión de video usa FFmpeg.wasm y funciona mejor con formatos comunes como MP4, MOV, WebM, MKV y AVI.",
     limitsHeading: "Límites de archivo",
     limits: "Puedes procesar hasta 15 archivos por sesión, con límite de 150MB por archivo y 1000MB en total. Los videos grandes pueden tardar varios minutos según tamaño, duración, formato y rendimiento del dispositivo.",
     faqHeading: "Preguntas frecuentes",
@@ -164,7 +164,7 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     backToVideo: "Volver al convertidor de videos",
     faq: {
       private: "¿La conversión de {from} a {to} es privada?",
-      upload: "¿Mis archivos se suben a los servidores de MediaCC?",
+      upload: "¿Mis archivos se suben a los servidores de MediaKit?",
       free: "¿El convertidor de {from} a {to} es gratuito?",
       limits: "¿Qué límites de tamaño se aplican?",
       quality: "¿La conversión cambia la calidad?",
@@ -176,17 +176,17 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     titleSuffix: "ferramenta privada e grátis no navegador",
     privateBrowserTool: "ferramenta privada no navegador",
     h1: "Conversor de {from} para {to}",
-    intro: "Converta {from} para {to} com o MediaCC diretamente no navegador. Seus arquivos ficam no dispositivo e não são enviados aos servidores do MediaCC.",
+    intro: "Converta {from} para {to} com o MediaKit diretamente no navegador. Seus arquivos ficam no dispositivo e não são enviados aos servidores do MediaKit.",
     cta: "Abrir o conversor de {kind}",
     howToHeading: "Como converter {from} para {to}",
     steps: [
-      "Abra o conversor de {kind} do MediaCC.",
+      "Abra o conversor de {kind} do MediaKit.",
       "Selecione o arquivo {from} no seu dispositivo.",
       "Escolha {to} como formato de destino e inicie a conversão.",
       "Baixe o arquivo {to} convertido quando o processamento local terminar.",
     ],
     capabilityHeading: "Notas sobre conversão no navegador",
-    capability: "O MediaCC processa arquivos localmente em navegadores compatíveis. A saída de imagem foca em JPG, PNG e WebP; fotos HEIC/HEIF podem ser convertidas para JPG, PNG ou WebP. A conversão de vídeo usa FFmpeg.wasm e funciona melhor com formatos comuns como MP4, MOV, WebM, MKV e AVI.",
+    capability: "O MediaKit processa arquivos localmente em navegadores compatíveis. A saída de imagem foca em JPG, PNG e WebP; fotos HEIC/HEIF podem ser convertidas para JPG, PNG ou WebP. A conversão de vídeo usa FFmpeg.wasm e funciona melhor com formatos comuns como MP4, MOV, WebM, MKV e AVI.",
     limitsHeading: "Limites de arquivo",
     limits: "Você pode processar até 15 arquivos por sessão, com limite de 150MB por arquivo e 1000MB no total. Vídeos grandes podem levar vários minutos dependendo do tamanho, duração, formato e desempenho do dispositivo.",
     faqHeading: "Perguntas frequentes",
@@ -197,7 +197,7 @@ const localeCopy: Record<Locale, ConversionCopy> = {
     backToVideo: "Voltar ao conversor de vídeos",
     faq: {
       private: "A conversão de {from} para {to} é privada?",
-      upload: "Meus arquivos são enviados aos servidores do MediaCC?",
+      upload: "Meus arquivos são enviados aos servidores do MediaKit?",
       free: "O conversor de {from} para {to} é gratuito?",
       limits: "Quais limites de tamanho se aplicam?",
       quality: "A conversão altera a qualidade?",
@@ -289,7 +289,7 @@ export function getConversionMetadata(locale: Locale, kind: MediaKind, slug: str
   const canonical = getAbsoluteConversionUrl(locale, kind, slug);
 
   return {
-    title,
+    title: { absolute: `${title} | MediaKit` },
     description,
     keywords: [
       `${conversion.fromLabel.toLowerCase()} to ${conversion.toLabel.toLowerCase()}`,
@@ -318,15 +318,15 @@ export function getConversionMetadata(locale: Locale, kind: MediaKind, slug: str
       title,
       description,
       url: canonical,
-      siteName: "MediaCC",
+      siteName: "MediaKit",
       locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : locale === "es" ? "es_ES" : "pt_BR",
-      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: title }],
+      images: [{ url: "/og", width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.jpg"],
+      images: ["/og"],
     },
     other: { language: locale },
   };
@@ -342,11 +342,11 @@ export function getConversionFaq(locale: Locale, conversion: ConversionDefinitio
         : interpolate(copy.intro, conversion, kindLabel),
     upload:
       locale === "en"
-        ? "No. MediaCC does not upload your selected media files to MediaCC servers for conversion. Processing happens locally in your browser where supported."
+        ? "No. MediaKit does not upload your selected media files to MediaKit servers for conversion. Processing happens locally in your browser where supported."
         : interpolate(copy.intro, conversion, kindLabel),
     free:
       locale === "en"
-        ? `Yes. The ${conversion.fromLabel} to ${conversion.toLabel} converter is free to use, with no account required and no watermark added by MediaCC.`
+        ? `Yes. The ${conversion.fromLabel} to ${conversion.toLabel} converter is free to use, with no account required and no watermark added by MediaKit.`
         : interpolate(copy.cta, conversion, kindLabel),
     limits: copy.limits,
     quality:
@@ -401,7 +401,7 @@ export function buildConversionJsonLd(locale: Locale, conversion: ConversionDefi
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: `MediaCC ${title}`,
+      name: `MediaKit ${title}`,
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: conversion.kind === "image" ? "Image Converter" : "Video Converter",
       operatingSystem: "Web Browser",
@@ -411,11 +411,11 @@ export function buildConversionJsonLd(locale: Locale, conversion: ConversionDefi
       isAccessibleForFree: true,
       description: getConversionDescription(locale, conversion),
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
       featureList: [
         `${conversion.fromLabel} to ${conversion.toLabel} conversion`,
         "Local browser processing where supported",
-        "No media file upload to MediaCC servers",
+        "No media file upload to MediaKit servers",
         "Batch processing up to 15 files",
       ],
     },
@@ -435,7 +435,7 @@ export function buildConversionJsonLd(locale: Locale, conversion: ConversionDefi
       "@id": `${url}#howto`,
       name: howTo.name,
       description: howTo.description,
-      tool: { "@type": "HowToTool", name: conversion.kind === "image" ? "MediaCC Image Converter" : "MediaCC Video Converter" },
+      tool: { "@type": "HowToTool", name: conversion.kind === "image" ? "MediaKit Image Converter" : "MediaKit Video Converter" },
       step: howTo.steps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, text: step })),
     },
   };

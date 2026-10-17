@@ -6,8 +6,8 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
  * Root Layout with SEO metadata
  */
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
-const siteName = "MediaCC";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
+const siteName = "MediaKit";
 const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-NR6F75G20E";
 
 // 构建时刻取一次（next build 时计算），避免运行时每次请求都变动；
@@ -18,15 +18,15 @@ const buildDate = process.env.NEXT_PUBLIC_BUILD_DATE || new Date().toISOString()
 export const metadata = {
   // Title template: core message first, brand at end（默认标题控制在约 50–58 字符可见长度，避免 SERP 截断）
   title: {
-    default: "Free Media Converter – Images & Video in Browser | MediaCC",
-    template: "%s | MediaCC",
+    default: "Free Image & Video Converter and Compressor | MediaKit",
+    template: "%s | MediaKit",
   },
   
   // Description: ~150 字符，兼顾关键词与可读性
   description:
-    "Convert HEIC, JPG, PNG, WebP, MP4 & more in your browser—100% local, no upload. Free image & video converter with privacy-first processing.",
+    "Convert and compress images and videos free in your browser. HEIC to JPG, WebP to PNG, MOV to MP4 and more, with local processing and no file uploads.",
   
-  // Extended keywords for better indexing (SEO/GEO)
+  // Descriptive terms for non-Google consumers; Google ignores meta keywords.
   keywords: [
     "free media converter",
     "online video converter",
@@ -35,6 +35,13 @@ export const metadata = {
     "video compressor",
     "heic converter",
     "heic to jpg",
+    "webp to jpg",
+    "webp to png",
+    "png to jpg",
+    "mov to mp4",
+    "webm to mp4",
+    "compress jpg",
+    "compress mp4",
     "local processing",
     "privacy-first tool",
     "browser-based converter",
@@ -45,9 +52,9 @@ export const metadata = {
     "reduce file size",
   ],
   
-  authors: [{ name: "MediaCC Team" }],
-  creator: "MediaCC",
-  publisher: "MediaCC",
+  authors: [{ name: "MediaKit Team" }],
+  creator: "MediaKit",
+  publisher: "MediaKit",
   
   formatDetection: {
     email: false,
@@ -57,7 +64,7 @@ export const metadata = {
   
   metadataBase: new URL(baseUrl),
   
-  // Canonical + hreflang（主域 www；默认落地 /image）
+  // Canonical + hreflang（正式域 mediakit.upupdays.com；默认落地 /image）
   // Canonicals are page-specific. A root canonical here would be inherited by
   // unrelated pages and make search engines consolidate their URLs.
   
@@ -68,16 +75,16 @@ export const metadata = {
     alternateLocale: ["ja_JP", "es_ES", "pt_PT"],
     url: baseUrl,
     siteName: siteName,
-    title: "Free Media Converter – Images & Video Local in Browser",
+    title: "Free Image & Video Converter and Compressor | MediaKit",
     description:
       "Convert HEIC, JPG, PNG, WebP and video in your browser. Files stay on your device—local processing, no upload.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og",
         width: 1200,
         height: 630,
-        alt: "MediaCC - Free Online Media Converter with 100% Local Processing",
-        type: "image/jpeg",
+        alt: "MediaKit - Free Online Media Converter with 100% Local Processing",
+        type: "image/png",
       },
     ],
   },
@@ -85,10 +92,9 @@ export const metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Free Media Converter – Local Browser Processing",
+    title: "Free Image & Video Converter and Compressor | MediaKit",
     description: "Privacy-first media tool: convert & compress images and video locally—no file upload to any server.",
-    images: ["/og-image.jpg"],
-    creator: "@mediacc",
+    images: ["/og"],
   },
   
   // Robots directive
@@ -129,9 +135,9 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "@id": `${baseUrl}/#webapp`,
-  name: "MediaCC",
+  name: "MediaKit",
   alternateName: "Media Conversion & Compression Tool",
-  description: "Free online image and video converter with local browser processing. Convert HEIC photos to JPG/PNG/WebP and process common video formats without uploading files to MediaCC servers.",
+  description: "Free online image and video converter with local browser processing. Convert HEIC photos to JPG/PNG/WebP and process common video formats without uploading files to MediaKit servers.",
   url: baseUrl,
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Web Browser (Chrome, Firefox, Safari, Edge)",
@@ -149,7 +155,7 @@ const jsonLd = {
     "Compress images and videos with preset quality modes",
     "Batch file processing (up to 15 files, 150MB per file, 1000MB total)",
     "Local browser processing via JavaScript and WebAssembly",
-    "No media file upload to MediaCC servers",
+    "No media file upload to MediaKit servers",
     "Privacy-first design",
   ],
   browserRequirements: "Requires JavaScript and WebAssembly support. Works best in modern browsers.",
@@ -159,7 +165,7 @@ const jsonLd = {
   },
   publisher: {
     "@type": "Organization",
-    name: "MediaCC",
+    name: "MediaKit",
     url: baseUrl,
   },
   inLanguage: "en",
@@ -172,7 +178,7 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${baseUrl}/#website`,
-  name: "MediaCC",
+  name: "MediaKit",
   url: baseUrl,
   description: "Free online media converter. Convert and compress images and videos locally in your browser.",
   inLanguage: "en",

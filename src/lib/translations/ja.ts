@@ -4,7 +4,7 @@
 
 import type { CommonT, ImagePageT, VideoPageT, ImageLayoutMetaT, VideoLayoutMetaT, UiT } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
 
 export const common: CommonT = {
   tabImage: "画像処理",
@@ -84,8 +84,8 @@ export const ui: UiT = {
 export const imagePage: ImagePageT = {
   h1: "無料オンライン画像変換・圧縮ツール",
   intro:
-    "MediaCC 画像変換は、ブラウザ内で画像の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。 iPhone で撮影した HEIC / HEIF のほか、JPG・PNG・WebP・AVIF など主要形式に対応し、形式変換や可逆／非可逆の圧縮まで同一画面で完了します。処理は WebAssembly・Canvas API を用いて端末内のみで行われるため、オフィスや外出先でも個人情報を気にせず利用できます。",
-  whyChoose: "MediaCCを選ぶ理由",
+    "MediaKit 画像変換は、ブラウザ内で画像の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。 iPhone で撮影した HEIC / HEIF のほか、JPG・PNG・WebP・AVIF など主要形式に対応し、形式変換や可逆／非可逆の圧縮まで同一画面で完了します。処理は WebAssembly・Canvas API を用いて端末内のみで行われるため、オフィスや外出先でも個人情報を気にせず利用できます。",
+  whyChoose: "MediaKitを選ぶ理由",
   whyList: [
     "100%ローカル処理 – ファイルは端末から送信されません",
     "無料・会員登録不要",
@@ -156,15 +156,15 @@ export const imagePage: ImagePageT = {
   ],
   privacySecurity: "プライバシーとセキュリティ",
   privacyText:
-    "すべての処理はブラウザ内でローカルに実行されます。MediaCCはファイルをアップロード・保存・解析しません。画像は最初から最後まで端末内のみで処理され、サーバー・クラウド・第三者への送信は一切ありません。",
+    "すべての処理はブラウザ内でローカルに実行されます。MediaKitはファイルをアップロード・保存・解析しません。画像は最初から最後まで端末内のみで処理され、サーバー・クラウド・第三者への送信は一切ありません。",
   processingFailed: "処理に失敗しました",
 };
 
 export const videoPage: VideoPageT = {
   h1: "無料オンライン動画変換・圧縮ツール",
   intro:
-    "MediaCC 動画変換は、ブラウザ内で動画の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。",
-  whyChoose: "MediaCCを選ぶ理由",
+    "MediaKit 動画変換は、ブラウザ内で動画の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。",
+  whyChoose: "MediaKitを選ぶ理由",
   whyList: [
     "100%ローカル処理 – ファイルは端末から送信されません",
     "無料・会員登録不要",
@@ -241,7 +241,7 @@ export const videoPage: VideoPageT = {
   ],
   privacySecurity: "プライバシーとセキュリティ",
   privacyText:
-    "すべての処理はブラウザ内でローカルに実行されます。MediaCCはファイルをアップロード・保存・解析しません。動画は最初から最後まで端末内のみで処理され、サーバー・クラウド・第三者への送信は一切ありません。",
+    "すべての処理はブラウザ内でローカルに実行されます。MediaKitはファイルをアップロード・保存・解析しません。動画は最初から最後まで端末内のみで処理され、サーバー・クラウド・第三者への送信は一切ありません。",
   processingFailed: "処理に失敗しました",
 };
 
@@ -260,7 +260,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "ローカル処理",
       "プライバシー",
     ],
-    openGraphTitle: "無料オンライン画像変換・圧縮 – MediaCC",
+    openGraphTitle: "無料オンライン画像変換・圧縮 – MediaKit",
     openGraphDescription: "ブラウザ内で HEIC 写真と JPG、PNG、WebP 画像を変換・圧縮。ファイルは端末から送信されません。",
     twitterTitle: "無料オンライン画像変換・圧縮",
     twitterDescription: "100%ローカル処理のプライバシー重視画像ツール。アップロードなしで HEIC、JPG、PNG、WebP を変換。",
@@ -268,7 +268,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: "MediaCC 画像変換",
+      name: "MediaKit 画像変換",
       alternateName: "オンライン画像変換・圧縮ツール",
       description: "ブラウザ内で画像を変換・圧縮。",
       softwareVersion: "1.0",
@@ -280,8 +280,8 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       inLanguage: "ja",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "JPY", availability: "https://schema.org/InStock" },
-      author: { "@type": "Organization", name: "MediaCC", url: baseUrl },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      author: { "@type": "Organization", name: "MediaKit", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
       {
@@ -289,7 +289,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
         text: "いいえ。すべての変換・圧縮はブラウザ内でローカルに実行されます。ファイルは端末から送信されず、100%プライバシーが守られます。",
       },
       {
-        name: "MediaCC画像変換は無料で使えますか？",
+        name: "MediaKit画像変換は無料で使えますか？",
         text: "はい。完全無料で、登録やアカウントは不要です。隠れた料金、ウォーターマーク、利用制限はありません。",
       },
       {
@@ -302,7 +302,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "ブラウザ内での画像処理の仕組みは？",
-        text: "MediaCCはブラウザのCanvas APIとbrowser-image-compressionライブラリを使用します。すべてJavaScriptでブラウザ内で実行され、サーバー通信は不要です。",
+        text: "MediaKitはブラウザのCanvas APIとbrowser-image-compressionライブラリを使用します。すべてJavaScriptでブラウザ内で実行され、サーバー通信は不要です。",
       },
       {
         name: "複数画像を一括変換できますか？",
@@ -310,12 +310,12 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "変換で画質は落ちますか？",
-        text: "変換や圧縮では、選択した形式とモードにより出力品質が変わる場合があります。MediaCC は JPG/WebP 出力にブラウザ側のプリセット品質設定を使い、小容量を優先する場合はより強い圧縮モードを使用します。"
+        text: "変換や圧縮では、選択した形式とモードにより出力品質が変わる場合があります。MediaKit は JPG/WebP 出力にブラウザ側のプリセット品質設定を使い、小容量を優先する場合はより強い圧縮モードを使用します。"
       },
     ],
     howTo: {
       name: "オンラインで画像を変換・圧縮する方法",
-      description: "MediaCCのブラウザ内ツールで画像形式を変換し、ファイルサイズを削減する手順。",
+      description: "MediaKitのブラウザ内ツールで画像形式を変換し、ファイルサイズを削減する手順。",
       step: [
         { name: "画像をアップロード", text: "画像をドラッグ＆ドロップするか、クリックして選択。JPG、PNG、WebP、HEIC/HEIF 入力に対応し、1ファイル150MBまで処理できます。" },
         { name: "出力形式を選択", text: "ドロップダウンから形式を選択：JPG、PNG、WebP。" },
@@ -341,7 +341,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "ローカル処理",
       "FFmpeg オンライン",
     ],
-    openGraphTitle: "無料オンライン動画変換・圧縮 – MediaCC",
+    openGraphTitle: "無料オンライン動画変換・圧縮 – MediaKit",
     openGraphDescription: "ブラウザ内で動画を変換・圧縮。ファイルは端末から送信されません。MP4、WebM、MOV、MKV、AVI対応。",
     twitterTitle: "無料オンライン動画変換・圧縮",
     twitterDescription: "100%ローカル処理のプライバシー重視動画ツール。アップロードなしでMP4、WebM、MOV、MKV、AVIを変換。",
@@ -349,7 +349,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: "MediaCC 動画変換",
+      name: "MediaKit 動画変換",
       alternateName: "オンライン動画変換・圧縮ツール",
       description: "ブラウザ内で動画を変換・圧縮。",
       applicationCategory: "MultimediaApplication",
@@ -360,8 +360,8 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       inLanguage: "ja",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "JPY", availability: "https://schema.org/InStock" },
-      author: { "@type": "Organization", name: "MediaCC", url: baseUrl },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      author: { "@type": "Organization", name: "MediaKit", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
       {
@@ -369,7 +369,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
         text: "いいえ。すべての変換・圧縮はブラウザ内でFFmpeg.wasm（WebAssembly）によりローカルに実行されます。ファイルは端末から送信されません。",
       },
       {
-        name: "MediaCC動画変換は無料で使えますか？",
+        name: "MediaKit動画変換は無料で使えますか？",
         text: "はい。完全無料で登録不要です。隠れた料金、ウォーターマーク、利用制限はありません。",
       },
       {
@@ -382,11 +382,11 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       },
       {
         name: "ブラウザ内での動画処理の仕組みは？",
-        text: "MediaCCはFFmpeg.wasm（FFmpegのWebAssembly版）を使用します。エンコード・デコードがすべてブラウザ内で実行され、サーバー通信は不要です。",
+        text: "MediaKitはFFmpeg.wasm（FFmpegのWebAssembly版）を使用します。エンコード・デコードがすべてブラウザ内で実行され、サーバー通信は不要です。",
       },
       {
-        name: "MediaCC は動画をアップロードして処理しますか？",
-        text: "いいえ。MediaCC は FFmpeg.wasm を使ってブラウザ内でローカル処理します。そのため大容量動画は端末のメモリや CPU によって処理時間が長くなる場合があります。",
+        name: "MediaKit は動画をアップロードして処理しますか？",
+        text: "いいえ。MediaKit は FFmpeg.wasm を使ってブラウザ内でローカル処理します。そのため大容量動画は端末のメモリや CPU によって処理時間が長くなる場合があります。",
       },
       {
         name: "動画処理が画像より遅い理由は？",
@@ -399,7 +399,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
     ],
     howTo: {
       name: "オンラインで動画を変換・圧縮する方法",
-      description: "MediaCCのFFmpeg.wasmで動画形式を変換し、ファイルサイズを削減する手順。",
+      description: "MediaKitのFFmpeg.wasmで動画形式を変換し、ファイルサイズを削減する手順。",
       step: [
         { name: "動画をアップロード", text: "動画をドラッグ＆ドロップするか、クリックして選択。MP4、WebM、MOV、MKV、AVI、1ファイル150MBまで対応。" },
         { name: "出力形式を選択", text: "ドロップダウンから形式を選択：MP4、WebM、MOV、MKV、AVI。" },

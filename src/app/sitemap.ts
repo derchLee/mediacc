@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { allConversions } from "@/lib/seo/conversions";
 
-const defaultBaseUrl = "https://www.mediacc.it.com";
+const defaultBaseUrl = "https://mediakit.upupdays.com";
 
 // 语言前缀 → hreflang 代码（保持与实际路由 ja/ es/ pt/ 一致）
 const localePrefixes = [
@@ -25,7 +25,7 @@ const CONVERSION_LOCALIZED_PRIORITY = 0.6;
 export default function sitemap(): MetadataRoute.Sitemap {
   // Keep lastmod stable between requests; update NEXT_PUBLIC_BUILD_DATE only
   // when a deployment actually changes the content.
-  const lastModified = new Date(process.env.NEXT_PUBLIC_BUILD_DATE || "2026-06-20");
+  const lastModified = new Date(process.env.NEXT_PUBLIC_BUILD_DATE || "2026-10-17");
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || defaultBaseUrl;
 
   // 为每个工具页（image/video）构建跨语言 alternates 映射，

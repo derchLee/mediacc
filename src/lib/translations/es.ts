@@ -4,7 +4,7 @@
 
 import type { CommonT, ImagePageT, VideoPageT, ImageLayoutMetaT, VideoLayoutMetaT, UiT } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
 
 export const common: CommonT = {
   tabImage: "Imagen",
@@ -84,8 +84,8 @@ export const ui: UiT = {
 export const imagePage: ImagePageT = {
   h1: "Convertidor y compresor de imágenes gratis online",
   intro:
-    "MediaCC es una herramienta que te permite convertir y comprimir imágenes directamente en tu navegador. Sin subida de archivos, sin servidor y sin riesgo para tu privacidad. Tus archivos no salen de tu dispositivo.",
-  whyChoose: "¿Por qué MediaCC?",
+    "MediaKit es una herramienta que te permite convertir y comprimir imágenes directamente en tu navegador. Sin subida de archivos, sin servidor y sin riesgo para tu privacidad. Tus archivos no salen de tu dispositivo.",
+  whyChoose: "¿Por qué MediaKit?",
   whyList: [
     "100% procesamiento local – los archivos no salen de tu dispositivo",
     "Gratis, sin registro",
@@ -154,15 +154,15 @@ export const imagePage: ImagePageT = {
   ],
   privacySecurity: "Privacidad y seguridad",
   privacyText:
-    "Todo el procesamiento se hace localmente en tu navegador. MediaCC no sube, guarda ni analiza tus archivos. Tus imágenes permanecen en tu dispositivo de principio a fin: sin servidor, sin nube, sin acceso de terceros.",
+    "Todo el procesamiento se hace localmente en tu navegador. MediaKit no sube, guarda ni analiza tus archivos. Tus imágenes permanecen en tu dispositivo de principio a fin: sin servidor, sin nube, sin acceso de terceros.",
   processingFailed: "Error de procesamiento",
 };
 
 export const videoPage: VideoPageT = {
   h1: "Convertidor y compresor de vídeo gratis online",
   intro:
-    "MediaCC es una herramienta que te permite convertir y comprimir vídeos directamente en tu navegador. Sin subida de archivos, sin servidor y sin riesgo para tu privacidad. Tus archivos no salen de tu dispositivo.",
-  whyChoose: "¿Por qué MediaCC?",
+    "MediaKit es una herramienta que te permite convertir y comprimir vídeos directamente en tu navegador. Sin subida de archivos, sin servidor y sin riesgo para tu privacidad. Tus archivos no salen de tu dispositivo.",
+  whyChoose: "¿Por qué MediaKit?",
   whyList: [
     "100% procesamiento local – los archivos no salen de tu dispositivo",
     "Gratis, sin registro",
@@ -239,7 +239,7 @@ export const videoPage: VideoPageT = {
   ],
   privacySecurity: "Privacidad y seguridad",
   privacyText:
-    "Todo el procesamiento se hace localmente en tu navegador. MediaCC no sube, guarda ni analiza tus archivos. Tus vídeos permanecen en tu dispositivo de principio a fin: sin servidor, sin nube, sin acceso de terceros.",
+    "Todo el procesamiento se hace localmente en tu navegador. MediaKit no sube, guarda ni analiza tus archivos. Tus vídeos permanecen en tu dispositivo de principio a fin: sin servidor, sin nube, sin acceso de terceros.",
   processingFailed: "Error de procesamiento",
 };
 
@@ -258,7 +258,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "procesamiento local",
       "privacidad",
     ],
-    openGraphTitle: "Convertidor y compresor de imágenes gratis – MediaCC",
+    openGraphTitle: "Convertidor y compresor de imágenes gratis – MediaKit",
     openGraphDescription: "Convierte y comprime imágenes en tu navegador. Tus archivos no salen de tu dispositivo. JPG, PNG, WebP, HEIC.",
     twitterTitle: "Convertidor y compresor de imágenes gratis",
     twitterDescription: "Herramienta de imágenes con 100% procesamiento local. Convierte JPG, PNG, WebP, HEIC sin subir archivos.",
@@ -266,7 +266,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: "MediaCC Convertidor de imágenes",
+      name: "MediaKit Convertidor de imágenes",
       alternateName: "Convertidor y compresor de imágenes online",
       description: "Convierte y comprime imágenes localmente en tu navegador.",
       softwareVersion: "1.0",
@@ -278,8 +278,8 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       inLanguage: "es",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
-      author: { "@type": "Organization", name: "MediaCC", url: baseUrl },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      author: { "@type": "Organization", name: "MediaKit", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
       {
@@ -287,7 +287,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
         text: "No. Toda la conversión y compresión se hace localmente en tu navegador. Tus archivos no salen de tu dispositivo.",
       },
       {
-        name: "¿MediaCC es gratis?",
+        name: "¿MediaKit es gratis?",
         text: "Sí. Es completamente gratis y no requiere registro. Sin costes ocultos ni marcas de agua.",
       },
       {
@@ -300,7 +300,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "¿Cómo funciona el procesamiento en el navegador?",
-        text: "MediaCC usa la API Canvas y la librería browser-image-compression. Todo se ejecuta en JavaScript en tu navegador, sin comunicación con servidores.",
+        text: "MediaKit usa la API Canvas y la librería browser-image-compression. Todo se ejecuta en JavaScript en tu navegador, sin comunicación con servidores.",
       },
       {
         name: "¿Puedo convertir varias imágenes a la vez?",
@@ -308,12 +308,12 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "¿Se pierde calidad al convertir?",
-        text: "La calidad puede variar según el formato y el modo seleccionados. MediaCC usa ajustes de calidad predefinidos en el navegador y un modo de compresión más fuerte cuando se prioriza reducir el tamaño."
+        text: "La calidad puede variar según el formato y el modo seleccionados. MediaKit usa ajustes de calidad predefinidos en el navegador y un modo de compresión más fuerte cuando se prioriza reducir el tamaño."
       },
     ],
     howTo: {
       name: "Cómo convertir y comprimir imágenes online",
-      description: "Guía paso a paso para convertir formatos y reducir tamaño con MediaCC en el navegador.",
+      description: "Guía paso a paso para convertir formatos y reducir tamaño con MediaKit en el navegador.",
       step: [
         { name: "Subir imágenes", text: "Arrastra y suelta o haz clic para seleccionar. JPG, PNG, WebP y entrada HEIC/HEIF hasta 150 MB por archivo." },
         { name: "Elegir formato de salida", text: "Selecciona en el menú: JPG, PNG o WebP." },
@@ -339,7 +339,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "procesamiento local",
       "ffmpeg online",
     ],
-    openGraphTitle: "Convertidor y compresor de vídeo gratis – MediaCC",
+    openGraphTitle: "Convertidor y compresor de vídeo gratis – MediaKit",
     openGraphDescription: "Convierte y comprime vídeos en tu navegador. Tus archivos no salen de tu dispositivo. MP4, WebM, MOV, MKV, AVI.",
     twitterTitle: "Convertidor y compresor de vídeo gratis",
     twitterDescription: "Herramienta de vídeo con 100% procesamiento local. Convierte MP4, WebM, MOV, MKV, AVI sin subir archivos.",
@@ -347,7 +347,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
-      name: "MediaCC Convertidor de vídeo",
+      name: "MediaKit Convertidor de vídeo",
       alternateName: "Convertidor y compresor de vídeo online",
       description: "Convierte y comprime vídeos localmente en tu navegador.",
       applicationCategory: "MultimediaApplication",
@@ -358,8 +358,8 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       inLanguage: "es",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
-      author: { "@type": "Organization", name: "MediaCC", url: baseUrl },
-      publisher: { "@type": "Organization", name: "MediaCC", url: baseUrl },
+      author: { "@type": "Organization", name: "MediaKit", url: baseUrl },
+      publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
       {
@@ -367,7 +367,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
         text: "No. Toda la conversión y compresión se hace localmente con FFmpeg.wasm (WebAssembly). Tus archivos no salen de tu dispositivo.",
       },
       {
-        name: "¿MediaCC vídeo es gratis?",
+        name: "¿MediaKit vídeo es gratis?",
         text: "Sí. Completamente gratis y sin registro. Sin costes ocultos ni marcas de agua.",
       },
       {
@@ -380,11 +380,11 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
       },
       {
         name: "¿Cómo funciona el procesamiento en el navegador?",
-        text: "MediaCC usa FFmpeg.wasm, el port de FFmpeg a WebAssembly. La codificación y decodificación se ejecutan por completo en tu navegador.",
+        text: "MediaKit usa FFmpeg.wasm, el port de FFmpeg a WebAssembly. La codificación y decodificación se ejecutan por completo en tu navegador.",
       },
       {
-        name: "¿MediaCC sube los vídeos para procesarlos?",
-        text: "No. MediaCC procesa los vídeos localmente en tu navegador con FFmpeg.wasm. Por eso los vídeos grandes pueden tardar más y dependen de la memoria y CPU del dispositivo.",
+        name: "¿MediaKit sube los vídeos para procesarlos?",
+        text: "No. MediaKit procesa los vídeos localmente en tu navegador con FFmpeg.wasm. Por eso los vídeos grandes pueden tardar más y dependen de la memoria y CPU del dispositivo.",
       },
       {
         name: "¿Por qué el vídeo tarda más que la imagen?",
@@ -397,7 +397,7 @@ function buildVideoLayoutMeta(): VideoLayoutMetaT {
     ],
     howTo: {
       name: "Cómo convertir y comprimir vídeos online",
-      description: "Guía paso a paso para convertir formatos y reducir tamaño con MediaCC y FFmpeg.wasm.",
+      description: "Guía paso a paso para convertir formatos y reducir tamaño con MediaKit y FFmpeg.wasm.",
       step: [
         { name: "Subir vídeos", text: "Arrastra y suelta o haz clic para seleccionar. MP4, WebM, MOV, MKV, AVI hasta 150 MB por archivo." },
         { name: "Elegir formato de salida", text: "Selecciona en el menú: MP4, WebM, MOV, MKV o AVI." },

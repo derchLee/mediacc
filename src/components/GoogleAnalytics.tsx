@@ -4,6 +4,7 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 
 const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-NR6F75G20E";
+// Match CookieConsent's legacy key to preserve existing consent choices.
 const COOKIE_CONSENT_KEY = "mediacc_cookie_consent";
 
 /**

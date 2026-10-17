@@ -6,7 +6,7 @@ import { getVideoLayoutMeta } from "./index";
 import { LOCALES } from "./index";
 import type { Locale } from "./types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
 
 function getVideoCanonical(locale: Locale): string {
   return locale === "en" ? `${baseUrl}/video` : `${baseUrl}/${locale}/video`;
@@ -38,15 +38,15 @@ export function getVideoLayoutMetadata(locale: Locale): Metadata {
       title: meta.openGraphTitle,
       description: meta.openGraphDescription,
       url: canonical,
-      siteName: "MediaCC",
+      siteName: "MediaKit",
       locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : locale === "es" ? "es_ES" : "pt_BR",
-      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: meta.openGraphTitle }],
+      images: [{ url: "/og", width: 1200, height: 630, alt: meta.openGraphTitle }],
     },
     twitter: {
       card: "summary_large_image",
       title: meta.twitterTitle,
       description: meta.twitterDescription,
-      images: ["/og-image.jpg"],
+      images: ["/og"],
     },
     alternates: { canonical, languages },
     other: { language: locale },
@@ -55,7 +55,7 @@ export function getVideoLayoutMetadata(locale: Locale): Metadata {
 
 export function VideoLayoutScripts({ locale }: { locale: Locale }) {
   const meta = getVideoLayoutMeta(locale);
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.mediacc.it.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
   const prefix = locale === "en" ? "" : `/${locale}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -81,7 +81,7 @@ export function VideoLayoutScripts({ locale }: { locale: Locale }) {
     name: meta.howTo.name,
     description: meta.howTo.description,
     totalTime: "PT5M" as const,
-    tool: { "@type": "HowToTool" as const, name: "MediaCC Video Converter" },
+    tool: { "@type": "HowToTool" as const, name: "MediaKit Video Converter" },
     step: meta.howTo.step.map((s, i) => ({ "@type": "HowToStep" as const, position: i + 1, name: s.name, text: s.text })),
   };
   return (

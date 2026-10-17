@@ -1,20 +1,20 @@
 version: '3.8'
 
 services:
-  mediacc:
+  mediakit:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_BASE_URL: https://www.mediacc.it.com
-    container_name: mediacc-app
+        NEXT_PUBLIC_BASE_URL: https://mediakit.upupdays.com
+    container_name: mediakit-app
     restart: unless-stopped
     ports:
       - "80:3000"  # 映射到容器内的 3000 端口
     environment:
       - NODE_ENV=production
-      # Must match the canonical host users and Search Console use (www vs apex)
-      - NEXT_PUBLIC_BASE_URL=https://www.mediacc.it.com
+      # Must match the canonical host users and Search Console use (mediakit.upupdays.com)
+      - NEXT_PUBLIC_BASE_URL=https://mediakit.upupdays.com
       - PORT=3000
       - HOSTNAME=0.0.0.0
     # 健康检查

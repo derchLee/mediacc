@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy Policy for MediaCC - Learn how we protect your data and privacy",
+  description: "Privacy Policy for MediaKit - Learn how we protect your data and privacy",
   alternates: { canonical: "/privacy" },
   robots: {
     index: true,
@@ -25,10 +25,10 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">1. Overview</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              MediaCC (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our web application.
+              MediaKit (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our web application.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
-              <strong>Important:</strong> MediaCC processes all files locally in your browser. We do not upload, store, or transmit any of your files to our servers or any third-party servers.
+              <strong>Important:</strong> MediaKit processes all files locally in your browser. We do not upload, store, or transmit any of your files to our servers or any third-party servers.
             </p>
           </section>
 

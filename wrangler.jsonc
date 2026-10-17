@@ -1,6 +1,6 @@
 {
   "$schema": "https://developers.cloudflare.com/workers/wrangler/configuration/",
-  "name": "mediacc",
+  "name": "mediakit",
   "compatibility_date": "2026-01-18",
   "compatibility_flags": ["nodejs_compat"],
   "pages_build_output_dir": ".vercel/output/static"

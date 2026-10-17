@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getLocaleFromPathname, getUiT } from "@/lib/translations";
 
+// Keep the existing key so the rename preserves saved consent on this origin.
 const COOKIE_CONSENT_KEY = "mediacc_cookie_consent";
 
 interface CookiePreferences {

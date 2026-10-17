@@ -6,7 +6,7 @@ import type { Locale } from "./types";
 
 export interface ComparisonRowT {
   feature: string;
-  mediaCC: string;
+  mediaKit: string;
   cloudTools: string;
   recommendation: string;
 }
@@ -22,134 +22,134 @@ export interface CompetitorT {
   comparisonTitle: string;
   comparisonSubtitle: string;
   tableFeature: string;
-  tableMediaCC: string;
+  tableMediaKit: string;
   tableCloudTools: string;
   tableRecommendation: string;
   imageComparisonRows: ComparisonRowT[];
   videoComparisonRows: ComparisonRowT[];
-  useMediaCCTitle: string;
-  useMediaCCList: string[];
+  useMediaKitTitle: string;
+  useMediaKitList: string[];
   useOthersTitle: string;
   useOthersList: string[];
 }
 
 const en: CompetitorT = {
   sidebarTitle: "Popular Online Tools",
-  sidebarNote: "Third-party sites for reference. MediaCC processes files locally in your browser.",
+  sidebarNote: "Third-party sites for reference. MediaKit processes files locally in your browser.",
   categoryImageCompress: "Image Compression",
   categoryImageConvert: "Image Format Conversion",
   categoryVideoCompress: "Video Compression",
   categoryVideoConvert: "Video Format Conversion",
   externalLink: "Opens external site",
-  comparisonTitle: "MediaCC vs Other Online Tools",
+  comparisonTitle: "MediaKit vs Other Online Tools",
   comparisonSubtitle:
-    "See how MediaCC compares with typical cloud-based converters and compressors, and when each option makes sense.",
+    "See how MediaKit compares with typical cloud-based converters and compressors, and when each option makes sense.",
   tableFeature: "Dimension",
-  tableMediaCC: "MediaCC",
+  tableMediaKit: "MediaKit",
   tableCloudTools: "Typical Cloud Tools",
   tableRecommendation: "Who Should Use",
   imageComparisonRows: [
     {
       feature: "Privacy & data flow",
-      mediaCC: "100% local — files never uploaded",
+      mediaKit: "100% local — files never uploaded",
       cloudTools: "Files uploaded to remote servers",
-      recommendation: "Use MediaCC for sensitive or confidential images",
+      recommendation: "Use MediaKit for sensitive or confidential images",
     },
     {
       feature: "Account / signup",
-      mediaCC: "No account required",
+      mediaKit: "No account required",
       cloudTools: "Often free tier with limits; paid plans for volume",
-      recommendation: "MediaCC for quick, anonymous one-off tasks",
+      recommendation: "MediaKit for quick, anonymous one-off tasks",
     },
     {
       feature: "Batch processing",
-      mediaCC: "Up to 15 files per session",
+      mediaKit: "Up to 15 files per session",
       cloudTools: "Varies; many limit free batch size",
-      recommendation: "MediaCC when processing multiple files at once locally",
+      recommendation: "MediaKit when processing multiple files at once locally",
     },
     {
       feature: "HEIC / iPhone photos",
-      mediaCC: "Native HEIC support in-browser",
+      mediaKit: "Native HEIC support in-browser",
       cloudTools: "Supported on some sites (e.g. CloudConvert, Convertio)",
-      recommendation: "MediaCC if you want HEIC handled without uploading",
+      recommendation: "MediaKit if you want HEIC handled without uploading",
     },
     {
       feature: "Compression quality",
-      mediaCC: "Lossless & lossy modes; good for everyday use",
+      mediaKit: "Lossless & lossy modes; good for everyday use",
       cloudTools: "Often stronger algorithms & tuning (e.g. TinyPNG, Squoosh)",
       recommendation: "Try TinyPNG or Squoosh when maximum compression ratio matters",
     },
     {
       feature: "Format coverage",
-      mediaCC: "JPG, PNG, WebP, plus HEIC/HEIF input in supported browsers",
+      mediaKit: "JPG, PNG, WebP, plus HEIC/HEIF input in supported browsers",
       cloudTools: "Broader exotic formats (RAW, PSD, etc.) on CloudConvert",
       recommendation: "CloudConvert / Convertio for rare or professional formats",
     },
     {
       feature: "Speed (large files)",
-      mediaCC: "Limited by device CPU/RAM",
+      mediaKit: "Limited by device CPU/RAM",
       cloudTools: "Server-grade hardware; often faster for huge files",
       recommendation: "Cloud tools when local browser runs out of memory",
     },
     {
       feature: "Watermarks / fees",
-      mediaCC: "Free, no watermarks",
+      mediaKit: "Free, no watermarks",
       cloudTools: "Free tiers may have limits, ads, or watermarks",
-      recommendation: "MediaCC for clean, unlimited-feeling free use",
+      recommendation: "MediaKit for clean, unlimited-feeling free use",
     },
   ],
   videoComparisonRows: [
     {
       feature: "Privacy & data flow",
-      mediaCC: "100% local — videos never uploaded",
+      mediaKit: "100% local — videos never uploaded",
       cloudTools: "Videos uploaded and processed on servers",
-      recommendation: "Use MediaCC for private, unreleased, or client footage",
+      recommendation: "Use MediaKit for private, unreleased, or client footage",
     },
     {
       feature: "Account / signup",
-      mediaCC: "No account required",
+      mediaKit: "No account required",
       cloudTools: "Free tier with file size/duration caps",
-      recommendation: "MediaCC for anonymous, registration-free workflows",
+      recommendation: "MediaKit for anonymous, registration-free workflows",
     },
     {
       feature: "Engine",
-      mediaCC: "FFmpeg.wasm in browser",
+      mediaKit: "FFmpeg.wasm in browser",
       cloudTools: "Server-side FFmpeg or proprietary encoders",
       recommendation: "Cloud tools when you need fastest encode on huge files",
     },
     {
       feature: "Batch processing",
-      mediaCC: "Queue up to 15 files locally",
+      mediaKit: "Queue up to 15 files locally",
       cloudTools: "Batch limits on free plans",
-      recommendation: "MediaCC for multiple clips without sending to cloud",
+      recommendation: "MediaKit for multiple clips without sending to cloud",
     },
     {
       feature: "Format coverage",
-      mediaCC: "MP4, WebM, MOV, MKV, AVI",
+      mediaKit: "MP4, WebM, MOV, MKV, AVI",
       cloudTools: "Wider codec support (ProRes, AV1 presets, etc.)",
       recommendation: "CloudConvert / Convertio for niche professional codecs",
     },
     {
       feature: "Compression presets",
-      mediaCC: "Lossless & lossy modes built-in",
+      mediaKit: "Lossless & lossy modes built-in",
       cloudTools: "More manual encoding controls on VEED, Clideo",
       recommendation: "VEED / Clideo when you need fine-grained encoding control",
     },
     {
       feature: "Large file handling",
-      mediaCC: "Best under ~50MB per file in browser",
+      mediaKit: "Best under ~50MB per file in browser",
       cloudTools: "Often accept 500MB–2GB+ on paid tiers",
       recommendation: "FreeConvert / Media.io when files exceed local browser limits",
     },
     {
       feature: "Watermarks / fees",
-      mediaCC: "Free, no watermarks",
+      mediaKit: "Free, no watermarks",
       cloudTools: "Free exports may be capped or watermarked",
-      recommendation: "MediaCC for simple, watermark-free local conversion",
+      recommendation: "MediaKit for simple, watermark-free local conversion",
     },
   ],
-  useMediaCCTitle: "When MediaCC is the better choice",
-  useMediaCCList: [
+  useMediaKitTitle: "When MediaKit is the better choice",
+  useMediaKitList: [
     "Confidential photos or videos that must not leave your device",
     "Quick convert/compress without creating an account",
     "Batch processing several files with zero upload wait",
@@ -168,17 +168,17 @@ const en: CompetitorT = {
 
 const ja: CompetitorT = {
   sidebarTitle: "人気のオンラインツール",
-  sidebarNote: "参考用の第三者サイトです。MediaCC はブラウザ内でローカル処理します。",
+  sidebarNote: "参考用の第三者サイトです。MediaKit はブラウザ内でローカル処理します。",
   categoryImageCompress: "画像圧縮",
   categoryImageConvert: "画像形式変換",
   categoryVideoCompress: "動画圧縮",
   categoryVideoConvert: "動画形式変換",
   externalLink: "外部サイトを開く",
-  comparisonTitle: "MediaCC と他社オンラインツールの比較",
+  comparisonTitle: "MediaKit と他社オンラインツールの比較",
   comparisonSubtitle:
-    "クラウド型の変換・圧縮サービスと MediaCC の違い、それぞれ向いている場面をまとめました。",
+    "クラウド型の変換・圧縮サービスと MediaKit の違い、それぞれ向いている場面をまとめました。",
   tableFeature: "比較項目",
-  tableMediaCC: "MediaCC",
+  tableMediaKit: "MediaKit",
   tableCloudTools: "一般的なクラウドツール",
   tableRecommendation: "おすすめの使い分け",
   imageComparisonRows: en.imageComparisonRows.map((r, i) => {
@@ -192,7 +192,7 @@ const ja: CompetitorT = {
       "速度（大容量）",
       "透かし・料金",
     ];
-    const mediaCC = [
+    const mediaKit = [
       "100%ローカル — アップロードなし",
       "登録不要",
       "1セッション最大15ファイル",
@@ -213,16 +213,16 @@ const ja: CompetitorT = {
       "無料枠に制限・広告あり",
     ];
     const rec = [
-      "機密画像は MediaCC",
-      "匿名で手軽に使うなら MediaCC",
-      "複数ファイルをローカル一括なら MediaCC",
-      "HEIC をアップロードせず処理なら MediaCC",
+      "機密画像は MediaKit",
+      "匿名で手軽に使うなら MediaKit",
+      "複数ファイルをローカル一括なら MediaKit",
+      "HEIC をアップロードせず処理なら MediaKit",
       "最大圧縮率なら TinyPNG / Squoosh",
       "特殊形式は CloudConvert 等",
       "ブラウザが重い場合はクラウド",
-      "透かしなし無料なら MediaCC",
+      "透かしなし無料なら MediaKit",
     ];
-    return { feature: features[i], mediaCC: mediaCC[i], cloudTools: cloud[i], recommendation: rec[i] };
+    return { feature: features[i], mediaKit: mediaKit[i], cloudTools: cloud[i], recommendation: rec[i] };
   }),
   videoComparisonRows: en.videoComparisonRows.map((r, i) => {
     const features = [
@@ -235,7 +235,7 @@ const ja: CompetitorT = {
       "大容量ファイル",
       "透かし・料金",
     ];
-    const mediaCC = [
+    const mediaKit = [
       "100%ローカル — 動画はアップロードされない",
       "登録不要",
       "ブラウザ内 FFmpeg.wasm",
@@ -256,19 +256,19 @@ const ja: CompetitorT = {
       "無料出力に制限あり",
     ];
     const rec = [
-      "未公開・クライアント素材は MediaCC",
-      "登録なしで使うなら MediaCC",
+      "未公開・クライアント素材は MediaKit",
+      "登録なしで使うなら MediaKit",
       "超大容量の高速変換はクラウド",
-      "複数クリップをクラウドに送らないなら MediaCC",
+      "複数クリップをクラウドに送らないなら MediaKit",
       "ニッチなコーデックは CloudConvert",
       "細かなエンコード制御は VEED / Clideo",
       "500MB超は FreeConvert 等",
-      "透かしなし無料なら MediaCC",
+      "透かしなし無料なら MediaKit",
     ];
-    return { feature: features[i], mediaCC: mediaCC[i], cloudTools: cloud[i], recommendation: rec[i] };
+    return { feature: features[i], mediaKit: mediaKit[i], cloudTools: cloud[i], recommendation: rec[i] };
   }),
-  useMediaCCTitle: "MediaCC が向いている場面",
-  useMediaCCList: [
+  useMediaKitTitle: "MediaKit が向いている場面",
+  useMediaKitList: [
     "端末から出してはいけない機密の写真・動画",
     "アカウント登録なしで素早く変換・圧縮したい",
     "アップロード待ちなしで複数ファイルを一括処理",
@@ -287,41 +287,41 @@ const ja: CompetitorT = {
 
 const es: CompetitorT = {
   sidebarTitle: "Herramientas en línea populares",
-  sidebarNote: "Sitios de terceros como referencia. MediaCC procesa archivos localmente en tu navegador.",
+  sidebarNote: "Sitios de terceros como referencia. MediaKit procesa archivos localmente en tu navegador.",
   categoryImageCompress: "Compresión de imágenes",
   categoryImageConvert: "Conversión de formato de imagen",
   categoryVideoCompress: "Compresión de video",
   categoryVideoConvert: "Conversión de formato de video",
   externalLink: "Abre sitio externo",
-  comparisonTitle: "MediaCC vs otras herramientas en línea",
+  comparisonTitle: "MediaKit vs otras herramientas en línea",
   comparisonSubtitle:
-    "Compara MediaCC con convertidores y compresores en la nube típicos, y cuándo conviene cada opción.",
+    "Compara MediaKit con convertidores y compresores en la nube típicos, y cuándo conviene cada opción.",
   tableFeature: "Dimensión",
-  tableMediaCC: "MediaCC",
+  tableMediaKit: "MediaKit",
   tableCloudTools: "Herramientas en la nube",
   tableRecommendation: "Quién debería usar",
   imageComparisonRows: [
-    { feature: "Privacidad y datos", mediaCC: "100% local — sin subida", cloudTools: "Archivos subidos a servidores", recommendation: "MediaCC para imágenes confidenciales" },
-    { feature: "Cuenta / registro", mediaCC: "Sin cuenta", cloudTools: "Plan gratuito con límites", recommendation: "MediaCC para tareas rápidas y anónimas" },
-    { feature: "Procesamiento por lotes", mediaCC: "Hasta 15 archivos por sesión", cloudTools: "Lotes limitados en plan gratis", recommendation: "MediaCC para varios archivos a la vez" },
-    { feature: "HEIC / fotos iPhone", mediaCC: "Soporte HEIC en el navegador", cloudTools: "Algunos sitios lo soportan", recommendation: "MediaCC sin subir HEIC" },
-    { feature: "Calidad de compresión", mediaCC: "Modos sin pérdida y con pérdida", cloudTools: "Algoritmos más potentes (TinyPNG, Squoosh)", recommendation: "TinyPNG/Squoosh para máxima compresión" },
-    { feature: "Formatos", mediaCC: "JPG, PNG, WebP y entrada HEIC/HEIF en navegadores compatibles", cloudTools: "Más formatos raros (RAW, PSD)", recommendation: "CloudConvert para formatos profesionales" },
-    { feature: "Velocidad (archivos grandes)", mediaCC: "Limitado por CPU/RAM local", cloudTools: "Servidores potentes", recommendation: "Nube si el navegador se queda sin memoria" },
-    { feature: "Marcas de agua / coste", mediaCC: "Gratis, sin marcas", cloudTools: "Límites o marcas en plan gratis", recommendation: "MediaCC para uso gratuito limpio" },
+    { feature: "Privacidad y datos", mediaKit: "100% local — sin subida", cloudTools: "Archivos subidos a servidores", recommendation: "MediaKit para imágenes confidenciales" },
+    { feature: "Cuenta / registro", mediaKit: "Sin cuenta", cloudTools: "Plan gratuito con límites", recommendation: "MediaKit para tareas rápidas y anónimas" },
+    { feature: "Procesamiento por lotes", mediaKit: "Hasta 15 archivos por sesión", cloudTools: "Lotes limitados en plan gratis", recommendation: "MediaKit para varios archivos a la vez" },
+    { feature: "HEIC / fotos iPhone", mediaKit: "Soporte HEIC en el navegador", cloudTools: "Algunos sitios lo soportan", recommendation: "MediaKit sin subir HEIC" },
+    { feature: "Calidad de compresión", mediaKit: "Modos sin pérdida y con pérdida", cloudTools: "Algoritmos más potentes (TinyPNG, Squoosh)", recommendation: "TinyPNG/Squoosh para máxima compresión" },
+    { feature: "Formatos", mediaKit: "JPG, PNG, WebP y entrada HEIC/HEIF en navegadores compatibles", cloudTools: "Más formatos raros (RAW, PSD)", recommendation: "CloudConvert para formatos profesionales" },
+    { feature: "Velocidad (archivos grandes)", mediaKit: "Limitado por CPU/RAM local", cloudTools: "Servidores potentes", recommendation: "Nube si el navegador se queda sin memoria" },
+    { feature: "Marcas de agua / coste", mediaKit: "Gratis, sin marcas", cloudTools: "Límites o marcas en plan gratis", recommendation: "MediaKit para uso gratuito limpio" },
   ],
   videoComparisonRows: [
-    { feature: "Privacidad y datos", mediaCC: "100% local — sin subida", cloudTools: "Videos subidos a servidores", recommendation: "MediaCC para material privado o de clientes" },
-    { feature: "Cuenta / registro", mediaCC: "Sin cuenta", cloudTools: "Límites de tamaño en plan gratis", recommendation: "MediaCC sin registro" },
-    { feature: "Motor", mediaCC: "FFmpeg.wasm en navegador", cloudTools: "FFmpeg en servidor", recommendation: "Nube para archivos enormes y codificación rápida" },
-    { feature: "Procesamiento por lotes", mediaCC: "Cola de hasta 15 archivos", cloudTools: "Lotes limitados gratis", recommendation: "MediaCC para varios clips sin subir" },
-    { feature: "Formatos", mediaCC: "MP4, WebM, MOV, MKV, AVI", cloudTools: "Más códecs (ProRes, AV1)", recommendation: "CloudConvert para códecs profesionales" },
-    { feature: "Presets de compresión", mediaCC: "Modos de mayor calidad/menor tamaño", cloudTools: "Más controles en VEED, Clideo", recommendation: "VEED/Clideo para control de codificación fino" },
-    { feature: "Archivos grandes", mediaCC: "Mejor bajo ~50MB por archivo", cloudTools: "500MB–2GB+ en planes de pago", recommendation: "FreeConvert/Media.io si supera límites locales" },
-    { feature: "Marcas de agua / coste", mediaCC: "Gratis, sin marcas", cloudTools: "Exportaciones limitadas gratis", recommendation: "MediaCC para conversión local sin marcas" },
+    { feature: "Privacidad y datos", mediaKit: "100% local — sin subida", cloudTools: "Videos subidos a servidores", recommendation: "MediaKit para material privado o de clientes" },
+    { feature: "Cuenta / registro", mediaKit: "Sin cuenta", cloudTools: "Límites de tamaño en plan gratis", recommendation: "MediaKit sin registro" },
+    { feature: "Motor", mediaKit: "FFmpeg.wasm en navegador", cloudTools: "FFmpeg en servidor", recommendation: "Nube para archivos enormes y codificación rápida" },
+    { feature: "Procesamiento por lotes", mediaKit: "Cola de hasta 15 archivos", cloudTools: "Lotes limitados gratis", recommendation: "MediaKit para varios clips sin subir" },
+    { feature: "Formatos", mediaKit: "MP4, WebM, MOV, MKV, AVI", cloudTools: "Más códecs (ProRes, AV1)", recommendation: "CloudConvert para códecs profesionales" },
+    { feature: "Presets de compresión", mediaKit: "Modos de mayor calidad/menor tamaño", cloudTools: "Más controles en VEED, Clideo", recommendation: "VEED/Clideo para control de codificación fino" },
+    { feature: "Archivos grandes", mediaKit: "Mejor bajo ~50MB por archivo", cloudTools: "500MB–2GB+ en planes de pago", recommendation: "FreeConvert/Media.io si supera límites locales" },
+    { feature: "Marcas de agua / coste", mediaKit: "Gratis, sin marcas", cloudTools: "Exportaciones limitadas gratis", recommendation: "MediaKit para conversión local sin marcas" },
   ],
-  useMediaCCTitle: "Cuándo MediaCC es la mejor opción",
-  useMediaCCList: [
+  useMediaKitTitle: "Cuándo MediaKit es la mejor opción",
+  useMediaKitList: [
     "Fotos o videos confidenciales que no deben salir del dispositivo",
     "Convertir/comprimir rápido sin crear cuenta",
     "Procesar varios archivos sin esperar subidas",
@@ -340,41 +340,41 @@ const es: CompetitorT = {
 
 const pt: CompetitorT = {
   sidebarTitle: "Ferramentas online populares",
-  sidebarNote: "Sites de terceiros para referência. O MediaCC processa arquivos localmente no navegador.",
+  sidebarNote: "Sites de terceiros para referência. O MediaKit processa arquivos localmente no navegador.",
   categoryImageCompress: "Compressão de imagens",
   categoryImageConvert: "Conversão de formato de imagem",
   categoryVideoCompress: "Compressão de vídeo",
   categoryVideoConvert: "Conversão de formato de vídeo",
   externalLink: "Abre site externo",
-  comparisonTitle: "MediaCC vs outras ferramentas online",
+  comparisonTitle: "MediaKit vs outras ferramentas online",
   comparisonSubtitle:
-    "Veja como o MediaCC se compara com conversores e compressores em nuvem típicos e quando cada opção faz sentido.",
+    "Veja como o MediaKit se compara com conversores e compressores em nuvem típicos e quando cada opção faz sentido.",
   tableFeature: "Dimensão",
-  tableMediaCC: "MediaCC",
+  tableMediaKit: "MediaKit",
   tableCloudTools: "Ferramentas em nuvem",
   tableRecommendation: "Quem deve usar",
   imageComparisonRows: [
-    { feature: "Privacidade e dados", mediaCC: "100% local — sem upload", cloudTools: "Arquivos enviados a servidores", recommendation: "MediaCC para imagens confidenciais" },
-    { feature: "Conta / cadastro", mediaCC: "Sem conta", cloudTools: "Plano grátis com limites", recommendation: "MediaCC para tarefas rápidas e anônimas" },
-    { feature: "Processamento em lote", mediaCC: "Até 15 arquivos por sessão", cloudTools: "Lotes limitados no plano grátis", recommendation: "MediaCC para vários arquivos de uma vez" },
-    { feature: "HEIC / fotos iPhone", mediaCC: "Suporte HEIC no navegador", cloudTools: "Alguns sites suportam", recommendation: "MediaCC sem enviar HEIC" },
-    { feature: "Qualidade de compressão", mediaCC: "Modos sem perda e com perda", cloudTools: "Algoritmos mais fortes (TinyPNG, Squoosh)", recommendation: "TinyPNG/Squoosh para máxima compressão" },
-    { feature: "Formatos", mediaCC: "JPG, PNG, WebP e entrada HEIC/HEIF em navegadores compatíveis", cloudTools: "Mais formatos raros (RAW, PSD)", recommendation: "CloudConvert para formatos profissionais" },
-    { feature: "Velocidade (arquivos grandes)", mediaCC: "Limitado por CPU/RAM local", cloudTools: "Servidores potentes", recommendation: "Nuvem se o navegador ficar sem memória" },
-    { feature: "Marcas d'água / custo", mediaCC: "Grátis, sem marcas", cloudTools: "Limites ou marcas no plano grátis", recommendation: "MediaCC para uso gratuito limpo" },
+    { feature: "Privacidade e dados", mediaKit: "100% local — sem upload", cloudTools: "Arquivos enviados a servidores", recommendation: "MediaKit para imagens confidenciais" },
+    { feature: "Conta / cadastro", mediaKit: "Sem conta", cloudTools: "Plano grátis com limites", recommendation: "MediaKit para tarefas rápidas e anônimas" },
+    { feature: "Processamento em lote", mediaKit: "Até 15 arquivos por sessão", cloudTools: "Lotes limitados no plano grátis", recommendation: "MediaKit para vários arquivos de uma vez" },
+    { feature: "HEIC / fotos iPhone", mediaKit: "Suporte HEIC no navegador", cloudTools: "Alguns sites suportam", recommendation: "MediaKit sem enviar HEIC" },
+    { feature: "Qualidade de compressão", mediaKit: "Modos sem perda e com perda", cloudTools: "Algoritmos mais fortes (TinyPNG, Squoosh)", recommendation: "TinyPNG/Squoosh para máxima compressão" },
+    { feature: "Formatos", mediaKit: "JPG, PNG, WebP e entrada HEIC/HEIF em navegadores compatíveis", cloudTools: "Mais formatos raros (RAW, PSD)", recommendation: "CloudConvert para formatos profissionais" },
+    { feature: "Velocidade (arquivos grandes)", mediaKit: "Limitado por CPU/RAM local", cloudTools: "Servidores potentes", recommendation: "Nuvem se o navegador ficar sem memória" },
+    { feature: "Marcas d'água / custo", mediaKit: "Grátis, sem marcas", cloudTools: "Limites ou marcas no plano grátis", recommendation: "MediaKit para uso gratuito limpo" },
   ],
   videoComparisonRows: [
-    { feature: "Privacidade e dados", mediaCC: "100% local — sem upload", cloudTools: "Vídeos enviados a servidores", recommendation: "MediaCC para material privado ou de clientes" },
-    { feature: "Conta / cadastro", mediaCC: "Sem conta", cloudTools: "Limites de tamanho no plano grátis", recommendation: "MediaCC sem cadastro" },
-    { feature: "Motor", mediaCC: "FFmpeg.wasm no navegador", cloudTools: "FFmpeg no servidor", recommendation: "Nuvem para arquivos enormes e codificação rápida" },
-    { feature: "Processamento em lote", mediaCC: "Fila de até 15 arquivos", cloudTools: "Lotes limitados grátis", recommendation: "MediaCC para vários clipes sem enviar" },
-    { feature: "Formatos", mediaCC: "MP4, WebM, MOV, MKV, AVI", cloudTools: "Mais codecs (ProRes, AV1)", recommendation: "CloudConvert para codecs profissionais" },
-    { feature: "Presets de compressão", mediaCC: "Modos de maior qualidade/menor tamanho", cloudTools: "Mais controles no VEED, Clideo", recommendation: "VEED/Clideo para controle fino de codificação" },
-    { feature: "Arquivos grandes", mediaCC: "Melhor abaixo de ~50MB por arquivo", cloudTools: "500MB–2GB+ em planos pagos", recommendation: "FreeConvert/Media.io se exceder limites locais" },
-    { feature: "Marcas d'água / custo", mediaCC: "Grátis, sem marcas", cloudTools: "Exportações limitadas grátis", recommendation: "MediaCC para conversão local sem marcas" },
+    { feature: "Privacidade e dados", mediaKit: "100% local — sem upload", cloudTools: "Vídeos enviados a servidores", recommendation: "MediaKit para material privado ou de clientes" },
+    { feature: "Conta / cadastro", mediaKit: "Sem conta", cloudTools: "Limites de tamanho no plano grátis", recommendation: "MediaKit sem cadastro" },
+    { feature: "Motor", mediaKit: "FFmpeg.wasm no navegador", cloudTools: "FFmpeg no servidor", recommendation: "Nuvem para arquivos enormes e codificação rápida" },
+    { feature: "Processamento em lote", mediaKit: "Fila de até 15 arquivos", cloudTools: "Lotes limitados grátis", recommendation: "MediaKit para vários clipes sem enviar" },
+    { feature: "Formatos", mediaKit: "MP4, WebM, MOV, MKV, AVI", cloudTools: "Mais codecs (ProRes, AV1)", recommendation: "CloudConvert para codecs profissionais" },
+    { feature: "Presets de compressão", mediaKit: "Modos de maior qualidade/menor tamanho", cloudTools: "Mais controles no VEED, Clideo", recommendation: "VEED/Clideo para controle fino de codificação" },
+    { feature: "Arquivos grandes", mediaKit: "Melhor abaixo de ~50MB por arquivo", cloudTools: "500MB–2GB+ em planos pagos", recommendation: "FreeConvert/Media.io se exceder limites locais" },
+    { feature: "Marcas d'água / custo", mediaKit: "Grátis, sem marcas", cloudTools: "Exportações limitadas grátis", recommendation: "MediaKit para conversão local sem marcas" },
   ],
-  useMediaCCTitle: "Quando o MediaCC é a melhor escolha",
-  useMediaCCList: [
+  useMediaKitTitle: "Quando o MediaKit é a melhor escolha",
+  useMediaKitList: [
     "Fotos ou vídeos confidenciais que não podem sair do dispositivo",
     "Converter/comprimir rápido sem criar conta",
     "Processar vários arquivos sem esperar upload",

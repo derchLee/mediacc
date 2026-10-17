@@ -51,7 +51,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             className="group flex items-center gap-3 text-3xl font-black tracking-tight text-[#17324d] transition-colors hover:text-[#1976a8] dark:text-white"
           >
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#1976a8] text-lg font-black text-white shadow-[0_8px_20px_rgba(25,118,168,.25)] transition-transform group-hover:-rotate-3">M</span>
-            <span>MediaCC</span>
+            <span>MediaKit</span>
           </Link>
           <div className="flex flex-wrap items-center justify-center gap-1 rounded-full border border-slate-200 bg-white/80 p-1.5 text-sm shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/80">
             <Globe className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" />
@@ -160,7 +160,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             </Link>
           </div>
           <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-4">
-            © {new Date().getFullYear()} MediaCC. {commonT.allRightsReserved}
+            © {new Date().getFullYear()} MediaKit. {commonT.allRightsReserved}
           </p>
         </footer>
       </div>

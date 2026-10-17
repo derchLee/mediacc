@@ -1,7 +1,7 @@
 {
-  "name": "MediaCC - Local Media Conversion & Compression Tool",
-  "short_name": "MediaCC",
-  "description": "100% local processing for image/video conversion and compression, protecting your privacy",
+  "name": "MediaKit - Image & Video Converter and Compressor",
+  "short_name": "MediaKit",
+  "description": "Convert HEIC, JPG, PNG, WebP and videos, or compress images and MP4 files locally in your browser. Free tools with no file uploads.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
