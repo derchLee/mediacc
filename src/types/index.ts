@@ -49,7 +49,13 @@ export interface ConversionSettings {
 /**
  * 操作类型
  */
-export type OperationType = "convert" | "compress";
+export type OperationType = "convert" | "compress" | "resize";
+
+export interface ImageResizeOptions {
+  width: number;
+  height: number;
+  keepAspectRatio: boolean;
+}
 
 /**
  * 压缩模式
@@ -97,5 +103,7 @@ export interface ProcessedFile {
   operationType: OperationType; // 操作类型
   compressionMode?: CompressionMode; // 压缩模式（如果是压缩操作）
   targetFormat?: ImageFormat | VideoFormat; // 目标格式（如果是转换操作）
+  width?: number;
+  height?: number;
 }
 

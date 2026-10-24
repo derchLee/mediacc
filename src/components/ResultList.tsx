@@ -80,11 +80,12 @@ export function ResultList({
                   {file.format}
                 </span>
                 <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded">
-                  {file.operationType === "convert" ? t.formatConversion : t.compression}
+                  {file.operationType === "resize" ? t.resizeImage : file.operationType === "convert" ? t.formatConversion : t.compression}
                 </span>
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <span>{t.size}: {formatFileSize(file.size)}</span>
+                {file.width && file.height && <span>{t.resolution}: {file.width} × {file.height} px</span>}
                 {file.compressionMode && (
                   <span>
                     {t.mode}: {file.compressionMode === "lossless" ? t.lossless : t.lossy}

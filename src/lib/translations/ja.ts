@@ -18,6 +18,19 @@ export const common: CommonT = {
 };
 
 export const ui: UiT = {
+  resizeImage: "画像サイズ変更",
+  resizeDescription: "幅と高さをピクセルで指定",
+  imageWidth: "幅",
+  imageHeight: "高さ",
+  keepAspectRatio: "縦横比を維持",
+  resizeExactHint: "指定した幅と高さで出力します。元の縦横比と異なる場合、画像が引き伸ばされます。",
+  resizeFitHint: "切り抜かずに指定した幅と高さの内側に収まるよう縮尺を変更します。実際の出力サイズは小さくなる場合があります。",
+  resizeFormatHint: "対応環境では JPG・PNG・WebP の形式を維持し、その他は PNG で出力します。アニメーション画像は静止画になります。",
+  resizeLimits: "各辺は 1～{max} px の整数、合計 {megapixels} メガピクセル以内。同じ設定を選択した全画像に適用します。",
+  invalidResizeDimensions: "上記の制限内で有効な整数のサイズを入力してください。",
+  resizing: "サイズ変更中…",
+  startResize: "サイズ変更を開始",
+  resolution: "解像度",
   dragDropImages: "画像ファイルをここにドラッグ＆ドロップ",
   dragDropVideos: "動画ファイルをここにドラッグ＆ドロップ",
   releaseToUpload: "ここで離してアップロード",

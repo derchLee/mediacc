@@ -5,7 +5,8 @@
  * 其他不支持的格式（AVIF, TIFF, BMP 等）会给出提示
  */
 
-import type { ImageFormat, CompressionMode } from "@/types";
+import type { ImageFormat, CompressionMode, ImageResizeOptions } from "@/types";
+import { getResizeDimensions, isValidResizeSize } from "./image-resize";
 
 /**
  * 获取格式对应的 MIME 类型
@@ -349,6 +350,39 @@ export async function compressImage(
     throw new Error(
       `Image compression failed: ${error instanceof Error ? error.message : String(error)}`
     );
+  }
+}
+
+/**
+ * Resize locally, preserving JPG/PNG/WebP encoding and using PNG for other inputs.
+ * Animated input is exported as a single still image.
+ */
+export async function resizeImage(
+  file: File,
+  options: ImageResizeOptions,
+): Promise<{ blob: Blob; width: number; height: number }> {
+  if (!isValidResizeSize(options.width, options.height)) {
+    throw new Error("Invalid resize dimensions");
+  }
+  const sourceFormat = detectImageFormat(file);
+  const source = sourceFormat === "heic" ? await convertHeicToBlob(file, "image/png") : file;
+  const image = await loadImage(source);
+  const { width, height } = getResizeDimensions(image.naturalWidth, image.naturalHeight, options);
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  try {
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Unable to get Canvas context");
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(image, 0, 0, width, height);
+    const mimeType = isFormatSupported(sourceFormat) ? getMimeType(sourceFormat) : "image/png";
+    const blob = await canvasToBlob(canvas, mimeType, 0.92);
+    return { blob, width, height };
+  } finally {
+    canvas.width = 0;
+    canvas.height = 0;
   }
 }
 

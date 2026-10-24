@@ -153,6 +153,7 @@ const jsonLd = {
     "Convert JPG, PNG, and WebP images locally in the browser",
     "Convert common video formats including MP4, WebM, MOV, MKV, and AVI",
     "Compress images and videos with preset quality modes",
+    "Resize images to exact pixel dimensions or fit proportionally without cropping",
     "Batch file processing (up to 15 files, 150MB per file, 1000MB total)",
     "Local browser processing via JavaScript and WebAssembly",
     "No media file upload to MediaKit servers",

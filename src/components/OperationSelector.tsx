@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, Minimize2, Download } from "lucide-react";
+import { ArrowRight, Minimize2, Download, Scaling } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { OperationType } from "@/types";
 import { getUiT, type Locale } from "@/lib/translations";
@@ -25,7 +25,7 @@ export function OperationSelector({
       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
         {t.selectOperation}
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className={cn("grid grid-cols-1 gap-4", fileType === "image" ? "md:grid-cols-3" : "md:grid-cols-2")}>
         {/* 格式转换 */}
         <button
           onClick={() =>
@@ -107,6 +107,30 @@ export function OperationSelector({
             )}
           />
         </button>
+        {fileType === "image" && (
+          <button
+            type="button"
+            aria-pressed={operationType === "resize"}
+            onClick={() => onOperationSelect(operationType === "resize" ? null : "resize")}
+            className={cn(
+              "flex items-center justify-between p-4 border-2 rounded-lg transition-all hover:border-blue-300 dark:hover:border-blue-700",
+              operationType === "resize"
+                ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
+            )}
+          >
+            <div className="flex items-center gap-3 text-left">
+              <div className={cn("p-2 rounded-lg", operationType === "resize" ? "bg-blue-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400")}>
+                <Scaling className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="font-medium text-gray-900 dark:text-gray-100">{t.resizeImage}</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">{t.resizeDescription}</div>
+              </div>
+            </div>
+            <ArrowRight className={cn("w-5 h-5 shrink-0", operationType === "resize" ? "text-blue-500 rotate-90" : "text-gray-400")} />
+          </button>
+        )}
       </div>
     </div>
   );

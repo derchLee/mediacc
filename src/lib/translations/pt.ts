@@ -18,6 +18,19 @@ export const common: CommonT = {
 };
 
 export const ui: UiT = {
+  resizeImage: "Redimensionar imagem",
+  resizeDescription: "Alterar largura e altura em píxeis",
+  imageWidth: "Largura",
+  imageHeight: "Altura",
+  keepAspectRatio: "Manter proporções",
+  resizeExactHint: "A imagem terá a largura e altura exatas indicadas. Uma proporção diferente irá esticar a imagem.",
+  resizeFitHint: "Ajusta cada imagem dentro da largura e altura indicadas, sem cortar. As dimensões finais podem ser menores.",
+  resizeFormatHint: "JPG, PNG e WebP mantêm o formato quando suportado; os restantes são exportados como PNG. Imagens animadas tornam-se estáticas.",
+  resizeLimits: "Números inteiros de 1 a {max} px por lado, até {megapixels} megapíxeis no total. As mesmas definições aplicam-se a todas as imagens selecionadas.",
+  invalidResizeDimensions: "Introduza dimensões inteiras válidas dentro dos limites indicados.",
+  resizing: "A redimensionar...",
+  startResize: "Redimensionar",
+  resolution: "Resolução",
   dragDropImages: "Arraste e solte imagens aqui",
   dragDropVideos: "Arraste e solte vídeos aqui",
   releaseToUpload: "Solte aqui para enviar",

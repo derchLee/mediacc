@@ -7,12 +7,13 @@ import { SupportedFormats } from "@/components/SupportedFormats";
 import { FilePreviewList } from "@/components/FilePreviewList";
 import { OperationSelector } from "@/components/OperationSelector";
 import { ConversionSettings } from "@/components/ConversionSettings";
+import { ResizeSettings } from "@/components/ResizeSettings";
 import { ResultList } from "@/components/ResultList";
 import { useMediaStore } from "@/store";
-import { convertImageFormat, compressImage, generateProcessedFileName } from "@/lib/image-processor";
+import { convertImageFormat, compressImage, resizeImage, generateProcessedFileName } from "@/lib/image-processor";
 import { getExtensionFromFormat } from "@/lib/format-utils";
 import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
-import type { ProcessedFile, ImageFormat } from "@/types";
+import type { ProcessedFile, ImageFormat, ImageResizeOptions } from "@/types";
 import { getUiT, type Locale } from "@/lib/translations";
 import type { ImagePageT } from "@/lib/translations";
 import { MediaPageShell } from "@/components/MediaPageShell";
@@ -25,6 +26,7 @@ interface ImagePageClientProps {
 }
 
 export function ImagePageClient({ locale, t }: ImagePageClientProps) {
+  const uiT = getUiT(locale);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
     files,
@@ -54,8 +56,9 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
   };
   const handleFileRemove = (id: string) => removeFile(id);
 
-  const handleStartOperation = async () => {
-    if (!operationType || files.length === 0) return;
+  const handleStartOperation = async (resizeOptions?: ImageResizeOptions) => {
+    if (!operationType || files.length === 0 || isProcessing) return;
+    if (operationType === "resize" && !resizeOptions) return;
     if (operationType === "convert" && !targetFormat) return;
     if (operationType === "compress" && !compressionMode) return;
     if (operationType === "convert" && targetFormat) trackConversionStart("image", targetFormat);
@@ -68,6 +71,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
           let processedBlob: Blob;
           let processedFileName: string;
           let processedFormat: string;
+          let dimensions: { width: number; height: number } | undefined;
           if (operationType === "convert" && targetFormat) {
             processedBlob = await convertImageFormat(uploadedFile.file, targetFormat as ImageFormat);
             processedFormat = getExtensionFromFormat(targetFormat);
@@ -78,6 +82,12 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             const outExt = processedBlob.type.includes("png") ? "png" : processedBlob.type.includes("webp") ? "webp" : "jpg";
             processedFormat = outExt;
             processedFileName = generateProcessedFileName(uploadedFile.name, undefined, "compress", outExt);
+          } else if (operationType === "resize" && resizeOptions) {
+            const result = await resizeImage(uploadedFile.file, resizeOptions);
+            processedBlob = result.blob;
+            dimensions = { width: result.width, height: result.height };
+            processedFormat = processedBlob.type === "image/jpeg" ? "jpg" : processedBlob.type === "image/webp" ? "webp" : "png";
+            processedFileName = `${uploadedFile.name.replace(/\.[^/.]+$/, "")}_${result.width}x${result.height}.${processedFormat}`;
           } else continue;
           let preview: string | undefined;
           if (processedBlob.type.startsWith("image/")) preview = URL.createObjectURL(processedBlob);
@@ -90,6 +100,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             blob: processedBlob,
             preview,
             operationType,
+            ...dimensions,
             compressionMode: operationType === "compress" ? compressionMode ?? undefined : undefined,
             targetFormat: operationType === "convert" ? targetFormat ?? undefined : undefined,
           };
@@ -122,7 +133,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
     <MainLayout>
       <MediaPageShell pageType="image" locale={locale}>
         <header className="mx-auto mb-8 max-w-3xl text-center">
-          <span className="mb-4 inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[.12em] text-[#1976a8] dark:bg-blue-950/40">{getUiT(locale).localProcessingNotice}</span>
+          <span className="mb-4 inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[.12em] text-[#1976a8] dark:bg-blue-950/40">{uiT.localProcessingNotice}</span>
           <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight text-[#17324d] dark:text-white sm:text-5xl">{t.h1}</h1>
           <p className="text-lg leading-relaxed text-slate-600 dark:text-slate-300">{t.intro}</p>
         </header>
@@ -135,7 +146,9 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
         {files.length > 0 && (
           <>
             <OperationSelector operationType={operationType} onOperationSelect={setOperationType} fileType="image" locale={locale} />
-            <ConversionSettings
+            {operationType === "resize" ? (
+              <ResizeSettings onStart={handleStartOperation} isProcessing={isProcessing} locale={locale} />
+            ) : <ConversionSettings
               fileType="image"
               operationType={operationType}
               compressionMode={compressionMode}
@@ -145,7 +158,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
               onStart={handleStartOperation}
               isProcessing={isProcessing}
               locale={locale}
-            />
+            />}
             <ResultList
               files={processedFiles.filter((pf) => files.some((f) => f.id === pf.originalFileId) && pf.operationType === operationType)}
               onRemove={removeProcessedFile}
@@ -188,6 +201,11 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
                     <li key={i}>{item}</li>
                   ))}
                 </ul>
+              </div>
+              <div>
+                <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">{uiT.resizeImage}</h4>
+                <p>{uiT.resizeDescription}. {uiT.resizeExactHint} {uiT.resizeFitHint}</p>
+                <p className="mt-2">{uiT.resizeFormatHint}</p>
               </div>
               <div>
                 <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">{t.batchProcessing}</h4>

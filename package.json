@@ -8,6 +8,7 @@
     "build:cf": "next build && npx @cloudflare/next-on-pages@1",
     "start": "next start",
     "lint": "next lint",
+    "test:resize": "node scripts/test-image-resize.cjs",
     "dev:pages": "npm run build:cf && wrangler pages dev .vercel/output/static --port 8788"
   },
   "dependencies": {

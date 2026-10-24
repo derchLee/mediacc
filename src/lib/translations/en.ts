@@ -18,6 +18,19 @@ export const common: CommonT = {
 };
 
 export const ui: UiT = {
+  resizeImage: "Resize Image",
+  resizeDescription: "Change width and height in pixels",
+  imageWidth: "Width",
+  imageHeight: "Height",
+  keepAspectRatio: "Keep aspect ratio",
+  resizeExactHint: "Output uses the exact width and height you enter. A different aspect ratio will stretch the image.",
+  resizeFitHint: "Fit each image inside the specified width and height without cropping. Actual output dimensions may be smaller.",
+  resizeFormatHint: "JPG, PNG and WebP keep their format where supported; other inputs export as PNG. Animated images become still images.",
+  resizeLimits: "Whole numbers from 1 to {max} px per side, up to {megapixels} megapixels total. The same settings apply to every selected image.",
+  invalidResizeDimensions: "Enter valid whole-number dimensions within the limits above.",
+  resizing: "Resizing...",
+  startResize: "Start Resizing",
+  resolution: "Resolution",
   dragDropImages: "Drag and drop image files here",
   dragDropVideos: "Drag and drop video files here",
   releaseToUpload: "Release to upload files",
@@ -82,9 +95,9 @@ export const ui: UiT = {
 };
 
 export const imagePage: ImagePageT = {
-  h1: "Image Converter & Compressor",
+  h1: "Image Converter, Resizer & Compressor",
   intro:
-    "Convert HEIC to JPG, WebP to JPG or PNG, and PNG to JPG, or compress JPG, PNG and WebP images for free. MediaKit processes your files locally in your browser, with no uploads or signup.",
+    "Convert HEIC to JPG, WebP to JPG or PNG, and PNG to JPG. Resize images to custom pixel dimensions or compress JPG, PNG and WebP files for free. MediaKit processes your files locally in your browser, with no uploads or signup.",
   whyChoose: "Why Choose MediaKit?",
   whyList: [
     "100% local processing – files never leave your device",
@@ -246,11 +259,14 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/image`;
   return {
-    title: "Free Image Converter & Compressor",
+    title: "Free Image Converter, Resizer & Compressor",
     description:
-      "Convert HEIC, JPG, PNG and WebP images, and reduce image file sizes in your browser. Free local processing with no file uploads or signup.",
+      "Convert, resize and compress HEIC, JPG, PNG and WebP images in your browser. Set custom pixel dimensions with free local processing and no file uploads.",
     keywords: [
       "free image converter",
+      "image resizer",
+      "resize image to 1000x500",
+      "change image resolution",
       "heic to jpg",
       "heic converter",
       "online image compressor",
@@ -271,7 +287,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "convert images without uploading",
       "image converter no signup",
     ],
-    openGraphTitle: "Free Image Converter & Compressor | MediaKit",
+    openGraphTitle: "Free Image Converter, Resizer & Compressor | MediaKit",
     openGraphDescription:
       "Convert HEIC photos and JPG, PNG, WebP images directly in your browser. Your files never leave your device.",
     twitterTitle: "Free Online Image Converter & Compressor",

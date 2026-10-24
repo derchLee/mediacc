@@ -8,6 +8,14 @@ SEO focus: image converter/compressor and video converter/compressor hubs, plus 
 
 ## Multilingual docs (tabs)
 
+### Resize images
+
+On `/image`, select your images, choose **Resize Image**, enter width and height in pixels, then start resizing and download the results. For example, a 1920×1080 image can be exported at exactly 1000×500; this stretches the aspect ratio. Enable **Keep aspect ratio** to fit inside those bounds without cropping (889×500 for this example). Settings apply to every selected image. Results show the actual dimensions and use filenames such as `photo_1000x500.jpg`.
+
+JPG, PNG and WebP retain their format where supported; HEIC and other decodable inputs export as PNG. Animated inputs become still images. Target dimensions must be whole numbers from 1 to 8192 pixels per side, with no more than 32 megapixels total. Processing remains local to the browser.
+
+Run `npm run test:resize` to test the actual Canvas output using a local headless Chrome/Chromium/Edge browser. Set `CHROME_PATH` if it is not installed in a standard location.
+
 **Real tabs (one language visible at a time):** open **[`docs/readme-tabs.html`](docs/readme-tabs.html)** in your browser (double‑click the file locally, or publish **`/docs`** with [GitHub Pages](https://pages.github.com/) so it loads as a normal web page). That page uses HTML + CSS only (no JavaScript).
 
 GitHub’s **`README.md` preview cannot show interactive tabs** (styles/scripts are limited), so the repository uses **collapsible sections** below as the in-repo fallback.
