@@ -1,6 +1,8 @@
 # MediaKit
 
-Production URL: **https://mediakit.upupdays.com**. Set `NEXT_PUBLIC_BASE_URL` to this URL at build time. Legacy `mediacc.it.com` and `www.mediacc.it.com` hosts redirect to the same paths on MediaKit when served by this app; keep their DNS and TLS active for migration.
+**Official website: [https://mediakit.upupdays.com](https://mediakit.upupdays.com)**
+
+Set `NEXT_PUBLIC_BASE_URL=https://mediakit.upupdays.com` at build time.
 
 Search Console: verify `upupdays.com` via DNS or add the URL-prefix property `https://mediakit.upupdays.com/`, then submit `https://mediakit.upupdays.com/sitemap.xml`. For HTML-tag verification, set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` to the value Google provides and rebuild. For a previously indexed old site, verify both properties and use Change of Address after the redirects are live. Hosting/CDN redirects must also point directly to the new domain.
 
