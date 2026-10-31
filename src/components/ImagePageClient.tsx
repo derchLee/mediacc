@@ -14,7 +14,7 @@ import { convertImageFormat, compressImage, resizeImage, generateProcessedFileNa
 import { getExtensionFromFormat } from "@/lib/format-utils";
 import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
 import type { ProcessedFile, ImageFormat, ImageResizeOptions } from "@/types";
-import { getUiT, type Locale } from "@/lib/translations";
+import { getImageLayoutMeta, getUiT, type Locale } from "@/lib/translations";
 import type { ImagePageT } from "@/lib/translations";
 import { MediaPageShell } from "@/components/MediaPageShell";
 import { CompetitorComparison } from "@/components/CompetitorComparison";
@@ -185,6 +185,20 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">{t.detailedGuide}</h2>
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{t.howToUse}</h3>
+            <section className="mb-6" aria-label="FAQ">
+              {getImageLayoutMeta(locale).faq.map(item => (
+                <details key={item.name} className="mb-3">
+                  <summary className="font-medium cursor-pointer">{item.name}</summary>
+                  <p className="mt-2">{item.text}</p>
+                </details>
+              ))}
+            </section>
+            <section className="mb-6">
+              <h4 className="font-medium mb-2">{t.imageResize}</h4>
+              <ul className="list-disc pl-5 space-y-2">
+                {t.imageResizeList.map((item, i) => <li key={i}>{item}</li>)}
+              </ul>
+            </section>
             <div className="space-y-4 text-gray-700 dark:text-gray-300">
               <div>
                 <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">{t.formatConversion}</h4>

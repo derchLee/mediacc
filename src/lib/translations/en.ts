@@ -96,8 +96,7 @@ export const ui: UiT = {
 
 export const imagePage: ImagePageT = {
   h1: "Image Converter, Resizer & Compressor",
-  intro:
-    "Convert HEIC to JPG, WebP to JPG or PNG, and PNG to JPG. Resize images to custom pixel dimensions or compress JPG, PNG and WebP files for free. MediaKit processes your files locally in your browser, with no uploads or signup.",
+  intro: "Convert, resize and compress images locally in your browser without uploads.",
   whyChoose: "Why Choose MediaKit?",
   whyList: [
     "100% local processing – files never leave your device",
@@ -108,6 +107,7 @@ export const imagePage: ImagePageT = {
   howItWorks: "How It Works",
   howSteps: [
     "Select an image from your device (drag & drop or click to upload)",
+    "Select Resize Image, enter width and height in pixels, start processing and download.",
     "Choose output format or compression level",
     "Download the processed image instantly – all processing happens locally in your browser",
   ],
@@ -122,6 +122,8 @@ export const imagePage: ImagePageT = {
     'Click the "Start Processing" button, and the system will complete the conversion locally in your browser',
     "After conversion, you can directly download the image in the new format",
   ],
+  imageResize: "Resize Image",
+  imageResizeList: ["Select Resize Image, enter width and height in pixels, start processing and download.", "Exact dimensions may stretch the image. Keep aspect ratio fits within the bounds without cropping; actual dimensions may be smaller.", "JPG, PNG and WebP keep their format where supported; other inputs export as PNG. Animated images become still images. Use integers from 1 to 8192 per side, up to 32 megapixels. Settings apply to all selected images."],
   imageCompression: "2. Image Compression",
   imageCompressionList: [
     'Select "Compress" operation and choose compression mode',
@@ -259,9 +261,8 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/image`;
   return {
-    title: "Free Image Converter, Resizer & Compressor",
-    description:
-      "Convert, resize and compress HEIC, JPG, PNG and WebP images in your browser. Set custom pixel dimensions with free local processing and no file uploads.",
+    title: "Image Converter, Resizer & Compressor",
+    description: "Convert, resize and compress images locally in your browser without uploads.",
     keywords: [
       "free image converter",
       "image resizer",
@@ -287,19 +288,17 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "convert images without uploading",
       "image converter no signup",
     ],
-    openGraphTitle: "Free Image Converter, Resizer & Compressor | MediaKit",
-    openGraphDescription:
-      "Convert HEIC photos and JPG, PNG, WebP images directly in your browser. Your files never leave your device.",
-    twitterTitle: "Free Online Image Converter & Compressor",
-    twitterDescription:
-      "A privacy-first image tool with 100% local processing. Convert HEIC, JPG, PNG, and WebP without uploading files.",
+    openGraphTitle: "Image Converter, Resizer & Compressor | MediaKit",
+    openGraphDescription: "Convert, resize and compress images locally in your browser without uploads.",
+    twitterTitle: "Image Converter, Resizer & Compressor",
+    twitterDescription: "Convert, resize and compress images locally in your browser without uploads.",
     softwareApp: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
       name: "MediaKit Image Converter",
       alternateName: "Online Image Converter & Compressor",
-      description: "Convert HEIC, JPG, PNG, WebP and compress images locally in your browser.",
+      description: "Convert, resize and compress images locally in your browser without uploads.",
       softwareVersion: "1.0",
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: "Image Converter",
@@ -313,6 +312,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
+      { name: "Resize Image" , text: "Select Resize Image, enter width and height in pixels, start processing and download. Exact dimensions may stretch the image. Keep aspect ratio fits within the bounds without cropping; actual dimensions may be smaller. JPG, PNG and WebP keep their format where supported; other inputs export as PNG. Animated images become still images. Use integers from 1 to 8192 per side, up to 32 megapixels. Settings apply to all selected images." },
       {
         name: "Are my images uploaded to a server?",
         text: "No. All conversion and compression runs locally via Canvas API, heic2any (for HEIC), and WebAssembly. Your files never leave your device—zero upload, 100% privacy.",
@@ -343,10 +343,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
     ],
     howTo: {
-      name: "How to Convert and Compress Images Online",
-      description: "Step-by-step guide to convert image formats and reduce file size using MediaKit's browser-based tool.",
+      name: "Image Converter, Resizer & Compressor",
+      description: "Convert, resize and compress images locally in your browser without uploads.",
       step: [
         { name: "Upload Images", text: "Drag and drop your images or click to select files. Supports JPG, PNG, WebP, and HEIC/HEIF input up to 150MB per file." },
+        { name: "Resize Image", text: "Select Resize Image, enter width and height in pixels, start processing and download. Exact dimensions may stretch the image. Keep aspect ratio fits within the bounds without cropping; actual dimensions may be smaller. JPG, PNG and WebP keep their format where supported; other inputs export as PNG. Animated images become still images. Use integers from 1 to 8192 per side, up to 32 megapixels. Settings apply to all selected images." },
         { name: "Choose Output Format", text: "Select your desired output format from the dropdown: JPG, PNG, or WebP." },
         { name: "Choose Compression Mode", text: "Use the available compression modes to prioritize either visual quality or smaller file size." },
         { name: "Process and Download", text: "Click Convert/Compress to process your images locally. Download the results when complete." },

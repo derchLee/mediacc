@@ -4,7 +4,7 @@
  */
 import type { Metadata } from "next";
 import { getImageLayoutMeta } from "./index";
-import { LOCALES } from "./index";
+import { getLanguageAlternates, getContentDate } from "@/lib/seo/page-metadata";
 import type { Locale } from "./types";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
@@ -21,10 +21,7 @@ function getImageCanonical(locale: Locale): string {
 export function getImageLayoutMetadata(locale: Locale): Metadata {
   const meta = getImageLayoutMeta(locale);
   const canonical = getImageCanonical(locale);
-  const languages: Record<string, string> = {};
-  LOCALES.forEach((l) => {
-    languages[l] = l === "en" ? `${baseUrl}/image` : `${baseUrl}/${l}/image`;
-  });
+  const languages = getLanguageAlternates(baseUrl, "/image");
   return {
     title: meta.title,
     description: meta.description,
@@ -66,7 +63,7 @@ export function ImageLayoutScripts({ locale }: { locale: Locale }) {
       { "@type": "ListItem", position: 2, name: "Image Converter", item: `${base}${prefix}/image` },
     ],
   };
-  const softwareAppJsonLd = { ...meta.softwareApp, "@context": "https://schema.org" };
+  const softwareAppJsonLd = { ...meta.softwareApp, dateModified: getContentDate("/image"), "@context": "https://schema.org" };
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

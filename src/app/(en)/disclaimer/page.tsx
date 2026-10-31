@@ -19,7 +19,7 @@ export default function DisclaimerPage() {
         
         <div className="prose prose-gray dark:prose-invert max-w-none">
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-            Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            Last updated: {new Date("2026-10-17T00:00:00Z").toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
 
           <div className="mb-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">

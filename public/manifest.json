@@ -1,7 +1,7 @@
 {
-  "name": "MediaKit - Image & Video Converter and Compressor",
+  "name": "MediaKit - Media Converter, Image Resizer and Compressor",
   "short_name": "MediaKit",
-  "description": "Convert HEIC, JPG, PNG, WebP and videos, or compress images and MP4 files locally in your browser. Free tools with no file uploads.",
+  "description": "Convert HEIC, JPG, PNG, WebP and videos, resize images, or compress images and MP4 files locally in your browser. Free tools with no file uploads.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

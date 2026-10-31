@@ -49,6 +49,14 @@ const nextConfig = {
   // 永久重定向配置（308）用于 SEO
   async redirects() {
     return [
+      ...["mediacc.it.com", "www.mediacc.it.com"].flatMap(host =>
+        ["", "/ja", "/es", "/pt"].map(prefix => ({
+          source: prefix || "/",
+          has: [{ type: "host", value: host }],
+          destination: `https://mediakit.upupdays.com${prefix}/image`,
+          permanent: true,
+        }))
+      ),
       // Preserve paths when migrating both legacy hosts to MediaKit.
       {
         source: "/:path*",

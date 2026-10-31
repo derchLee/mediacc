@@ -129,6 +129,8 @@ export interface ImagePageT {
   howToUse: string;
   formatConversion: string;
   formatConversionList: string[];
+  imageResize: string;
+  imageResizeList: string[];
   imageCompression: string;
   imageCompressionList: string[];
   batchProcessing: string;

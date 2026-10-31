@@ -1,4 +1,6 @@
-import "./globals.css";
+import "@/app/globals.css";
+import { getContentDate } from "@/lib/seo/page-metadata";
+import type { Locale } from "@/lib/translations/types";
 import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
@@ -10,21 +12,16 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.c
 const siteName = "MediaKit";
 const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-NR6F75G20E";
 
-// 构建时刻取一次（next build 时计算），避免运行时每次请求都变动；
-// SEO 字段是日期粒度，构建里抓 ISO 日期即可。
-// 想强制覆盖时可在 CI 注入 NEXT_PUBLIC_BUILD_DATE。
-const buildDate = process.env.NEXT_PUBLIC_BUILD_DATE || new Date().toISOString().split("T")[0];
-
 export const metadata = {
   // Title template: core message first, brand at end（默认标题控制在约 50–58 字符可见长度，避免 SERP 截断）
   title: {
-    default: "Free Image & Video Converter and Compressor | MediaKit",
+    default: "Free Media Converter, Image Resizer & Compressor | MediaKit",
     template: "%s | MediaKit",
   },
   
   // Description: ~150 字符，兼顾关键词与可读性
   description:
-    "Convert and compress images and videos free in your browser. HEIC to JPG, WebP to PNG, MOV to MP4 and more, with local processing and no file uploads.",
+    "Convert and compress images and videos, and resize images free in your browser. HEIC to JPG, WebP to PNG, MOV to MP4 and more, with local processing and no file uploads.",
   
   // Descriptive terms for non-Google consumers; Google ignores meta keywords.
   keywords: [
@@ -32,6 +29,7 @@ export const metadata = {
     "online video converter",
     "online image converter",
     "image compressor",
+    "image resizer",
     "video compressor",
     "heic converter",
     "heic to jpg",
@@ -72,18 +70,18 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    alternateLocale: ["ja_JP", "es_ES", "pt_PT"],
+    alternateLocale: ["ja_JP", "es_ES", "pt_BR"],
     url: baseUrl,
     siteName: siteName,
-    title: "Free Image & Video Converter and Compressor | MediaKit",
+    title: "Free Media Converter, Image Resizer & Compressor | MediaKit",
     description:
-      "Convert HEIC, JPG, PNG, WebP and video in your browser. Files stay on your device—local processing, no upload.",
+      "Convert and resize images, or compress images and videos in your browser. Files stay on your device—local processing, no upload.",
     images: [
       {
         url: "/og",
         width: 1200,
         height: 630,
-        alt: "MediaKit - Free Online Media Converter with 100% Local Processing",
+        alt: "MediaKit - Free Media Converter, Image Resizer & Compressor",
         type: "image/png",
       },
     ],
@@ -92,8 +90,8 @@ export const metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Free Image & Video Converter and Compressor | MediaKit",
-    description: "Privacy-first media tool: convert & compress images and video locally—no file upload to any server.",
+    title: "Free Media Converter, Image Resizer & Compressor | MediaKit",
+    description: "Privacy-first media tool: convert, resize images & compress media locally—no file upload to any server.",
     images: ["/og"],
   },
   
@@ -136,12 +134,12 @@ const jsonLd = {
   "@type": "WebApplication",
   "@id": `${baseUrl}/#webapp`,
   name: "MediaKit",
-  alternateName: "Media Conversion & Compression Tool",
-  description: "Free online image and video converter with local browser processing. Convert HEIC photos to JPG/PNG/WebP and process common video formats without uploading files to MediaKit servers.",
+  alternateName: "Media Conversion, Image Resize & Compression Tool",
+  description: "Free online image resizer and image/video converter with local browser processing. Convert HEIC photos to JPG/PNG/WebP and process common video formats without uploading files to MediaKit servers.",
   url: baseUrl,
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Web Browser (Chrome, Firefox, Safari, Edge)",
-  dateModified: buildDate,
+  dateModified: getContentDate("/"),
   offers: {
     "@type": "Offer",
     price: "0",
@@ -181,28 +179,30 @@ const websiteJsonLd = {
   "@id": `${baseUrl}/#website`,
   name: "MediaKit",
   url: baseUrl,
-  description: "Free online media converter. Convert and compress images and videos locally in your browser.",
+  description: "Free online media converter. Convert and compress images and videos, and resize images locally in your browser.",
   inLanguage: "en",
 };
 
-export default function RootLayout({
+export default function DocumentLayout({
   children,
+  locale,
 }: Readonly<{
   children: React.ReactNode;
+  locale: Locale;
 }>) {
   return (
-    <html lang="en">
+    <html lang={locale === "pt" ? "pt-BR" : locale}>
       <head>
         {/* JSON-LD 使用原生 script，确保首屏 HTML 即含结构化数据（部分爬虫不执行 next/script） */}
         <script
           id="structured-data"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...jsonLd, inLanguage: locale }) }}
         />
         <script
           id="website-structured-data"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...websiteJsonLd, inLanguage: locale }) }}
         />
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />

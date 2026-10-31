@@ -3,7 +3,7 @@
  */
 import type { Metadata } from "next";
 import { getVideoLayoutMeta } from "./index";
-import { LOCALES } from "./index";
+import { getLanguageAlternates, getContentDate } from "@/lib/seo/page-metadata";
 import type { Locale } from "./types";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://mediakit.upupdays.com";
@@ -20,10 +20,7 @@ function getVideoCanonical(locale: Locale): string {
 export function getVideoLayoutMetadata(locale: Locale): Metadata {
   const meta = getVideoLayoutMeta(locale);
   const canonical = getVideoCanonical(locale);
-  const languages: Record<string, string> = {};
-  LOCALES.forEach((l) => {
-    languages[l] = l === "en" ? `${baseUrl}/video` : `${baseUrl}/${l}/video`;
-  });
+  const languages = getLanguageAlternates(baseUrl, "/video");
   return {
     title: meta.title,
     description: meta.description,
@@ -65,7 +62,7 @@ export function VideoLayoutScripts({ locale }: { locale: Locale }) {
       { "@type": "ListItem", position: 2, name: "Video Converter", item: `${base}${prefix}/video` },
     ],
   };
-  const softwareAppJsonLd = { ...meta.softwareApp, "@context": "https://schema.org" };
+  const softwareAppJsonLd = { ...meta.softwareApp, dateModified: getContentDate("/video"), "@context": "https://schema.org" };
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

@@ -12,7 +12,7 @@ export function GET() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
           <div style={{ display: "flex", fontSize: "55px", fontWeight: 700 }}>Image &amp; Video</div>
-          <div style={{ display: "flex", fontSize: "55px", fontWeight: 700 }}>Converter &amp; Compressor</div>
+          <div style={{ display: "flex", fontSize: "55px", fontWeight: 700 }}>Convert · Resize · Compress</div>
           <div style={{ display: "flex", fontSize: "27px", color: "#1976a8" }}>HEIC to JPG · WebP to PNG · MOV to MP4</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "24px" }}>

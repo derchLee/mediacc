@@ -95,9 +95,8 @@ export const ui: UiT = {
 };
 
 export const imagePage: ImagePageT = {
-  h1: "Conversor e compressor de imagens grátis online",
-  intro:
-    "O MediaKit é uma ferramenta que permite converter e comprimir imagens diretamente no seu navegador. Sem envio de arquivos, sem servidor e sem risco à sua privacidade. Seus arquivos não saem do seu dispositivo.",
+  h1: "Converter, redimensionar imagem e comprimir grátis",
+  intro: "Converta HEIC, JPG, PNG e WebP, comprima arquivos e use a opção de redimensionar imagem no navegador, sem enviar arquivos.",
   whyChoose: "Por que o MediaKit?",
   whyList: [
     "100% processamento local – os arquivos não saem do seu dispositivo",
@@ -108,6 +107,7 @@ export const imagePage: ImagePageT = {
   howItWorks: "Como funciona",
   howSteps: [
     "Selecione uma imagem do seu dispositivo (arraste e solte ou clique para enviar)",
+    "Selecione Redimensionar imagem, informe a largura e a altura em pixels, inicie o processamento e baixe o resultado.",
     "Escolha o formato de saída ou o nível de compressão",
     "Baixe a imagem processada na hora – tudo é processado localmente no seu navegador",
   ],
@@ -122,6 +122,8 @@ export const imagePage: ImagePageT = {
     'Clique em "Iniciar processamento"; a conversão é feita localmente no seu navegador',
     "Após a conversão você pode baixar a imagem no novo formato",
   ],
+  imageResize: "Redimensionar imagem",
+  imageResizeList: ["Selecione Redimensionar imagem, informe a largura e a altura em pixels, inicie o processamento e baixe o resultado.", "As dimensões exatas podem distorcer a imagem. Manter a proporção ajusta a imagem dentro dos limites sem cortar; as dimensões finais podem ser menores.", "JPG, PNG e WebP mantêm o formato quando compatível; outras entradas são exportadas como PNG. Animações viram imagens estáticas. Use inteiros de 1 a 8192 por lado, até 32 megapixels. As configurações se aplicam a todas as imagens selecionadas."],
   imageCompression: "2. Compressão de imagens",
   imageCompressionList: [
     'Selecione a operação "Comprimir" e o modo de compressão',
@@ -259,9 +261,8 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/pt/image`;
   return {
-    title: "Conversor de imagens grátis (local)",
-    description:
-      "Conversor e compressor de imagens grátis online. Converta JPG, PNG, WebP, HEIC e reduza o tamanho no seu navegador. Sem envio, sem servidor, 100% local.",
+    title: "Converter, redimensionar imagem e comprimir grátis",
+    description: "Converta HEIC, JPG, PNG e WebP, comprima arquivos e use a opção de redimensionar imagem no navegador, sem enviar arquivos.",
     keywords: [
       "conversor de imagens grátis",
       "comprimir imagens online",
@@ -271,17 +272,17 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "processamento local",
       "privacidade",
     ],
-    openGraphTitle: "Conversor e compressor de imagens grátis – MediaKit",
-    openGraphDescription: "Converta e comprima imagens no seu navegador. Seus arquivos não saem do seu dispositivo. JPG, PNG, WebP, HEIC.",
-    twitterTitle: "Conversor e compressor de imagens grátis",
-    twitterDescription: "Ferramenta de imagens com 100% processamento local. Converta JPG, PNG, WebP, HEIC sem enviar arquivos.",
+    openGraphTitle: "Converter, redimensionar imagem e comprimir grátis | MediaKit",
+    openGraphDescription: "Converta HEIC, JPG, PNG e WebP, comprima arquivos e use a opção de redimensionar imagem no navegador, sem enviar arquivos.",
+    twitterTitle: "Converter, redimensionar imagem e comprimir grátis",
+    twitterDescription: "Converta HEIC, JPG, PNG e WebP, comprima arquivos e use a opção de redimensionar imagem no navegador, sem enviar arquivos.",
     softwareApp: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
       name: "MediaKit Conversor de imagens",
       alternateName: "Conversor e compressor de imagens online",
-      description: "Converta e comprima imagens localmente no seu navegador.",
+      description: "Converta HEIC, JPG, PNG e WebP, comprima arquivos e use a opção de redimensionar imagem no navegador, sem enviar arquivos.",
       softwareVersion: "1.0",
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: "Image Converter",
@@ -295,6 +296,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
+      { name: "Redimensionar imagem" , text: "Selecione Redimensionar imagem, informe a largura e a altura em pixels, inicie o processamento e baixe o resultado. As dimensões exatas podem distorcer a imagem. Manter a proporção ajusta a imagem dentro dos limites sem cortar; as dimensões finais podem ser menores. JPG, PNG e WebP mantêm o formato quando compatível; outras entradas são exportadas como PNG. Animações viram imagens estáticas. Use inteiros de 1 a 8192 por lado, até 32 megapixels. As configurações se aplicam a todas as imagens selecionadas." },
       {
         name: "Minhas imagens são enviadas a um servidor?",
         text: "Não. Toda a conversão e compressão é feita localmente no seu navegador. Seus arquivos não saem do seu dispositivo.",
@@ -317,7 +319,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
       {
         name: "Posso converter várias imagens de uma vez?",
-        text: "Sim. Você pode selecionar até 5 imagens e processá-las em um único lote. São processadas em sequência.",
+        text: "Sim. Você pode selecionar até 15 imagens e processá-las em um único lote. São processadas em sequência.",
       },
       {
         name: "A qualidade é afetada na conversão?",
@@ -325,10 +327,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
     ],
     howTo: {
-      name: "Como converter e comprimir imagens online",
-      description: "Guia passo a passo para converter formatos e reduzir tamanho com o MediaKit no navegador.",
+      name: "Converter, redimensionar imagem e comprimir grátis",
+      description: "Converta HEIC, JPG, PNG e WebP, comprima arquivos e use a opção de redimensionar imagem no navegador, sem enviar arquivos.",
       step: [
         { name: "Enviar imagens", text: "Arraste e solte ou clique para selecionar. JPG, PNG, WebP e entrada HEIC/HEIF até 150 MB por arquivo." },
+        { name: "Redimensionar imagem", text: "Selecione Redimensionar imagem, informe a largura e a altura em pixels, inicie o processamento e baixe o resultado. As dimensões exatas podem distorcer a imagem. Manter a proporção ajusta a imagem dentro dos limites sem cortar; as dimensões finais podem ser menores. JPG, PNG e WebP mantêm o formato quando compatível; outras entradas são exportadas como PNG. Animações viram imagens estáticas. Use inteiros de 1 a 8192 por lado, até 32 megapixels. As configurações se aplicam a todas as imagens selecionadas." },
         { name: "Escolher formato de saída", text: "Selecione no menu: JPG, PNG ou WebP." },
         { name: "Escolher modo de compressão", text: "Use os modos disponíveis para priorizar qualidade visual ou menor tamanho de arquivo." },
         { name: "Processar e baixar", text: "Clique em Converter/Comprimir e baixe o resultado." },

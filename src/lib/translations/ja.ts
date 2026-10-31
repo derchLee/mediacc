@@ -95,9 +95,8 @@ export const ui: UiT = {
 };
 
 export const imagePage: ImagePageT = {
-  h1: "無料オンライン画像変換・圧縮ツール",
-  intro:
-    "MediaKit 画像変換は、ブラウザ内で画像の変換と圧縮ができるツールです。アップロード不要・サーバー処理なし・プライバシーリスクなし。ファイルは端末から一切送信されません。 iPhone で撮影した HEIC / HEIF のほか、JPG・PNG・WebP・AVIF など主要形式に対応し、形式変換や可逆／非可逆の圧縮まで同一画面で完了します。処理は WebAssembly・Canvas API を用いて端末内のみで行われるため、オフィスや外出先でも個人情報を気にせず利用できます。",
+  h1: "無料の画像変換・画像サイズ変更・圧縮ツール",
+  intro: "ブラウザ内でHEIC、JPG、PNG、WebPを変換・圧縮し、画像サイズ変更で幅と高さを指定できます。アップロード不要です。",
   whyChoose: "MediaKitを選ぶ理由",
   whyList: [
     "100%ローカル処理 – ファイルは端末から送信されません",
@@ -110,6 +109,7 @@ export const imagePage: ImagePageT = {
   howItWorks: "使い方",
   howSteps: [
     "デバイスから画像を選択（ドラッグ＆ドロップまたはクリックでアップロード）",
+    "「画像サイズ変更」を選び、幅と高さをピクセルで入力して処理を開始し、結果をダウンロードします。",
     "出力形式または圧縮レベルを選択",
     "処理済み画像を即時ダウンロード – すべてブラウザ内でローカル処理",
   ],
@@ -124,6 +124,8 @@ export const imagePage: ImagePageT = {
     "「処理開始」をクリックすると、ブラウザ内でローカルに変換が完了します",
     "変換後、新しい形式で画像をダウンロードできます",
   ],
+  imageResize: "画像サイズ変更",
+  imageResizeList: ["「画像サイズ変更」を選び、幅と高さをピクセルで入力して処理を開始し、結果をダウンロードします。", "正確な寸法では指定した幅と高さになり、画像が引き伸ばされる場合があります。縦横比を維持すると、切り抜かずに指定範囲内へ収まり、実際の寸法が小さくなる場合があります。", "JPG、PNG、WebPは対応している場合に形式を維持し、その他はPNGで出力します。アニメーションは静止画になります。各辺は1〜8192の整数、合計32メガピクセルまで。同じ設定がすべての選択画像に適用されます。"],
   imageCompression: "2. 画像圧縮",
   imageCompressionList: [
     "「圧縮」を選択し、圧縮モードを選択",
@@ -261,9 +263,8 @@ export const videoPage: VideoPageT = {
 function buildImageLayoutMeta(): ImageLayoutMetaT {
   const url = `${baseUrl}/ja/image`;
   return {
-    title: "無料画像変換・圧縮（ブラウザ完結）",
-    description:
-      "HEIC写真とJPG・PNG・WebP画像をブラウザ内だけで変換・圧縮。アップロード不要の無料ツール。最大15ファイル・合計1000MBまで一括処理可能。",
+    title: "無料の画像変換・画像サイズ変更・圧縮ツール",
+    description: "ブラウザ内でHEIC、JPG、PNG、WebPを変換・圧縮し、画像サイズ変更で幅と高さを指定できます。アップロード不要です。",
     keywords: [
       "無料 画像変換",
       "オンライン 画像圧縮",
@@ -273,17 +274,17 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       "ローカル処理",
       "プライバシー",
     ],
-    openGraphTitle: "無料オンライン画像変換・圧縮 – MediaKit",
-    openGraphDescription: "ブラウザ内で HEIC 写真と JPG、PNG、WebP 画像を変換・圧縮。ファイルは端末から送信されません。",
-    twitterTitle: "無料オンライン画像変換・圧縮",
-    twitterDescription: "100%ローカル処理のプライバシー重視画像ツール。アップロードなしで HEIC、JPG、PNG、WebP を変換。",
+    openGraphTitle: "無料の画像変換・画像サイズ変更・圧縮ツール | MediaKit",
+    openGraphDescription: "ブラウザ内でHEIC、JPG、PNG、WebPを変換・圧縮し、画像サイズ変更で幅と高さを指定できます。アップロード不要です。",
+    twitterTitle: "無料の画像変換・画像サイズ変更・圧縮ツール",
+    twitterDescription: "ブラウザ内でHEIC、JPG、PNG、WebPを変換・圧縮し、画像サイズ変更で幅と高さを指定できます。アップロード不要です。",
     softwareApp: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${url}#software`,
       name: "MediaKit 画像変換",
       alternateName: "オンライン画像変換・圧縮ツール",
-      description: "ブラウザ内で画像を変換・圧縮。",
+      description: "ブラウザ内でHEIC、JPG、PNG、WebPを変換・圧縮し、画像サイズ変更で幅と高さを指定できます。アップロード不要です。",
       softwareVersion: "1.0",
       applicationCategory: "MultimediaApplication",
       applicationSubCategory: "Image Converter",
@@ -297,6 +298,7 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       publisher: { "@type": "Organization", name: "MediaKit", url: baseUrl },
     },
     faq: [
+      { name: "画像サイズ変更" , text: "「画像サイズ変更」を選び、幅と高さをピクセルで入力して処理を開始し、結果をダウンロードします。 正確な寸法では指定した幅と高さになり、画像が引き伸ばされる場合があります。縦横比を維持すると、切り抜かずに指定範囲内へ収まり、実際の寸法が小さくなる場合があります。 JPG、PNG、WebPは対応している場合に形式を維持し、その他はPNGで出力します。アニメーションは静止画になります。各辺は1〜8192の整数、合計32メガピクセルまで。同じ設定がすべての選択画像に適用されます。" },
       {
         name: "画像はサーバーにアップロードされますか？",
         text: "いいえ。すべての変換・圧縮はブラウザ内でローカルに実行されます。ファイルは端末から送信されず、100%プライバシーが守られます。",
@@ -327,10 +329,11 @@ function buildImageLayoutMeta(): ImageLayoutMetaT {
       },
     ],
     howTo: {
-      name: "オンラインで画像を変換・圧縮する方法",
-      description: "MediaKitのブラウザ内ツールで画像形式を変換し、ファイルサイズを削減する手順。",
+      name: "無料の画像変換・画像サイズ変更・圧縮ツール",
+      description: "ブラウザ内でHEIC、JPG、PNG、WebPを変換・圧縮し、画像サイズ変更で幅と高さを指定できます。アップロード不要です。",
       step: [
         { name: "画像をアップロード", text: "画像をドラッグ＆ドロップするか、クリックして選択。JPG、PNG、WebP、HEIC/HEIF 入力に対応し、1ファイル150MBまで処理できます。" },
+        { name: "画像サイズ変更", text: "「画像サイズ変更」を選び、幅と高さをピクセルで入力して処理を開始し、結果をダウンロードします。 正確な寸法では指定した幅と高さになり、画像が引き伸ばされる場合があります。縦横比を維持すると、切り抜かずに指定範囲内へ収まり、実際の寸法が小さくなる場合があります。 JPG、PNG、WebPは対応している場合に形式を維持し、その他はPNGで出力します。アニメーションは静止画になります。各辺は1〜8192の整数、合計32メガピクセルまで。同じ設定がすべての選択画像に適用されます。" },
         { name: "出力形式を選択", text: "ドロップダウンから形式を選択：JPG、PNG、WebP。" },
         { name: "圧縮モードを選択", text: "画質を優先するか、小さいファイルサイズを優先するかを利用可能な圧縮モードから選択します。" },
         { name: "処理してダウンロード", text: "変換/圧縮をクリックしてローカルで処理。完了したら結果をダウンロード。" },

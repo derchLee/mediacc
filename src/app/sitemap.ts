@@ -1,3 +1,4 @@
+import { getContentDate, getLanguageAlternates } from "@/lib/seo/page-metadata";
 import { MetadataRoute } from "next";
 import { allConversions } from "@/lib/seo/conversions";
 
@@ -23,22 +24,12 @@ const CONVERSION_PRIMARY_PRIORITY = 0.75;
 const CONVERSION_LOCALIZED_PRIORITY = 0.6;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Keep lastmod stable between requests; update NEXT_PUBLIC_BUILD_DATE only
-  // when a deployment actually changes the content.
-  const lastModified = new Date(process.env.NEXT_PUBLIC_BUILD_DATE || "2026-10-17");
+
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || defaultBaseUrl;
 
   // 为每个工具页（image/video）构建跨语言 alternates 映射，
   // 搜索引擎会把多语言版本归并为同一组结果，避免本地化页面互相竞争排名。
-  const buildAlternates = (suffix: string) => {
-    const languages: Record<string, string> = {
-      "x-default": `${baseUrl}${suffix}`, // 默认指向英文版
-    };
-    for (const { prefix, hreflang } of localePrefixes) {
-      languages[hreflang] = `${baseUrl}${prefix}${suffix}`;
-    }
-    return { languages };
-  };
+  const buildAlternates = (suffix: string) => ({ languages: getLanguageAlternates(baseUrl, suffix) });
 
   try {
     const entries: MetadataRoute.Sitemap = [];
@@ -49,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       for (const suffix of TOOL_PAGES) {
         entries.push({
           url: `${baseUrl}${prefix}${suffix}`,
-          lastModified,
+          lastModified: getContentDate(suffix),
           changeFrequency: "weekly",
           priority: isPrimary ? PRIMARY_PRIORITY : LOCALIZED_PRIORITY,
           alternates: buildAlternates(suffix),
@@ -64,7 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         const isPrimary = prefix === "";
         entries.push({
           url: `${baseUrl}${prefix}${suffix}`,
-          lastModified,
+          lastModified: getContentDate(suffix),
           changeFrequency: "monthly",
           priority: isPrimary ? CONVERSION_PRIMARY_PRIORITY : CONVERSION_LOCALIZED_PRIORITY,
           alternates: buildAlternates(suffix),
@@ -76,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const path of ["/privacy", "/terms", "/cookies", "/disclaimer"]) {
       entries.push({
         url: `${baseUrl}${path}`,
-        lastModified,
+        lastModified: getContentDate(path),
         changeFrequency: "monthly",
         priority: LEGAL_PRIORITY,
       });
@@ -86,8 +77,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   } catch {
     // Fallback：environment 无法解析时返回最小可用 sitemap
     return [
-      { url: `${defaultBaseUrl}/image`, lastModified, changeFrequency: "weekly", priority: 1.0 },
-      { url: `${defaultBaseUrl}/video`, lastModified, changeFrequency: "weekly", priority: 1.0 },
+      { url: `${defaultBaseUrl}/image`, lastModified: getContentDate("/image"), changeFrequency: "weekly", priority: 1.0 },
+      { url: `${defaultBaseUrl}/video`, lastModified: getContentDate("/video"), changeFrequency: "weekly", priority: 1.0 },
     ];
   }
 }
