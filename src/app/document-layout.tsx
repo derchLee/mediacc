@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import { getContentDate } from "@/lib/seo/page-metadata";
 import type { Locale } from "@/lib/translations/types";
 import { CookieConsent } from "@/components/CookieConsent";
+import { ProductAnalytics } from "@/components/ProductAnalytics";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 /**
@@ -217,6 +218,7 @@ export default function DocumentLayout({
       </head>
       <body>
         <GoogleAnalytics />
+        <ProductAnalytics />
         {children}
         <CookieConsent />
       </body>

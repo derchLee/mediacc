@@ -1,5 +1,6 @@
 "use client";
 
+import { trackProductEvent } from "@/lib/product-analytics";
 import React, { useCallback, useState } from "react";
 import { Upload, File, AlertCircle, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -92,6 +93,7 @@ export function FileUploader({
           }
           setUploadSucceeded(true);
         } else {
+          trackProductEvent("file_rejected", { media_type: fileType, error_code: validation.errorCode || "validation_failed" });
           setError(getValidationMessage(validation));
         }
         
@@ -115,6 +117,7 @@ export function FileUploader({
           }
           setUploadSucceeded(true);
         } else {
+          trackProductEvent("file_rejected", { media_type: fileType, error_code: validation.errorCode || "validation_failed" });
           setError(getValidationMessage(validation));
         }
         

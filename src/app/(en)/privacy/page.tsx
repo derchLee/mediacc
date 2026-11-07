@@ -43,7 +43,7 @@ export default function PrivacyPage() {
             <p className="text-gray-700 dark:text-gray-300 mb-2">We may use cookies and similar technologies for:</p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
               <li>Remembering your preferences (e.g., language settings)</li>
-              <li>Website analytics (e.g., Google Analytics) to understand how users interact with our service</li>
+              <li>Website analytics (Google Analytics and PostHog) to understand how users interact with our service</li>
               <li>Improving user experience</li>
             </ul>
             <p className="text-gray-700 dark:text-gray-300">
@@ -69,6 +69,7 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
               <li><strong>Google Analytics:</strong> To understand website usage and performance</li>
+              <li><strong>PostHog (US hosting):</strong> With analytics consent, we measure tool usage, processing outcomes, durations, browser information and anonymous return visits. We do not send file contents, filenames or previews. Session recording and automatic interaction capture are disabled.</li>
               <li><strong>Google Ads:</strong> For advertising purposes (if applicable)</li>
             </ul>
             <p className="text-gray-700 dark:text-gray-300">

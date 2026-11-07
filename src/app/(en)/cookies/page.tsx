@@ -45,10 +45,10 @@ export default function CookiesPage() {
 
             <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">2.2 Analytics Cookies</h3>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. We use Google Analytics to track website usage and performance.
+              These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. We use Google Analytics and PostHog to measure website usage and processing performance after analytics consent. PostHog uses a pseudonymous browser identifier; session recording is disabled.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              <strong>Examples:</strong> Google Analytics cookies (_ga, _gid, _gat)
+              <strong>Examples:</strong> Google Analytics cookies (_ga, _gid, _gat) and PostHog cookies/local storage (ph_*)
             </p>
 
             <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">2.3 Advertising Cookies (Optional)</h3>
@@ -70,6 +70,7 @@ export default function CookiesPage() {
             </p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
               <li><strong>Google Analytics:</strong> Used for website analytics and performance monitoring</li>
+              <li><strong>PostHog:</strong> Used for consent-based product analytics, processing outcomes and performance monitoring</li>
               <li><strong>Google Ads:</strong> Used for advertising purposes (if enabled and consented)</li>
             </ul>
             <p className="text-gray-700 dark:text-gray-300">

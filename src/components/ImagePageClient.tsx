@@ -12,6 +12,7 @@ import { ResultList } from "@/components/ResultList";
 import { useMediaStore } from "@/store";
 import { convertImageFormat, compressImage, resizeImage, generateProcessedFileName } from "@/lib/image-processor";
 import { getExtensionFromFormat } from "@/lib/format-utils";
+import { trackProductEvent, sizeBucket, createAnalyticsId } from "@/lib/product-analytics";
 import { trackConversionStart, trackCompressionStart } from "@/lib/analytics";
 import type { ProcessedFile, ImageFormat, ImageResizeOptions } from "@/types";
 import { getImageLayoutMeta, getUiT, type Locale } from "@/lib/translations";
@@ -53,6 +54,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
   const handleFilesSelected = (newFiles: File[]) => {
     setFileType("image");
     addFiles(newFiles);
+    trackProductEvent("files_selected", { media_type: "image", file_count: newFiles.length });
   };
   const handleFileRemove = (id: string) => removeFile(id);
 
@@ -63,10 +65,19 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
     if (operationType === "compress" && !compressionMode) return;
     if (operationType === "convert" && targetFormat) trackConversionStart("image", targetFormat);
     else if (operationType === "compress" && compressionMode) trackCompressionStart("image", compressionMode);
+    const batchId = createAnalyticsId();
+    const batchStart = performance.now();
+    let succeeded = 0;
+    let failed = 0;
+    const context = { batch_id: batchId, media_type: "image", operation: operationType, target_format: targetFormat || undefined, compression_mode: compressionMode || undefined };
+    trackProductEvent("processing_started", { ...context, file_count: files.length });
     setIsProcessing(true);
     setErrorMessage(null);
     try {
       for (const uploadedFile of files) {
+        const taskId = createAnalyticsId();
+        const taskStart = performance.now();
+        const taskContext = { ...context, task_id: taskId, input_format: uploadedFile.format, size_bucket: sizeBucket(uploadedFile.size) };
         try {
           let processedBlob: Blob;
           let processedFileName: string;
@@ -94,6 +105,8 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
           const processedFile: ProcessedFile = {
             id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
             originalFileId: uploadedFile.id,
+            analyticsBatchId: batchId,
+            analyticsTaskId: taskId,
             name: processedFileName,
             size: processedBlob.size,
             format: processedFormat,
@@ -105,7 +118,11 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
             targetFormat: operationType === "convert" ? targetFormat ?? undefined : undefined,
           };
           addProcessedFile(processedFile);
+          succeeded++;
+          trackProductEvent("file_processing_succeeded", { ...taskContext, output_format: processedFormat, duration_ms: Math.round(performance.now() - taskStart), output_size_bucket: sizeBucket(processedBlob.size), size_reduction_percent: uploadedFile.size ? Math.round((1 - processedBlob.size / uploadedFile.size) * 100) : 0 });
         } catch (error) {
+          failed++;
+          trackProductEvent("file_processing_failed", { ...taskContext, duration_ms: Math.round(performance.now() - taskStart), error_code: "processing_failed" });
           console.error(`[Image processing] ${uploadedFile.name}:`, error);
           setErrorMessage(`${uploadedFile.name}: ${t.processingFailed}`);
         }
@@ -114,6 +131,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
       console.error("[Image processing]", error);
       setErrorMessage(t.processingFailed);
     } finally {
+      trackProductEvent("processing_finished", { ...context, success_count: succeeded, failure_count: failed, file_count: files.length, duration_ms: Math.round(performance.now() - batchStart), status: succeeded === files.length ? "success" : succeeded > 0 ? "partial_failure" : "failure" });
       setIsProcessing(false);
     }
   };
@@ -125,6 +143,7 @@ export function ImagePageClient({ locale, t }: ImagePageClientProps) {
     a.download = file.name;
     document.body.appendChild(a);
     a.click();
+    trackProductEvent("download_clicked", { media_type: "image", operation: file.operationType, output_format: file.format, batch_id: file.analyticsBatchId, task_id: file.analyticsTaskId });
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };

@@ -93,6 +93,8 @@ export interface FileTask {
  * 处理结果
  */
 export interface ProcessedFile {
+  analyticsBatchId?: string;
+  analyticsTaskId?: string;
   id: string;
   originalFileId: string; // 原始文件的 ID
   name: string; // 处理后的文件名
