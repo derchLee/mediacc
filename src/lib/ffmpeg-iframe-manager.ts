@@ -180,6 +180,8 @@ class FFmpegIframeManager {
       timeoutId = setTimeout(() => {
         if (this.messageHandlers.has(id)) {
           this.messageHandlers.delete(id);
+          this.destroy();
+          iframeManagerInstance = null;
           const timeoutMinutes = timeoutMs / 60000;
           reject(new Error(`Operation timeout (${timeoutMinutes} minutes)`));
         }

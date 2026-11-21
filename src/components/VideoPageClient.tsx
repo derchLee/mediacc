@@ -26,6 +26,8 @@ interface VideoPageClientProps {
 }
 
 export function VideoPageClient({ locale, t }: VideoPageClientProps) {
+  const [activeFile, setActiveFile] = useState({ name: "", index: 0, total: 0 });
+  const [progress, setProgress] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
     files,
@@ -81,17 +83,19 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
       for (const uploadedFile of files) {
         const taskId = createAnalyticsId();
         const taskStart = performance.now();
+        setProgress(0);
+        setActiveFile({ name: uploadedFile.name, index: files.indexOf(uploadedFile) + 1, total: files.length });
         const taskContext = { ...context, task_id: taskId, input_format: uploadedFile.format, size_bucket: sizeBucket(uploadedFile.size) };
         try {
           let processedBlob: Blob;
           let processedFileName: string;
           let processedFormat: string;
           if (operationType === "convert" && targetFormat) {
-            processedBlob = await convertVideoFormat(uploadedFile.file, targetFormat as "mp4" | "webm" | "mov" | "mkv" | "avi");
+            processedBlob = await convertVideoFormat(uploadedFile.file, targetFormat as "mp4" | "webm" | "mov" | "mkv" | "avi", setProgress);
             processedFormat = getExtensionFromFormat(targetFormat);
             processedFileName = generateProcessedVideoFileName(uploadedFile.name, targetFormat as "mp4" | "webm" | "mov" | "mkv" | "avi", "convert");
           } else if (operationType === "compress" && compressionMode) {
-            processedBlob = await compressVideo(uploadedFile.file, compressionMode);
+            processedBlob = await compressVideo(uploadedFile.file, compressionMode, setProgress);
             processedFormat = uploadedFile.format;
             processedFileName = generateProcessedVideoFileName(uploadedFile.name, undefined, "compress");
           } else continue;
@@ -187,6 +191,15 @@ export function VideoPageClient({ locale, t }: VideoPageClientProps) {
               isProcessing={isProcessing}
               locale={locale}
             />
+            {isProcessing && (
+              <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/30" role="status" aria-live="polite">
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="min-w-0 truncate">{activeFile.index}/{activeFile.total} · {activeFile.name}</span>
+                  <span className="shrink-0 tabular-nums">{Math.floor(progress)}%</span>
+                </div>
+                <progress className="mt-3 h-3 w-full accent-blue-600" max={100} value={progress > 0 ? progress : undefined} aria-label={`${activeFile.name} ${Math.floor(progress)}%`} />
+              </div>
+            )}
             <ResultList
               files={processedFiles.filter((pf) => files.some((f) => f.id === pf.originalFileId) && pf.operationType === operationType)}
               onRemove={removeProcessedFile}

@@ -1,3 +1,4 @@
+import { sendCollectorEvent } from "./event-collector";
 import posthog from "posthog-js";
 
 let initialized = false;
@@ -40,6 +41,7 @@ export function syncAnalyticsConsent(): void {
 export function trackProductEvent(event: string, properties: Record<string, string | number | boolean | undefined> = {}): void {
   try {
     if (typeof window === "undefined" || !hasAnalyticsConsent()) return;
+    void sendCollectorEvent(event, properties, hasAnalyticsConsent).catch(() => {});
     syncAnalyticsConsent();
     if (!initialized) return;
     let entryPath = location.pathname;

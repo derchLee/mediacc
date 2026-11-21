@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript');
+const code=ts.transpileModule(fs.readFileSync('src/lib/event-collector.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
+const mod={exports:{}};new Function('exports',code)(mod.exports);
+const {collectorEvent}=mod.exports;
+assert.equal(collectorEvent('file_processing_succeeded',{media_type:'video',operation:'compress',task_id:'task'}).properties.feature_key,'video_compress_succeeded');
+assert.equal(collectorEvent('file_processing_failed',{media_type:'video',operation:'convert',task_id:'task',error:'private.mp4'}).properties.feature_key,'video_convert_failed');
+assert.equal(collectorEvent('processing_started',{media_type:'video',operation:'compress'}).event_name,'feature_click');
+assert.equal(collectorEvent('download_clicked',{task_id:'task'}).properties.operation_id,'task');
+assert.equal(collectorEvent('unknown',{}),null);
+console.log('PASS: collector mapping, task correlation, unknown event exclusion');
